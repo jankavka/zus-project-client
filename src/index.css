@@ -1,0 +1,70 @@
+.bg-mydark{
+    background-color: #9B9797;
+}
+
+.navbar-container{
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.container-content{
+    max-width: 960px;
+    margin: 5rem auto;
+    background-color: #F2F2F2;
+    min-height: 700px;
+    padding: 2rem;
+}
+
+
+.nav-item .nav-text{
+    color:#FFFFFF
+}
+
+.nav-bg{
+    background-color: #983839;
+}
+
+.search-icon{
+    background-image: url(/src/images/search-icon.webp);
+    background-position: center;
+    width: 80px;
+    height: 35px;
+    background-size: contain;
+    display: inline-block;
+    background-repeat: no-repeat;
+}
+
+.search-icon:hover{
+    background-image: url(/src/images/search-icon.webp);
+    background-position: center;
+    width: 80px;
+    height: 35px;
+    background-size: contain;
+    display: inline-block;
+    background-repeat: no-repeat;
+}
+
+.img-bg-school{
+    background-image: url(/src/images/fotoskoly.jpg);
+    max-width: 960px;
+    height: 400px;
+    background-position: left;
+    background-repeat: no-repeat;
+    margin: 0 auto;
+    background-size:cover;
+}
+
+.brd{
+    border: 1px solid black;
+}
+
+#logo{
+    width: 100px;
+    height: 100px;
+}
+
+.position-logo{
+    display: flex;
+    justify-content:start;
+    align-items: end;
+}
