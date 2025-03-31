@@ -7,6 +7,5 @@ export const apiGet = async(url) => {
     }
 
     const json = await fetch(apiUrl,requestParams).then((response) => response.json());
-    console.log(json)
     return json;
 }

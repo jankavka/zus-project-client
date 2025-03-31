@@ -4,6 +4,7 @@ import {
   Routes,
   Route,
   Navigate,
+  Link
 } from "react-router-dom";
 
 import NavigationLinks from "../components/NavigationLinks";
@@ -27,10 +28,10 @@ const PublicLayout = () => {
     <div>
       <NavigationLinks />
       <div className="img-bg-school position-logo">
-        <img id="logo" src="/src/images/logo f2.png" alt="" />
+        <Link to={"/aktuality"}><img id="logo" src="/src/images/logo f2.png" alt="" /></Link>
       </div>
       <Routes>
-        <Route index element={<Navigate />}/>
+        <Route index element={<Navigate to={"/aktuality"}/>}/>
         <Route path="/o-skole">
           <Route path="/o-skole/zakladni-udaje" element={<BasicDataIndex />}/>
           <Route path="/o-skole/historie-a-soucasnost" element={<HistoryAndPresentIndex />}/>
@@ -46,7 +47,7 @@ const PublicLayout = () => {
 
         <Route path="/aktuality">
           <Route index element={<ArticlesIndex />} />
-          <Route path=":id" element={<ArticleDetail />} />
+          <Route path="/aktuality/:id" element={<ArticleDetail />} />
         </Route>
         <Route path="povinne-info">
           <Route index element />
