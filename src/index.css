@@ -13,6 +13,7 @@
     background-color: #F2F2F2;
     min-height: 700px;
     padding: 2rem;
+    
 }
 
 
@@ -22,6 +23,14 @@
 
 .nav-bg{
     background-color: #983839;
+}
+
+.nav-position-fixed{
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    
 }
 
 .search-icon{
@@ -67,4 +76,33 @@
     display: flex;
     justify-content:start;
     align-items: end;
+}
+
+
+@media (hover: hover){
+    .dropdown:hover .dropdown-menu{
+        display: block;
+        background-color: #3A506B;
+    
+    }
+}
+
+@media(max-width: 600px){
+    .dropdown-menu{
+        background-color: #983839 !important;
+        border:#983839 !important
+    }
+}
+
+
+.text-dropdown{
+    color:#F2F2F2 !important;
+}
+
+.text-dropdown:hover{
+    color: black !important;
+}
+
+body > *{
+    font-family: 'Gill Sans MT';
 }
