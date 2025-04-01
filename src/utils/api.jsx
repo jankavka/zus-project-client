@@ -1,4 +1,5 @@
 const API_URL = "http://localhost:8080"
+//const API_URL = "http://10.0.0.3:8080"
 
 export const apiGet = async(url) => {
     const apiUrl = `${API_URL}${url}`

@@ -1,113 +1,81 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Collapse, Dropdown } from "bootstrap";
 
 const NavigationLinks = () => {
-  
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleNavbar = () => {
+    setIsOpen(!isOpen);
+  };
+
   useEffect(() => {
-    const dropdowns = document.querySelectorAll(".dropdown");
-    const navbarToggler = document.querySelector(".navbar-toggler");
-    const collapseToggler = document.querySelector(".navbar-nav");
+    const buttons = document.querySelectorAll(".nav-link");
+    const dropdowns = document.querySelectorAll(".dropdown-menu");
+    const navigation = document.querySelector(".navbar");
 
-    const toggleDropdown = (event) => {
-      event.stopPropagation();
-      const dropdownInstance = Dropdown.getOrCreateInstance(event.currentTarget);
-      if (window.innerWidth < 600) {
-        dropdownInstance.toggle();
-      }
-    };
 
-    const closeDropdownOnOutsideClick = (event) => {
-      event.preventDefault();
-      dropdowns.forEach((dropdown) => {
-        if (!dropdown.contains(event.target)) {
-          const dropdownInstance = Dropdown.getOrCreateInstance(dropdown);
-          dropdownInstance.hide();
-        }
+    //Opens sub menu dropdowns
+    buttons.forEach((button) => {
+      button.addEventListener("click", (event) => {
+        dropdowns.forEach((dropdown) => {
+          if (button.contains(event.target) && window.innerWidth < 1000) {
+            const dropdownInstance = Dropdown.getOrCreateInstance(
+              event.target
+            );
+            dropdownInstance.toggle();
+          }
+        });
       });
+    });
+
+
+    const hideNavbar = (event) => {
+      if (!navigation.contains(event.target)) {
+        setIsOpen(false);
+      }
     };
 
-    dropdowns.forEach((dropdown) => {
-      dropdown.addEventListener("click", toggleDropdown);
-    });
-
-    document.addEventListener("click", closeDropdownOnOutsideClick);
-
-    navbarToggler.addEventListener("click", () => {
-      const collapseInstance = Collapse.getOrCreateInstance(collapseToggler);
-      collapseInstance.toggle();
-    });
-
-    document.addEventListener("click", (event) => {
-      if(!navbarToggler.contains(event.target) && window.innerWidth < 600){
-        const collapseInstance = Collapse.getOrCreateInstance(collapseToggler);
-        collapseInstance.hide();
-      }
-    });
-
-    window.addEventListener("resize", () => {
-      const collapseInstance = Collapse.getOrCreateInstance(collapseToggler)
-      if(window.innerWidth > 600){
-        collapseInstance.show();
-      }else {
-        collapseInstance.hide();
-      }
-    })
+    document.addEventListener("click", hideNavbar);
 
     return () => {
-      dropdowns.forEach((dropdown) => {
-        dropdown.removeEventListener("click", toggleDropdown);
+
+      document.removeEventListener("click", hideNavbar);
+
+      buttons.forEach((button) => {
+        button.removeEventListener("click", (event) => {
+          dropdowns.forEach((dropdown) => {
+            if (button.contains(event.target) && window.innerWidth < 600) {
+              const dropdownInstance = Dropdown.getOrCreateInstance(event.target);
+              dropdownInstance.toggle();
+            }
+          });
+        });
       });
-
-      document.removeEventListener("click", (event) => {
-        if(!navbarToggler.contains(event.target) && window.innerWidth < 600){
-          const collapseInstance = Collapse.getOrCreateInstance(collapseToggler);
-          collapseInstance.hide();
-        }
-      });
-
-      document.removeEventListener("click", closeDropdownOnOutsideClick);
-      navbarToggler.removeEventListener("click", () => {
-        const collapseInstance = Collapse.getOrCreateInstance(collapseToggler);
-        collapseInstance.toggle();
-      })
-
-      window.removeEventListener("resize", () => {
-        const collapseInstance = Collapse.getOrCreateInstance(collapseToggler);
-        if(window.innerWidth > 600){
-          collapseInstance.show();
-        } else {
-          collapseInstance.hide();
-        }
-      })
     };
   }, []);
-
-  
 
   return (
     <div className="nav-position-fixed">
       <nav className="navbar navbar-expand-sm nav-bg">
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navigace"
-        >
+        <button className="navbar-toggler" type="button" onClick={toggleNavbar}>
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navigace">
+        <div
+          className={`collapse navbar-collapse ${isOpen ? "show" : ""}`}
+          id="navigace"
+        >
           <div className="container-fluid">
             <ul className="navbar-nav navbar-container justify-content-between">
               <li className="nav-item">
                 <div className="dropdown">
-                  <Link
+                  <button
                     className="nav-link nav-text text-uppercase"
                     type="button"
-                    to={"/aktuality"}
+                    data-bs-toggle="dropdown"
                   >
                     o škole
-                  </Link>
+                  </button>
                   <ul className="dropdown-menu">
                     <li>
                       <Link
@@ -130,7 +98,7 @@ const NavigationLinks = () => {
                         className="dropdown-item text-dropdown"
                         to={"/o-skole/studijni-zamereni"}
                       >
-                        Studijnín zmameření
+                        Studijní zaměření
                       </Link>
                     </li>
                     <li>
@@ -150,6 +118,7 @@ const NavigationLinks = () => {
                   <button
                     className="nav-link nav-text text-uppercase"
                     type="button"
+                    data-bs-toggle="dropdown"
                   >
                     pro rodiče a žáky
                   </button>
@@ -157,9 +126,9 @@ const NavigationLinks = () => {
                     <li>
                       <Link
                         className="dropdown-item text-dropdown"
-                        to={"/pro-rodice-a-zaky/ochrana-osobnich-udaju"}
+                        to={"/pro-rodice-a-zaky/rozvrh"}
                       >
-                        Rozvrh kolektivní výuk
+                        Rozvrh kolektivní výuky
                       </Link>
                     </li>
                     <li>
@@ -197,7 +166,11 @@ const NavigationLinks = () => {
 
               <li className="nav-item">
                 <div className="dropdown">
-                  <button className="nav-link nav-text text-uppercase">
+                  <button
+                    className="nav-link nav-text text-uppercase"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                  >
                     galerie
                   </button>
                   <ul className="dropdown-menu">
@@ -213,7 +186,11 @@ const NavigationLinks = () => {
 
               <li className="nav-item">
                 <div className="dropdown">
-                  <button className="nav-link nav-text text-uppercase">
+                  <button
+                    className="nav-link nav-text text-uppercase"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                  >
                     úřední deska
                   </button>
                   <ul className="dropdown-menu">
@@ -253,7 +230,11 @@ const NavigationLinks = () => {
 
               <li className="nav-item">
                 <div className="dropdown">
-                  <button className="nav-link nav-text text-uppercase">
+                  <button
+                    className="nav-link nav-text text-uppercase"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                  >
                     kontakty
                   </button>
                   <ul className="dropdown-menu">
