@@ -21,7 +21,7 @@ export const GroupTrainingScheduleIndex = () => {
 
   return (
     <div className="container-content">
-      <h1>Rozvrh Kolektivní výuky</h1>
+      <h1>Rozvrh kolektivní výuky</h1>
       <p>{schedule.content}</p>
     </div>
   );
@@ -82,8 +82,8 @@ export const RequiredInforamtionIndex = () => {
   const [basicData, setBasicData] = useState({});
 
   useEffect(() => {
-    apiGet("/api/required-info").then((data) => setRequiredInformation(data));
-    apiGet("/api/basic-data").then((data) => setBasicData(data));
+    apiGet("/api/static/required-info").then((data) => setRequiredInformation(data));
+    apiGet("/api/static/basic-data").then((data) => setBasicData(data));
   }, []);
 
   return (

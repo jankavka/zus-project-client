@@ -107,6 +107,16 @@
     }
 }
 
+.picture-width{
+    max-width: 500px;
+}
+
+@media(max-width: 600px){
+    .picture-width{
+        max-width: 200px;
+    }
+}
+
 
 .text-dropdown{
     color:#F2F2F2 !important;
