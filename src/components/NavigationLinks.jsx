@@ -14,24 +14,21 @@ const NavigationLinks = () => {
     const dropdowns = document.querySelectorAll(".dropdown-menu");
     const navigation = document.querySelector(".navbar");
 
-
     //Opens sub menu dropdowns
     buttons.forEach((button) => {
       button.addEventListener("click", (event) => {
         dropdowns.forEach((dropdown) => {
           if (button.contains(event.target) && window.innerWidth < 1000) {
-            const dropdownInstance = Dropdown.getOrCreateInstance(
-              event.target
-            );
+            const dropdownInstance = Dropdown.getOrCreateInstance(event.target);
             dropdownInstance.toggle();
           }
         });
       });
     });
 
-
+    //Closes navbar while clicking outside of navbar
     const hideNavbar = (event) => {
-      if (!navigation.contains(event.target)) {
+      if (navigation && !navigation.contains(event.target)) {
         setIsOpen(false);
       }
     };
@@ -39,14 +36,15 @@ const NavigationLinks = () => {
     document.addEventListener("click", hideNavbar);
 
     return () => {
-
       document.removeEventListener("click", hideNavbar);
 
       buttons.forEach((button) => {
         button.removeEventListener("click", (event) => {
           dropdowns.forEach((dropdown) => {
             if (button.contains(event.target) && window.innerWidth < 600) {
-              const dropdownInstance = Dropdown.getOrCreateInstance(event.target);
+              const dropdownInstance = Dropdown.getOrCreateInstance(
+                event.target
+              );
               dropdownInstance.toggle();
             }
           });
@@ -77,6 +75,14 @@ const NavigationLinks = () => {
                     o škole
                   </button>
                   <ul className="dropdown-menu">
+                    <li>
+                      <Link
+                        className="dropdown-item text-dropdown"
+                        to={"/o-skole/aktuality"}
+                      >
+                        Aktuality
+                      </Link>
+                    </li>
                     <li>
                       <Link
                         className="dropdown-item text-dropdown"
@@ -126,7 +132,7 @@ const NavigationLinks = () => {
                     <li>
                       <Link
                         className="dropdown-item text-dropdown"
-                        to={"/pro-rodice-a-zaky/rozvrh"}
+                        to={"/pro-rodice-a-zaky/rozvrh-kolektivni-vyuky"}
                       >
                         Rozvrh kolektivní výuky
                       </Link>
@@ -156,7 +162,7 @@ const NavigationLinks = () => {
                       </a>
                     </li>
                     <li>
-                      <Link className="dropdown-item text-dropdown">
+                      <Link className="dropdown-item text-dropdown" to>
                         Odhláška ze studia
                       </Link>
                     </li>
@@ -175,10 +181,20 @@ const NavigationLinks = () => {
                   </button>
                   <ul className="dropdown-menu">
                     <li>
-                      <Link className="dropdown-item text-dropdown">Foto</Link>
+                      <Link
+                        className="dropdown-item text-dropdown"
+                        to={"/galerie/foto"}
+                      >
+                        Foto
+                      </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item text-dropdown">Video</Link>
+                      <Link
+                        className="dropdown-item text-dropdown"
+                        to={"/galerie/video"}
+                      >
+                        Video
+                      </Link>
                     </li>
                   </ul>
                 </div>
@@ -195,12 +211,18 @@ const NavigationLinks = () => {
                   </button>
                   <ul className="dropdown-menu">
                     <li>
-                      <Link className="dropdown-item text-dropdown">
+                      <Link
+                        className="dropdown-item text-dropdown"
+                        to={"/uredni-deska/ochrana-osobnich-udaju"}
+                      >
                         Ochrana osobních údajů
                       </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item text-dropdown">
+                      <Link
+                        className="dropdown-item text-dropdown"
+                        to={"/uredni-deska/povinne-info"}
+                      >
                         Povinně zveřejňované informace
                       </Link>
                     </li>
@@ -210,17 +232,25 @@ const NavigationLinks = () => {
                       </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item text-dropdown">
+                      <Link
+                        className="dropdown-item text-dropdown"
+                        to={"/uredni-deska/skolni-vzdelavaci-program"}
+                      >
                         Školní vzdělávací program
                       </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item text-dropdown">
+                      <Link className="dropdown-item text-dropdown" to={"/uredni-deska/skolni-rad"}
+                      
+                      >
                         Školní řád
                       </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item text-dropdown">
+                      <Link
+                        className="dropdown-item text-dropdown"
+                        to={"/uredni-deska/vyrocni-zpravy"}
+                      >
                         Výroční zprávy
                       </Link>
                     </li>
@@ -239,12 +269,18 @@ const NavigationLinks = () => {
                   </button>
                   <ul className="dropdown-menu">
                     <li>
-                      <Link className="dropdown-item text-dropdown">
+                      <Link
+                        className="dropdown-item text-dropdown"
+                        to={"/kontakty/vedeni-skoly"}
+                      >
                         Vedení školy
                       </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item text-dropdown">
+                      <Link
+                        className="dropdown-item text-dropdown"
+                        to={"/kontakty/ucitele"}
+                      >
                         Učitelé
                       </Link>
                     </li>

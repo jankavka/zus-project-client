@@ -21,6 +21,13 @@ import {
   SchoolFeeIndex,
   StudyFocusIndex,
 } from "../pages/public/StaticContent";
+import SchoolEducationProgramIndex from "../pages/public/SchoolEducationProgramIndex";
+import AnualReportIndex from "../pages/public/AnualReportIndex";
+import SchoolManagementIndex from "../pages/public/SchoolManagementIndex";
+import TeachersIndex from "../pages/public/TeachersIndex";
+import FotoIndex from "../pages/public/FotoIndex";
+import VideoIndex from "../pages/public/VideoIndex";
+import SchoolRulesIndex from "../pages/public/ShoolRulesIndex";
 
 const PublicLayout = () => {
 
@@ -28,11 +35,15 @@ const PublicLayout = () => {
     <div>
       <NavigationLinks />
       <div className="img-bg-school position-logo">
-        <Link to={"/aktuality"}><img id="logo" src="/src/images/logo f2.png" alt="" /></Link>
+        <Link to={"/o-skole/aktuality"}><img id="logo" src="/src/images/logo f2.png" alt="" /></Link>
       </div>
       <Routes>
-        <Route index element={<Navigate to={"/aktuality"}/>}/>
+        <Route index element={<Navigate to={"/o-skole/aktuality"}/>}/>
         <Route path="/o-skole">
+          <Route path="/o-skole/aktuality">
+            <Route index element={<ArticlesIndex />} />
+            <Route path="/o-skole/aktuality/:id" element={<ArticleDetail />} />
+          </Route>
           <Route path="/o-skole/zakladni-udaje" element={<BasicDataIndex />}/>
           <Route path="/o-skole/historie-a-soucasnost" element={<HistoryAndPresentIndex />}/>
           <Route path="/o-skole/studijni-zamereni" element={<StudyFocusIndex />}/>          
@@ -40,25 +51,28 @@ const PublicLayout = () => {
         </Route>
 
         <Route path="/pro-rodice-a-zaky">
-          <Route path="/pro-rodice-a-zaky/ochrana-osobnich-udaju" element={<PersonalDataProtectionIndex/>} />
+          <Route path="/pro-rodice-a-zaky/rozvrh-kolektivni-vyuky" element={<GroupTrainingScheduleIndex/>}/>
           <Route path="/pro-rodice-a-zaky/hudebni-nauka" element={<MusicTheoryIndex/>} />
           <Route path="/pro-rodice-a-zaky/skolne" element={<SchoolFeeIndex/>}/>
         </Route>
 
-        <Route path="/aktuality">
-          <Route index element={<ArticlesIndex />} />
-          <Route path="/aktuality/:id" element={<ArticleDetail />} />
+        <Route path="/galerie">
+          <Route path="/galerie/foto" element={<FotoIndex/>} />
+          <Route path="/galerie/video" element={<VideoIndex/>} />
         </Route>
-        <Route path="povinne-info">
-          <Route index element />
+
+        <Route path="/uredni-deska">
+          <Route path="/uredni-deska/ochrana-osobnich-udaju" element={<PersonalDataProtectionIndex/>}/>
+          <Route path="/uredni-deska/povinne-info" element={<RequiredInforamtionIndex/>}/>
+          <Route path="/uredni-deska/skolni-vzdelavaci-program" element={<SchoolEducationProgramIndex/>}/>
+          <Route path="/uredni-deska/vyrocni-zpravy" element={<AnualReportIndex/>}/>
+          <Route path="/uredni-deska/skolni-rad" element={<SchoolRulesIndex/>}/>
         </Route>
-        <Route path="vedeni-skoly">
-          <Route index element />
+      
+        <Route path="/kontakty">
+          <Route path="/kontakty/vedeni-skoly" element={<SchoolManagementIndex/>} />
+          <Route path="/kontakty/ucitele" element={<TeachersIndex/>} />
         </Route>
-        <Route path="/studijni-zamereni">
-          <Route index element={<StudyFocusIndex />} />
-        </Route>
-        <Route path="/kontakty"></Route>
       </Routes>
     </div>
   );
