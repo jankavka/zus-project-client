@@ -29,6 +29,7 @@ const NavigationLinks = () => {
       });
     };
 
+    //testing comment
     dropdowns.forEach((dropdown) => {
       dropdown.addEventListener("click", toggleDropdown);
     })
