@@ -1,14 +1,18 @@
+:root{
+    --max-width: 1150px;
+}
+
 .bg-mydark{
     background-color: #9B9797;
 }
 
 .navbar-container{
-    max-width: 960px;
+    max-width: var(--max-width);
     margin: 0 auto;
 }
 
 .container-content{
-    max-width: 960px;
+    max-width: var(--max-width);
     margin: 5rem auto;
     background-color: #F2F2F2;
     min-height: 700px;
@@ -34,10 +38,10 @@
 }
 
 .search-icon{
-    background-image: url(/src/images/search-icon.webp);
-    background-position: center;
+    background-image: url(/src/images/search-icon-blacka.tiff) ;
+    background-position:center;
     width: 80px;
-    height: 35px;
+    height: 30px;
     background-size: contain;
     display: inline-block;
     background-repeat: no-repeat;
@@ -47,7 +51,7 @@
     background-image: url(/src/images/search-icon.webp);
     background-position: center;
     width: 80px;
-    height: 35px;
+    height: 30px;
     background-size: contain;
     display: inline-block;
     background-repeat: no-repeat;
@@ -55,7 +59,7 @@
 
 .img-bg-school{
     background-image: url(/src/images/fotoskoly.jpg);
-    max-width: 960px;
+    max-width: var(--max-width);
     height: 400px;
     background-position: left;
     background-repeat: no-repeat;
@@ -79,7 +83,7 @@
 }
 
 
-@media (hover: hover){
+@media (hover: hover) or (min-width: 601px){
     .dropdown:hover .dropdown-menu{
         display: block;
         background-color: #3A506B;
@@ -87,10 +91,29 @@
     }
 }
 
+@media(max-width: 1000 ){
+    .dropdown .dropdown-menu{
+
+    display: block;
+    background-color: #3A506B;
+
+}
+}
+
 @media(max-width: 600px){
     .dropdown-menu{
         background-color: #983839 !important;
         border:#983839 !important
+    }
+}
+
+.picture-width{
+    max-width: 500px;
+}
+
+@media(max-width: 600px){
+    .picture-width{
+        max-width: 200px;
     }
 }
 

@@ -1,4 +1,5 @@
-const API_URL = "http://localhost:8080"
+export const API_URL = "http://localhost:8080"
+// export const API_URL = "http://10.0.0.3:8080"
 
 export const apiGet = async(url) => {
     const apiUrl = `${API_URL}${url}`
@@ -7,6 +8,5 @@ export const apiGet = async(url) => {
     }
 
     const json = await fetch(apiUrl,requestParams).then((response) => response.json());
-    console.log(json)
     return json;
 }
