@@ -50,7 +50,9 @@ const NavigationLinks = () => {
           });
         });
       });
+      
     };
+
   }, []);
 
   return (
