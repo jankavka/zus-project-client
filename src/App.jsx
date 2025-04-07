@@ -9,6 +9,7 @@ import {
 
 import PublicLayout from "./layouts/PublicLayout";
 import AdminLayout from "./layouts/AdminLayout";
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 
 function App() {
   

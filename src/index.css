@@ -1,5 +1,6 @@
 :root{
     --max-width: 1150px;
+    --red-menu:#983839;
 }
 
 .bg-mydark{
@@ -8,6 +9,7 @@
 
 .navbar-container{
     max-width: var(--max-width);
+    width: 100%;
     margin: 0 auto;
 }
 
@@ -47,6 +49,12 @@
     background-repeat: no-repeat;
 }
 
+.nav-buttons{
+    background-color:transparent !important;
+    border-style: none !important;
+
+}
+
 .search-icon:hover{
     background-image: url(/src/images/search-icon.webp);
     background-position: center;
@@ -83,49 +91,56 @@
 }
 
 
-@media (hover: hover) or (min-width: 601px){
-    .dropdown:hover .dropdown-menu{
-        display: block;
-        background-color: #3A506B;
+.submenu{
+    background-color: #3A506B !important; 
+    margin: 0px !important;
     
+}
+
+@media (max-width: 768px){
+    .submenu{
+        background-color: var(--red-menu) !important;
+        border: 0px !important;
     }
 }
 
-@media(max-width: 1000 ){
-    .dropdown .dropdown-menu{
-
-    display: block;
-    background-color: #3A506B;
-
-}
+.text-nav:hover{
+    color: black !important;
 }
 
-@media(max-width: 600px){
-    .dropdown-menu{
-        background-color: #983839 !important;
-        border:#983839 !important
+
+@media (hover: hover) or (min-width:577px){
+    .this-dropdown:hover > .dropdown-menu{
+        display: block !important;
+        background-color: #3A506B !important;
     }
 }
-
 .picture-width{
     max-width: 500px;
 }
 
-@media(max-width: 600px){
+@media(max-width: 576px){
     .picture-width{
         max-width: 200px;
     }
 }
 
-
-.text-dropdown{
+.text-nav{
     color:#F2F2F2 !important;
 }
-
-.text-dropdown:hover{
-    color: black !important;
+@media(min-width: 577px){
+    .text-nav:hover text.nav{
+        color: black !important;
+    }
 }
 
-body > *{
+
+body > * {
     font-family: 'Gill Sans MT';
+}
+
+@media(min-width:769px){
+    .dropdown-toggle::after {
+    display: none !important;
+  }
 }
