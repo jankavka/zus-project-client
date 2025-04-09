@@ -6,7 +6,7 @@ const NavigationLinks = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleNavbar = () => {
-    setIsOpen(!isOpen);
+    setIsOpen(prevState => !prevState);
   };
 
   useEffect(() => {
@@ -29,7 +29,9 @@ const NavigationLinks = () => {
     //Closes navbar while clicking outside of navbar
     const hideNavbar = (event) => {
       if (navigation && !navigation.contains(event.target)) {
-        setIsOpen(false);
+        setIsOpen(prevState => !prevState);
+        
+
       }
     };
 

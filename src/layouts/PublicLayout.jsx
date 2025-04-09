@@ -28,12 +28,14 @@ import TeachersIndex from "../pages/public/TeachersIndex";
 import FotoIndex from "../pages/public/FotoIndex";
 import VideoIndex from "../pages/public/VideoIndex";
 import SchoolRulesIndex from "../pages/public/ShoolRulesIndex";
+import NavLinks from "../components/NavLInks";
 
 const PublicLayout = () => {
 
   return (
     <div>
-      <NavigationLinks />
+      <NavLinks/>
+      {/* <NavigationLinks /> */}
       <div className="img-bg-school position-logo">
         <Link to={"/o-skole/aktuality"}><img id="logo" src="/src/images/logo f2.png" alt="" /></Link>
       </div>
