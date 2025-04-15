@@ -7,7 +7,6 @@ import {
   Link
 } from "react-router-dom";
 
-import NavigationLinks from "../components/NavigationLinks";
 import ArticlesIndex from "../pages/public/ArticlesIndex";
 import ArticleDetail from "../pages/public/ArticleDetail";
 import SchoolAchievementsIndex from "../pages/public/SchoolAchievementsIndex"
@@ -35,7 +34,6 @@ const PublicLayout = () => {
   return (
     <div>
       <NavLinks/>
-      {/* <NavigationLinks /> */}
       <div className="img-bg-school position-logo">
         <Link to={"/o-skole/aktuality"}><img id="logo" src="/src/images/logo f2.png" alt="" /></Link>
       </div>

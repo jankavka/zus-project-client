@@ -1,6 +1,9 @@
 :root{
     --max-width: 1150px;
     --red-menu:#983839;
+    --mobil-widh: 576px;
+    --tablet-width: 768px;
+    --desktop-width: 992px;
 }
 
 .bg-mydark{
@@ -97,7 +100,7 @@
     
 }
 
-@media (max-width: 768px){
+@media (max-width: 767px){
     .submenu{
         background-color: var(--red-menu) !important;
         border: 0px !important;
@@ -109,17 +112,18 @@
 }
 
 
-@media (hover: hover) or (min-width:577px){
+@media (hover: hover) or (min-width: 992px){
     .this-dropdown:hover > .dropdown-menu{
         display: block !important;
         background-color: #3A506B !important;
     }
 }
+
 .picture-width{
     max-width: 500px;
 }
 
-@media(max-width: 576px){
+@media(max-width: 575px){
     .picture-width{
         max-width: 200px;
     }
@@ -128,7 +132,7 @@
 .text-nav{
     color:#F2F2F2 !important;
 }
-@media(min-width: 577px){
+@media(min-width: 576px){
     .text-nav:hover text.nav{
         color: black !important;
     }
@@ -139,7 +143,7 @@ body > * {
     font-family: 'Gill Sans MT';
 }
 
-@media(min-width:769px){
+@media(min-width:992px){
     .dropdown-toggle::after {
     display: none !important;
   }
