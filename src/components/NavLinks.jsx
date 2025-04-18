@@ -1,6 +1,5 @@
 import { useState } from "react";
 import {
-  Button,
   Container,
   Dropdown,
   DropdownMenu,
@@ -87,7 +86,7 @@ const NavLinks = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav
               fill
-              className="navbar-container text-white justify-content-between"
+              className="navbar-container text-white justify-content-between navbar-width"
             >
               {menu.map((item) => (
                 <Dropdown key={item.label} className="text-nav this-dropdown">

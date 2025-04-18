@@ -1,50 +1,85 @@
-:root{
-    --max-width: 1150px;
-    --red-menu:#983839;
-    --mobil-widh: 576px;
-    --tablet-width: 768px;
-    --desktop-width: 992px;
+/*former max width 1150 */
+:root {
+    --max-width: 950px;
+    --red-menu: #983839;
+    --main-width: 1150px;
+
 }
 
-.bg-mydark{
+
+.bg-mydark {
     background-color: #9B9797;
 }
 
-.navbar-container{
+.navbar-container {
     max-width: var(--max-width);
     width: 100%;
     margin: 0 auto;
 }
 
-.container-content{
+.container-content {
     max-width: var(--max-width);
-    margin: 5rem auto;
+    margin: 0 2rem 5rem 0;
     background-color: #F2F2F2;
     min-height: 700px;
     padding: 2rem;
-    
+    /*border:1px solid black*/
+
+
+}
+
+.container-calendar {
+    /*{max-width: 300px;*/
+    margin: 0 0 5rem 0;
+    background-color: #F2F2F2;
+    min-height: 300px;
+    padding: 2rem;
+    /*border: 1px solid black;*/
+}
+
+@media (max-width: 991px) {
+    .container-calendar {
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    .container-content {
+        max-width: 100%;
+        margin: 1rem auto;
+    }
+
+}
+
+.container-main {
+    max-width: var(--main-width);
+    margin: 1rem auto;
+}
+
+.navbar-width {
+    max-width: var(--main-width);
 }
 
 
-.nav-item .nav-text{
-    color:#FFFFFF
+
+.nav-item .nav-text {
+    color: #FFFFFF
 }
 
-.nav-bg{
+.nav-bg {
     background-color: #983839;
 }
 
-.nav-position-fixed{
+.nav-position-fixed {
     width: 100%;
     position: fixed;
     z-index: 1;
     top: 0;
-    
+
 }
 
-.search-icon{
-    background-image: url(/src/images/search-icon-blacka.tiff) ;
-    background-position:center;
+.search-icon {
+    background-image: url(/src/images/search-icon-blacka.tiff);
+    background-position: center;
     width: 80px;
     height: 30px;
     background-size: contain;
@@ -52,13 +87,13 @@
     background-repeat: no-repeat;
 }
 
-.nav-buttons{
-    background-color:transparent !important;
+.nav-buttons {
+    background-color: transparent !important;
     border-style: none !important;
 
 }
 
-.search-icon:hover{
+.search-icon:hover {
     background-image: url(/src/images/search-icon.webp);
     background-position: center;
     width: 80px;
@@ -68,83 +103,100 @@
     background-repeat: no-repeat;
 }
 
-.img-bg-school{
+.img-bg-school {
     background-image: url(/src/images/fotoskoly.jpg);
-    max-width: var(--max-width);
+    max-width: var(--main-width);
     height: 400px;
     background-position: left;
     background-repeat: no-repeat;
     margin: 0 auto;
-    background-size:cover;
+    background-size: cover;
 }
 
-.brd{
+.brd {
     border: 1px solid black;
 }
 
-#logo{
+#logo {
     width: 100px;
     height: 100px;
 }
 
-.position-logo{
+.position-logo {
     display: flex;
-    justify-content:start;
+    justify-content: start;
     align-items: end;
 }
 
 
-.submenu{
-    background-color: #3A506B !important; 
+.submenu {
+    background-color: #3A506B !important;
     margin: 0px !important;
-    
+
 }
 
-@media (max-width: 767px){
-    .submenu{
+@media (max-width: 767px) {
+    .submenu {
         background-color: var(--red-menu) !important;
         border: 0px !important;
     }
 }
 
-.text-nav:hover{
+.text-nav:hover {
     color: black !important;
 }
 
 
-@media (hover: hover) or (min-width: 992px){
-    .this-dropdown:hover > .dropdown-menu{
+@media (hover: hover) or (min-width: 992px) {
+    .this-dropdown:hover>.dropdown-menu {
         display: block !important;
         background-color: #3A506B !important;
     }
 }
 
-.picture-width{
+.picture-width {
     max-width: 500px;
 }
 
-@media(max-width: 575px){
-    .picture-width{
+@media(max-width: 575px) {
+    .picture-width {
         max-width: 200px;
     }
 }
 
-.text-nav{
-    color:#F2F2F2 !important;
+.text-nav {
+    color: #F2F2F2 !important;
 }
-@media(min-width: 576px){
-    .text-nav:hover text.nav{
+
+@media(min-width: 576px) {
+    .text-nav:hover text.nav {
         color: black !important;
     }
 }
 
 
-body > * {
+body>* {
     font-family: 'Gill Sans MT';
 }
 
-@media(min-width:992px){
+@media(min-width:992px) {
     .dropdown-toggle::after {
-    display: none !important;
-  }
+        display: none !important;
+    }
+}
+
+.my-button-next{
+    background-color: var(--red-menu);
+    border-radius: 5px;
+    border: 1px solid black;
+    color: white;
+    padding: 0.3rem;
+}
+
+.my-button-previous{
+    background-color: red;
+    border-radius: 5px;
+    border: 1px solid black;
+    color: white;
+    padding: 0.3rem;
 }

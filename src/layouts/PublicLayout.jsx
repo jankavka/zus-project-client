@@ -4,12 +4,12 @@ import {
   Routes,
   Route,
   Navigate,
-  Link
+  Link,
 } from "react-router-dom";
 
 import ArticlesIndex from "../pages/public/ArticlesIndex";
 import ArticleDetail from "../pages/public/ArticleDetail";
-import SchoolAchievementsIndex from "../pages/public/SchoolAchievementsIndex"
+import SchoolAchievementsIndex from "../pages/public/SchoolAchievementsIndex";
 import {
   BasicDataIndex,
   GroupTrainingScheduleIndex,
@@ -28,52 +28,108 @@ import FotoIndex from "../pages/public/FotoIndex";
 import VideoIndex from "../pages/public/VideoIndex";
 import SchoolRulesIndex from "../pages/public/ShoolRulesIndex";
 import NavLinks from "../components/NavLInks";
+import Calendar from "../components/CalendarBasic";
+import CalendarBasic from "../components/CalendarBasic";
+import CalendarComplete from "../pages/public/CalendarComplete";
 
 const PublicLayout = () => {
-
   return (
     <div>
-      <NavLinks/>
+      <NavLinks />
       <div className="img-bg-school position-logo">
-        <Link to={"/o-skole/aktuality"}><img id="logo" src="/src/images/logo f2.png" alt="" /></Link>
+        <Link to={"/o-skole/aktuality"}>
+          <img id="logo" src="/src/images/logo f2.png" alt="škola" />
+        </Link>
       </div>
-      <Routes>
-        <Route index element={<Navigate to={"/o-skole/aktuality"}/>}/>
-        <Route path="/o-skole">
-          <Route path="/o-skole/aktuality">
-            <Route index element={<ArticlesIndex />} />
-            <Route path="/o-skole/aktuality/:id" element={<ArticleDetail />} />
-          </Route>
-          <Route path="/o-skole/zakladni-udaje" element={<BasicDataIndex />}/>
-          <Route path="/o-skole/historie-a-soucasnost" element={<HistoryAndPresentIndex />}/>
-          <Route path="/o-skole/studijni-zamereni" element={<StudyFocusIndex />}/>          
-          <Route path="/o-skole/uspechy-skoly" element={<SchoolAchievementsIndex />}/>
-        </Route>
+      <div className="container-main">
+        <div className="row">
+          <div className="col-lg-8">
+            <Routes>
+              <Route index element={<Navigate to={"/o-skole/aktuality"} />} />
+              <Route path="/o-skole">
+                <Route path="/o-skole/aktuality">
+                  <Route index element={<ArticlesIndex />} />
+                  <Route
+                    path="/o-skole/aktuality/:id"
+                    element={<ArticleDetail />}
+                  />
+                </Route>
+                <Route
+                  path="/o-skole/zakladni-udaje"
+                  element={<BasicDataIndex />}
+                />
+                <Route
+                  path="/o-skole/historie-a-soucasnost"
+                  element={<HistoryAndPresentIndex />}
+                />
+                <Route
+                  path="/o-skole/studijni-zamereni"
+                  element={<StudyFocusIndex />}
+                />
+                <Route
+                  path="/o-skole/uspechy-skoly"
+                  element={<SchoolAchievementsIndex />}
+                />
+              </Route>
 
-        <Route path="/pro-rodice-a-zaky">
-          <Route path="/pro-rodice-a-zaky/rozvrh-kolektivni-vyuky" element={<GroupTrainingScheduleIndex/>}/>
-          <Route path="/pro-rodice-a-zaky/hudebni-nauka" element={<MusicTheoryIndex/>} />
-          <Route path="/pro-rodice-a-zaky/skolne" element={<SchoolFeeIndex/>}/>
-        </Route>
+              <Route path="/pro-rodice-a-zaky">
+                <Route
+                  path="/pro-rodice-a-zaky/rozvrh-kolektivni-vyuky"
+                  element={<GroupTrainingScheduleIndex />}
+                />
+                <Route
+                  path="/pro-rodice-a-zaky/hudebni-nauka"
+                  element={<MusicTheoryIndex />}
+                />
+                <Route
+                  path="/pro-rodice-a-zaky/skolne"
+                  element={<SchoolFeeIndex />}
+                />
+              </Route>
 
-        <Route path="/galerie">
-          <Route path="/galerie/foto" element={<FotoIndex/>} />
-          <Route path="/galerie/video" element={<VideoIndex/>} />
-        </Route>
+              <Route path="/galerie">
+                <Route path="/galerie/foto" element={<FotoIndex />} />
+                <Route path="/galerie/video" element={<VideoIndex />} />
+              </Route>
 
-        <Route path="/uredni-deska">
-          <Route path="/uredni-deska/ochrana-osobnich-udaju" element={<PersonalDataProtectionIndex/>}/>
-          <Route path="/uredni-deska/povinne-info" element={<RequiredInforamtionIndex/>}/>
-          <Route path="/uredni-deska/skolni-vzdelavaci-program" element={<SchoolEducationProgramIndex/>}/>
-          <Route path="/uredni-deska/vyrocni-zpravy" element={<AnualReportIndex/>}/>
-          <Route path="/uredni-deska/skolni-rad" element={<SchoolRulesIndex/>}/>
-        </Route>
-      
-        <Route path="/kontakty">
-          <Route path="/kontakty/vedeni-skoly" element={<SchoolManagementIndex/>} />
-          <Route path="/kontakty/ucitele" element={<TeachersIndex/>} />
-        </Route>
-      </Routes>
+              <Route path="/uredni-deska">
+                <Route
+                  path="/uredni-deska/ochrana-osobnich-udaju"
+                  element={<PersonalDataProtectionIndex />}
+                />
+                <Route
+                  path="/uredni-deska/povinne-info"
+                  element={<RequiredInforamtionIndex />}
+                />
+                <Route
+                  path="/uredni-deska/skolni-vzdelavaci-program"
+                  element={<SchoolEducationProgramIndex />}
+                />
+                <Route
+                  path="/uredni-deska/vyrocni-zpravy"
+                  element={<AnualReportIndex />}
+                />
+                <Route
+                  path="/uredni-deska/skolni-rad"
+                  element={<SchoolRulesIndex />}
+                />
+              </Route>
+
+              <Route path="/kontakty">
+                <Route
+                  path="/kontakty/vedeni-skoly"
+                  element={<SchoolManagementIndex />}
+                />
+                <Route path="/kontakty/ucitele" element={<TeachersIndex />} />
+              </Route>
+              <Route path="/kalendar" index element={<CalendarComplete/>}/>
+            </Routes>
+          </div>
+          <div className="col-lg-4">
+            <CalendarBasic />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
