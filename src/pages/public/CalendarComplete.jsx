@@ -11,9 +11,9 @@ const CalendarComplete = () => {
     nextPageToken: undefined,
     singleEvents: true,
   });
-  //
+
   const [tokens, setTokens] = useState([""]);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     apiGet("/api/calendar/all-events", filter).then((data) =>
@@ -25,52 +25,78 @@ const CalendarComplete = () => {
       setFilter((prev) => {
         return { ...prev, nextPageToken: data.nextPageToken };
       });
+      setTokens((prev) => {
+        return [...prev, data.nextPageToken];
+      });
     });
   }, []);
 
   useEffect(() => {
-    console.log(page, tokens);
-  }, [page, tokens]);
+    console.log(tokens.length, tokens);
+  }, [tokens]);
 
   //moves events list to next page
   const nextPage = () => {
+    setEvents([]);
     apiGet("/api/calendar/all-events", filter).then((data) => {
       setEvents(data.items);
-      if (page === 0) {
-        setTokens(["", data.nextPageToken]);
-        setPage((prev) => prev + 1);
+      setPage((prev) => prev + 1);
+      if (data.nextPageToken) {
         setFilter((prev) => {
           return { ...prev, nextPageToken: data.nextPageToken };
         });
-      } else {
-        if (data.nextPageToken != undefined) {
-          setTokens((prev) => {
-            return [...prev, data.nextPageToken];
-          });
-          setPage((prev) => prev + 1);
-          setFilter((prev) => {
-            return { ...prev, nextPageToken: data.nextPageToken };
-          });
-        }
+        setTokens((prev) => {
+          return [...prev, data.nextPageToken];
+        });
       }
     });
   };
 
-  //this dosnt work yet!!!!
+  //moves events list to previous page
   const prevPage = () => {
-    apiGet("/api/calendar/all-events", {
-      limit: 10,
-      nextPageToken: tokens[tokens.length - 2],
-    }).then((data) => {
-      setEvents(data.items);
-    });
-    setTokens((prev) => prev.pop());
+    setEvents([]);
+    if (tokens.length < 3) {
+      apiGet("/api/calendar/all-events", { limit: 10, nextPageToken: "" }).then(
+        (data) => {
+          setEvents(data.items);
+          setTokens(["", data.nextPageToken]);
+          setFilter((prev) => {
+            return { ...prev, nextPageToken: data.nextPageToken };
+          });
+          setPage((prev) => prev - 1);
+        }
+      );
+    } else {
+      let api = {};
+      if (page === tokens.length) {
+        api = apiGet("/api/calendar/all-events", {
+          limit: 10,
+          nextPageToken: tokens[tokens.length - 2],
+        });
+      } else {
+        api = apiGet("/api/calendar/all-events", {
+          limit: 10,
+          nextPageToken: tokens[tokens.length - 3],
+        });
+      }
+      api.then((data) => {
+        setEvents(data.items);
+        setTokens((prev) =>
+          prev.filter((t) => tokens.indexOf(t) < tokens.length - 1)
+        );
+        setFilter((prev) => {
+          return { ...prev, nextPageToken: data.nextPageToken };
+        });
+        setPage((prev) => prev - 1);
+      });
+    }
   };
 
   return (
     <div className="container-calendar">
       <h1 className="mb-3">Seznam akcí</h1>
       <ul>
+        {page}
         {events.length === 0 ? (
           <LoadingText />
         ) : (
