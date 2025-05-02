@@ -23,7 +23,7 @@ const NavLinks = () => {
           link: "/o-skole/historie-a-soucasnost",
         },
         { label: "Studijní zaměření", link: "/o-skole/studijni-zamereni" },
-        { label: "uspechy-skoly", link: "/o-skole/uspechy-skoly" },
+        { label: "Úspěchy školy", link: "/o-skole/uspechy-skoly" },
       ],
     },
     {

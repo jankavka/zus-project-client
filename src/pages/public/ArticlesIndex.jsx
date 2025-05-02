@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { apiGet } from "../../utils/api";
 import { Link } from "react-router-dom";
+import LoadingText from "../../components/LoadingText.jsx";
 
 const ArticlesIndex = () => {
   const [articles, setArticles] = useState([]);
@@ -13,6 +14,14 @@ const ArticlesIndex = () => {
     apiGet("/api/articles").then((data) => setArticles(data));
   }, []);
 
+  if(articles.length === 0){
+    return(
+      <div className="container-content">
+        <h1 className="mb-5">Aktuality</h1>
+          <LoadingText/>
+      </div>
+    )
+  }
   return (
     <div className="container-content">
       <h1 className="mb-5">Aktuality</h1>

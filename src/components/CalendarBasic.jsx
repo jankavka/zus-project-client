@@ -20,7 +20,7 @@ const CalendarBasic = () => {
       <ul>
         {events.length === 0 ? <LoadingText/> :events.map((event, index) => (
           <li className="mb-2"key={index}>
-            {DateFormat(new Date(event.start.date.value))} - {event.summary}
+            {DateFormat(new Date(event.start.dateTime))} - {event.summary}
           </li>
         ))}
       </ul>

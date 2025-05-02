@@ -1,9 +1,10 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { apiGet } from "../../utils/api";
-import DateFormat from "../../components/formatDate";
 import LoadingText from "../../components/LoadingText";
+import formatDate from "../../components/formatDate";
 
+// works only with all day events. Otherwise event.start.date.value will be undefined
 const CalendarComplete = () => {
   const [events, setEvents] = useState([]);
   const [filter, setFilter] = useState({
@@ -30,10 +31,6 @@ const CalendarComplete = () => {
       });
     });
   }, []);
-
-  useEffect(() => {
-    console.log(tokens.length, tokens);
-  }, [tokens]);
 
   //moves events list to next page
   const nextPage = () => {
@@ -96,13 +93,13 @@ const CalendarComplete = () => {
     <div className="container-calendar">
       <h1 className="mb-3">Seznam akcí</h1>
       <ul>
-        {page}
         {events.length === 0 ? (
           <LoadingText />
         ) : (
+          events &&
           events.map((event, index) => (
             <li className="mb-2" key={index}>
-              {DateFormat(new Date(event.start.date.value))} - {event.summary}
+              {formatDate(new Date(event.start.dateTime))} - {event.summary}
             </li>
           ))
         )}

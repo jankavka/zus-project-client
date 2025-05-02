@@ -122,7 +122,7 @@ const PublicLayout = () => {
                 />
                 <Route path="/kontakty/ucitele" element={<TeachersIndex />} />
               </Route>
-              <Route path="/kalendar" index element={<CalendarComplete/>}/>
+              <Route path="/kalendar" index element={<CalendarComplete />} />
             </Routes>
           </div>
           <div className="col-lg-4">

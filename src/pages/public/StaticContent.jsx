@@ -3,9 +3,111 @@ import { useState, useEffect } from "react";
 import { apiGet } from "../../utils/api";
 
 export const BasicDataIndex = () => {
+  const [basicData, setBasicData] = useState([]);
+  const basicDataSet = new Map([
+    ["director", "Ředitel"],
+    ["deputyDirector", "Zástupce ředitele"],
+    ["legalForm", "Právní forma"],
+  ]);
+
+  useEffect(() => {
+    apiGet("/api/static/basic-data").then((data) => setBasicData(data));
+  }, []);
+
+  const locations = basicData.locationsOfEducation;
   return (
     <div className="container-content">
-      <h1>Základní údaje</h1>
+      <h1 className="mb-3">Základní údaje</h1>
+      <table className="table">
+        <tbody>
+          <tr>
+            <td className="col-6 my-table-background">
+              <strong>Jméno školy</strong>
+            </td>
+            <td className="my-table-background">{basicData.schoolName}</td>
+          </tr>
+          <tr>
+            <td className="my-table-background">
+              <strong>Adresa</strong>
+            </td>
+            <td className="my-table-background">{basicData.address}</td>
+          </tr>
+          <tr>
+            <td className="my-table-background">
+              <strong>Právní forma</strong>
+            </td>
+            <td className="my-table-background">{basicData.legalForm}</td>
+          </tr>
+          <tr>
+            <td className="my-table-background">
+              <strong>Nejvyšší povolený počet žáků ve škole:</strong>
+            </td>
+            <td className="my-table-background">{basicData.maxNumberOfStudents}</td>
+          </tr>
+          <tr>
+            <td className="my-table-background">
+              <strong>Místa poskytovaného vzdělávání:</strong>
+            </td>
+            <td className="my-table-background">
+              {locations &&
+                locations.map((value, index) => (
+                  <span key={index}>
+                    {index + 1 + "."} {value}
+                    <br />
+                  </span>
+                ))}
+            </td>
+          </tr>
+          <tr>
+            <td className="my-table-background">
+              <strong>Ředitel</strong>
+            </td>
+            <td className="my-table-background">{basicData.director}</td>
+          </tr>
+          <tr>
+            <td className="my-table-background">
+              <strong>Zástupce ředitele:</strong>
+            </td>
+            <td className="my-table-background">{basicData.deputyDirector}</td>
+          </tr>
+          <tr>
+            <td className="my-table-background">
+              <strong>Zřizovatel:</strong>
+            </td>
+            <td className="my-table-background">{basicData.founder}</td>
+          </tr>
+          <tr>
+            <td className="my-table-background">
+              <strong>IČO:</strong>
+            </td>
+            <td className="my-table-background">{basicData.taxIdentificationNumber}</td>
+          </tr>
+          <tr>
+            <td className="my-table-background">
+              <strong>IZO:</strong>
+            </td>
+            <td className="my-table-background">{basicData.organizationIdentificationMark}</td>
+          </tr>
+          <tr>
+            <td className="my-table-background">
+              <strong>REDIZO:</strong>
+            </td>
+            <td className="my-table-background">{basicData.idNumber}</td>
+          </tr>
+          <tr>
+            <td className="my-table-background">
+              <strong>Datová schránka:</strong>
+            </td>
+            <td className="my-table-background">{basicData.dataBox}</td>
+          </tr>
+          <tr>
+            <td className="my-table-background">
+              <strong>Bankovní spojení:</strong>
+            </td>
+            <td className="my-table-background">{basicData.accountNumber}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 };
@@ -82,7 +184,9 @@ export const RequiredInforamtionIndex = () => {
   const [basicData, setBasicData] = useState({});
 
   useEffect(() => {
-    apiGet("/api/static/required-info").then((data) => setRequiredInformation(data));
+    apiGet("/api/static/required-info").then((data) =>
+      setRequiredInformation(data)
+    );
     apiGet("/api/static/basic-data").then((data) => setBasicData(data));
   }, []);
 
@@ -94,9 +198,15 @@ export const RequiredInforamtionIndex = () => {
 };
 
 export const StudyFocusIndex = () => {
+  const [studyFocus, setStudyFocus] = useState("");
+
+  useEffect(() => {
+    apiGet("/api/static/study-focus").then((data) => setStudyFocus(data))
+  })
   return (
     <div className="container-content">
       <h1>Studijní zameření</h1>
+      <p>{studyFocus.content}</p>
     </div>
   );
 };
@@ -108,10 +218,10 @@ export const SchoolFeeIndex = () => {
     apiGet("/api/static/school-fee").then((data) => setSchoolFee(data));
   }, []);
 
-  return(
+  return (
     <div className="container-content">
       <h1>Školné</h1>
       <p>{schoolFee.content}</p>
     </div>
-  )
+  );
 };
