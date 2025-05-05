@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { apiGet } from "../utils/api";
 import { Link } from "react-router-dom";
-import DateFormat from "./formatDate";
+import formatDate from "./formatDate";
 import LoadingText from "./LoadingText";
 
 const CalendarBasic = () => {
@@ -20,7 +20,8 @@ const CalendarBasic = () => {
       <ul>
         {events.length === 0 ? <LoadingText/> :events.map((event, index) => (
           <li className="mb-2"key={index}>
-            {DateFormat(new Date(event.start.dateTime))} - {event.summary}
+            <span>{event.summary}</span><br/>
+            <span>{formatDate(new Date(event.start.dateTime.value))}</span>
           </li>
         ))}
       </ul>

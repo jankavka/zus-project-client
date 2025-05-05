@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  BrowserRouter as Router,
+  //BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
@@ -27,8 +27,7 @@ import TeachersIndex from "../pages/public/TeachersIndex";
 import FotoIndex from "../pages/public/FotoIndex";
 import VideoIndex from "../pages/public/VideoIndex";
 import SchoolRulesIndex from "../pages/public/ShoolRulesIndex";
-import NavLinks from "../components/NavLInks";
-import Calendar from "../components/CalendarBasic";
+import NavLinks from "../components/NavLinks";
 import CalendarBasic from "../components/CalendarBasic";
 import CalendarComplete from "../pages/public/CalendarComplete";
 
