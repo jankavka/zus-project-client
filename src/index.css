@@ -67,7 +67,10 @@
 }
 
 .nav-bg {
-    background-color: #983839;
+    background-color: var(--red-menu)
+}
+.nav-bg-admin{
+    background-color: green;
 }
 
 .nav-position-fixed {

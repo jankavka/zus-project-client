@@ -22,7 +22,7 @@ const CalendarComplete = () => {
     );
 
     apiGet("/api/calendar/all-events", filter).then((data) => {
-      console.log(data);
+      //console.log(data);
       setFilter((prev) => {
         return { ...prev, nextPageToken: data.nextPageToken };
       });
@@ -99,7 +99,7 @@ const CalendarComplete = () => {
           events &&
           events.map((event, index) => (
             <li className="mb-2" key={index}>
-              {formatDate(new Date(event.start.dateTime))} - {event.summary}
+              {formatDate(new Date(event.start.dateTime.value))} - {event.summary}
             </li>
           ))
         )}

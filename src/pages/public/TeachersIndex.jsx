@@ -16,18 +16,16 @@ const TeachersIndex = () => {
           <thead>
             <tr>
               <th>Jméno</th>
-              <th>E-mail</th>
-              <th>Telefon</th>
+              <th>Kontakt</th>
             </tr>
           </thead>
           <tbody>
             {teachers.map((teacher, index) => (
               <tr key={index}>
                 <td>
-                  {teacher.degree} {teacher.name}
+                  {teacher.degree} {teacher.name} 
                 </td>
-                <td>{teacher.email}</td>
-                <td>{teacher.telNumber}</td>
+                <td><span>{teacher.email}</span><br/><span> {teacher.telNumber}</span></td>
               </tr>
             ))}
           </tbody>
