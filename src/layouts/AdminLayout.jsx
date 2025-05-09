@@ -19,24 +19,53 @@ import AnualReportIndex from "../pages/public/AnualReportIndex";
 import SchoolManagementIndex from "../pages/public/SchoolManagementIndex";
 import TeachersIndex from "../pages/public/TeachersIndex";
 import AdminNavLinks from "../components/AdminNavLinks";
+import ArticleForm from "../pages/admin/ArticleForm";
+import StudyFocusForm from "../pages/admin/StudyFocusForm";
+import BasicDataForm from "../pages/admin/BasicDataForm";
+import SchoolManagementForm from "../pages/admin/SchoolManagementForm";
 
 const AdminLayout = () => {
   return (
-    <div className="">
+    <div>
       <AdminNavLinks />
       <div className="container-main">
-        <h1 className="mt-5 text-center">Toto je stránka admina</h1>
+        <h1 className="text-center">ADMIN</h1>
         <Routes>
-          <Route path="/o-skole/aktuality" element={<ArticlesIndex />} />
-          <Route path="/o-skole/zakladni-udaje" element={<BasicDataIndex />} />
+          <Route>
+            <Route
+              path="/o-skole/aktuality"
+              element={<ArticlesIndex isEditable={true} />}
+            />
+            <Route
+              path="/o-skole/aktuality/:id/upravit"
+              element={<ArticleForm />}
+            />
+            <Route path="/o-skole/aktuality/novy" element={<ArticleForm />} />
+          </Route>
+          <Route>
+            <Route
+              path="/o-skole/zakladni-udaje"
+              element={<BasicDataIndex isEditable={true} />}
+            />
+            <Route
+              path="/o-skole/zakladni-udaje/upravit"
+              element={<BasicDataForm />}
+            />
+          </Route>
           <Route
             path="/o-skole/historie-a-soucasnost"
             element={<HistoryAndPresentIndex />}
           />
-          <Route
-            path="/o-skole/studijni-zamereni"
-            element={<StudyFocusIndex />}
-          />
+          <Route>
+            <Route
+              path="/o-skole/studijni-zamereni"
+              element={<StudyFocusIndex />}
+            />
+            <Route
+              path="/o-skole/studijni-zamereni/upravit"
+              element={<StudyFocusForm />}
+            />
+          </Route>
           <Route path="/o-skole/základni-udaje" element={<BasicDataIndex />} />
           <Route
             path="/o-skole/uspechy-skoly"
@@ -52,7 +81,7 @@ const AdminLayout = () => {
             element={<MusicTheoryIndex />}
           />
           <Route
-            path="/pro/rodice-a-zaky/skolne"
+            path="/pro-rodice-a-zaky/skolne"
             element={<SchoolFeeIndex />}
           />
 
@@ -75,11 +104,20 @@ const AdminLayout = () => {
             path="uredni-deska/vyrocni-zpravy"
             element={<AnualReportIndex />}
           />
-
-          <Route
-            path="/kontakty/vedeni-skoly"
-            element={<SchoolManagementIndex />}
-          />
+          <Route>
+            <Route
+              path="/kontakty/vedeni-skoly"
+              element={<SchoolManagementIndex isEditable={true} />}
+            />
+            <Route
+              path="/kontakty/vedeni-skoly/novy"
+              element={<SchoolManagementForm/>}
+            />
+            <Route
+              path="/kontakty/vedeni-skoly/:id/upravit"
+              element={<SchoolManagementForm/>}
+            />
+          </Route>
           <Route path="/kontakty/ucitele" element={<TeachersIndex />} />
         </Routes>
       </div>

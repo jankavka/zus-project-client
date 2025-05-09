@@ -16,14 +16,14 @@ const AdminNavLinks = () => {
     {
       label: "o škole",
       subMenu: [
-        { label: "Aktuality", link: "/o-skole/aktuality" },
-        { label: "Základní údaje", link: "/o-skole/zakladni-udaje" },
+        { label: "Aktuality", link: "/admin/o-skole/aktuality" },
+        { label: "Základní údaje", link: "/admin/o-skole/zakladni-udaje" },
         {
           label: "Historie a současnost",
-          link: "/o-skole/historie-a-soucasnost",
+          link: "admin/o-skole/historie-a-soucasnost",
         },
-        { label: "Studijní zaměření", link: "/o-skole/studijni-zamereni" },
-        { label: "Úspěchy školy", link: "/o-skole/uspechy-skoly" },
+        { label: "Studijní zaměření", link: "/admin/o-skole/studijni-zamereni" },
+        { label: "Úspěchy školy", link: "/admin/o-skole/uspechy-skoly" },
       ],
     },
     {
@@ -31,10 +31,10 @@ const AdminNavLinks = () => {
       subMenu: [
         {
           label: "Rozvrh kolektivní výuky",
-          link: "/pro-rodice-a-zaky/rozvrh-kolektivni-vyuky",
+          link: "/admin/pro-rodice-a-zaky/rozvrh-kolektivni-vyuky",
         },
-        { label: "Hudební nauka", link: "/pro-rodice-a-zaky/hudebni-nauka" },
-        { label: "Školné", link: "/pro-rodice-a-zaky/skolne" },
+        { label: "Hudební nauka", link: "/admin/pro-rodice-a-zaky/hudebni-nauka" },
+        { label: "Školné", link: "/admin/pro-rodice-a-zaky/skolne" },
         {
           label: "Přihláška",
           link: "https://klasifikace.jphsw.cz/application/default?hash=7e7757b1e12abcb736ab9a754ffb617a",
@@ -45,8 +45,8 @@ const AdminNavLinks = () => {
     {
       label: "galerie",
       subMenu: [
-        { label: "Foto", link: "/galerie/foto" },
-        { label: "Video", link: "/galerie/video" },
+        { label: "Foto", link: "/admin/galerie/foto" },
+        { label: "Video", link: "/admin/galerie/video" },
       ],
     },
     {
@@ -54,26 +54,26 @@ const AdminNavLinks = () => {
       subMenu: [
         {
           label: "Ochrana osobních údajů",
-          link: "/uredni-deska/ochrana-osobnich-udaju",
+          link: "/admin/uredni-deska/ochrana-osobnich-udaju",
         },
         {
           label: "Povinně zveřejňované inforamce",
-          link: "/uredni-deska/povinne-info",
+          link: "/admin/uredni-deska/povinne-info",
         },
         { label: "Organizace školního roku", link: "" },
         {
           label: "Školní vzdělávací program",
-          link: "/uredni-deska/skolni-vzdelavaci-program",
+          link: "/admin/uredni-deska/skolni-vzdelavaci-program",
         },
-        { label: "Školní řád", link: "/uredni-deska/skolni-rad" },
-        { label: "Výroční zprávy", link: "/uredni-deska/vyrocni-zpravy" },
+        { label: "Školní řád", link: "/admin/uredni-deska/skolni-rad" },
+        { label: "Výroční zprávy", link: "/admin/uredni-deska/vyrocni-zpravy" },
       ],
     },
     {
       label: "kontakty",
       subMenu: [
-        { label: "Vedení školy", link: "/kontakty/vedeni-skoly" },
-        { label: "Učitelé", link: "/kontakty/ucitele" },
+        { label: "Vedení školy", link: "/admin/kontakty/vedeni-skoly" },
+        { label: "Učitelé", link: "/admin/kontakty/ucitele" },
       ],
     },
   ];
@@ -99,7 +99,7 @@ const AdminNavLinks = () => {
                   <DropdownMenu
                     renderOnMount={true}
                     rootCloseEvent="click"
-                    className="submenu"
+                    className="submenu-admin"
                   >
                     {item.subMenu.map((subItem) => (
                       <Dropdown.Item
