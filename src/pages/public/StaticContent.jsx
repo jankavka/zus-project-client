@@ -1,8 +1,9 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { apiGet } from "../../utils/api";
+import { Link } from "react-router-dom";
 
-export const BasicDataIndex = () => {
+export const BasicDataIndex = ({isEditable}) => {
   const [basicData, setBasicData] = useState([]);
   const basicDataSet = new Map([
     ["director", "Ředitel"],
@@ -18,23 +19,24 @@ export const BasicDataIndex = () => {
   return (
     <div className="container-content">
       <h1 className="mb-3">Základní údaje</h1>
+      {isEditable ? <Link className="btn btn-success" to={"/admin/o-skole/zakladni-udaje/upravit"}>Upravit</Link> : null}
       <table className="table">
         <tbody>
           <tr>
             <td className="col-6 my-table-background">
-              <strong>Jméno školy</strong>
+              <strong>Jméno školy:</strong>
             </td>
             <td className="my-table-background">{basicData.schoolName}</td>
           </tr>
           <tr>
             <td className="my-table-background">
-              <strong>Adresa</strong>
+              <strong>Adresa:</strong>
             </td>
             <td className="my-table-background">{basicData.address}</td>
           </tr>
           <tr>
             <td className="my-table-background">
-              <strong>Právní forma</strong>
+              <strong>Právní forma:</strong>
             </td>
             <td className="my-table-background">{basicData.legalForm}</td>
           </tr>
@@ -206,7 +208,7 @@ export const StudyFocusIndex = () => {
   return (
     <div className="container-content">
       <h1>Studijní zameření</h1>
-      <p>{studyFocus.content}</p>
+      <div dangerouslySetInnerHTML={{__html: studyFocus.content}}></div>
     </div>
   );
 };

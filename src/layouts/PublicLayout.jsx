@@ -47,7 +47,7 @@ const PublicLayout = () => {
               <Route index element={<Navigate to={"/o-skole/aktuality"} />} />
               <Route path="/o-skole">
                 <Route path="/o-skole/aktuality">
-                  <Route index element={<ArticlesIndex />} />
+                  <Route index element={<ArticlesIndex isEditable={false} />} />
                   <Route
                     path="/o-skole/aktuality/:id"
                     element={<ArticleDetail />}
@@ -55,7 +55,7 @@ const PublicLayout = () => {
                 </Route>
                 <Route
                   path="/o-skole/zakladni-udaje"
-                  element={<BasicDataIndex />}
+                  element={<BasicDataIndex isEditable={false} />}
                 />
                 <Route
                   path="/o-skole/historie-a-soucasnost"
@@ -117,7 +117,7 @@ const PublicLayout = () => {
               <Route path="/kontakty">
                 <Route
                   path="/kontakty/vedeni-skoly"
-                  element={<SchoolManagementIndex />}
+                  element={<SchoolManagementIndex isEditable={false} />}
                 />
                 <Route path="/kontakty/ucitele" element={<TeachersIndex />} />
               </Route>

@@ -6,6 +6,9 @@
     --container-bg: #F2F2F2;
 
 }
+body {
+    padding-top: 40px;
+}
 
 
 .bg-mydark {
@@ -139,9 +142,20 @@
 
 }
 
+.submenu-admin {
+    background-color: #3A506B !important;
+    margin: 0px !important;
+}
+
+
+
 @media (max-width: 767px) {
     .submenu {
         background-color: var(--red-menu) !important;
+        border: 0px !important;
+    }
+    .submenu-admin {
+        background-color: rgb(88, 182, 88) !important;
         border: 0px !important;
     }
 }
