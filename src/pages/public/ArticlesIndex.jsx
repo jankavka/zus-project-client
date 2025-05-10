@@ -6,10 +6,7 @@ import LoadingText from "../../components/LoadingText.jsx";
 const ArticlesIndex = ({ isEditable }) => {
   const navigate = useNavigate();
   const [articles, setArticles] = useState([]);
-  const [link, setLink] = useState("");
-  const [filter, setFilter] = useState({
-    limit: undefined,
-  });
+  
 
   useEffect(() => {
     apiGet("/api/articles").then((data) => setArticles(data));
@@ -20,8 +17,9 @@ const ArticlesIndex = ({ isEditable }) => {
     if (aprove) {
       apiDelete("/api/articles/delete/" + id);
       navigate("/admin/o-skole/aktuality");
+      setArticles(articles.filter((item) => item.id !== id));
     }
-    setArticles(articles.filter((item) => item.id !== id));
+    
   };
 
   if (articles.length === 0) {

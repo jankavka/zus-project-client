@@ -7,10 +7,10 @@ const SchoolManagementForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [schoolManagement, setSchoolManagement] = useState({
-    name: undefined,
-    degree: undefined,
-    telNumber: undefined,
-    email: undefined,
+    name: "",
+    degree: "",
+    telNumber: "",
+    email: "",
     managementType: "",
   });
 
@@ -18,13 +18,17 @@ const SchoolManagementForm = () => {
   const handleChange = (e) => {
     setSchoolManagement({
       ...schoolManagement,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   useEffect(() => {
-    apiGet(`/api/school-management/${id}`).then((data) => setSchoolManagement(data));
-  });
+    if (id) {
+      apiGet(`/api/school-management/${id}`).then((data) =>
+        setSchoolManagement(data)
+      );
+    }
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,7 +36,7 @@ const SchoolManagementForm = () => {
       apiPut(`/api/school-managament/${id}/edit`, schoolManagement)
         .then(() => navigate("/admin/kontakty/vedeni-skoly"))
         .catch((error) => {
-          console.log(error);
+          console.log(error.message);
           setError({ message: "prosím vyplňte všechna pole" });
         });
     } else {
@@ -130,7 +134,11 @@ const SchoolManagementForm = () => {
           >
             Uložit
           </button>
-          <button className="btn btn-warning" onClick={handleGoBack}>
+          <button
+            type="button"
+            className="btn btn-warning"
+            onClick={() => navigate(-1)}
+          >
             Zpět
           </button>
         </div>
