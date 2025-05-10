@@ -14,11 +14,6 @@ const ArticleForm = () => {
   });
   const { id } = useParams();
   const navigate = useNavigate();
-  const [isPending, startTransition] = useTransition();
-
-  const handleGoBack = () => {
-    navigate(-1);
-  };
 
   useEffect(() => {
     if (id) {
@@ -39,6 +34,7 @@ const ArticleForm = () => {
 
   return (
     <div className="container-content">
+      {id ? <h1>Upravit článek</h1> : <h1>Nový článek</h1>}
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label>Titulek</label>
@@ -71,7 +67,7 @@ const ArticleForm = () => {
         <button type="submit" className="btn btn-info">
           Odeslat
         </button>
-        <button className="btn btn-warning ms-2" onClick={handleGoBack}>
+        <button type="button" className="btn btn-warning ms-2" onClick={() => navigate(-1)}>
           Zpět
         </button>
       </form>

@@ -3,23 +3,35 @@ import { useState, useEffect } from "react";
 import { apiGet } from "../../utils/api";
 import { Link } from "react-router-dom";
 
-export const BasicDataIndex = ({isEditable}) => {
+export const BasicDataIndex = ({ isEditable }) => {
   const [basicData, setBasicData] = useState([]);
-  const basicDataSet = new Map([
-    ["director", "Ředitel"],
-    ["deputyDirector", "Zástupce ředitele"],
-    ["legalForm", "Právní forma"],
-  ]);
+  const [director, setDirector] = useState({});
+  const [deputyDirector, setDeputyDirector] = useState({});
 
   useEffect(() => {
     apiGet("/api/static/basic-data").then((data) => setBasicData(data));
+    apiGet("/api/school-management").then((data) =>
+      setDirector(data.filter((item) => item.managementType === "director")[0])
+    );
+    apiGet("/api/school-management").then((data) =>
+      setDeputyDirector(
+        data.filter((item) => item.managementType === "deputyDirector")[0]
+      )
+    );
   }, []);
 
   const locations = basicData.locationsOfEducation;
   return (
     <div className="container-content">
       <h1 className="mb-3">Základní údaje</h1>
-      {isEditable ? <Link className="btn btn-success" to={"/admin/o-skole/zakladni-udaje/upravit"}>Upravit</Link> : null}
+      {isEditable ? (
+        <Link
+          className="btn btn-success"
+          to={"/admin/o-skole/zakladni-udaje/upravit"}
+        >
+          Upravit
+        </Link>
+      ) : null}
       <table className="table">
         <tbody>
           <tr>
@@ -44,7 +56,9 @@ export const BasicDataIndex = ({isEditable}) => {
             <td className="my-table-background">
               <strong>Nejvyšší povolený počet žáků ve škole:</strong>
             </td>
-            <td className="my-table-background">{basicData.maxNumberOfStudents}</td>
+            <td className="my-table-background">
+              {basicData.maxNumberOfStudents}
+            </td>
           </tr>
           <tr>
             <td className="my-table-background">
@@ -64,13 +78,17 @@ export const BasicDataIndex = ({isEditable}) => {
             <td className="my-table-background">
               <strong>Ředitel</strong>
             </td>
-            <td className="my-table-background">{basicData.director}</td>
+            <td className="my-table-background">
+              {director.degree} {director.name}
+            </td>
           </tr>
           <tr>
             <td className="my-table-background">
               <strong>Zástupce ředitele:</strong>
             </td>
-            <td className="my-table-background">{basicData.deputyDirector}</td>
+            <td className="my-table-background">
+              {deputyDirector.degree} {deputyDirector.name}
+            </td>
           </tr>
           <tr>
             <td className="my-table-background">
@@ -82,13 +100,17 @@ export const BasicDataIndex = ({isEditable}) => {
             <td className="my-table-background">
               <strong>IČO:</strong>
             </td>
-            <td className="my-table-background">{basicData.taxIdentificationNumber}</td>
+            <td className="my-table-background">
+              {basicData.taxIdentificationNumber}
+            </td>
           </tr>
           <tr>
             <td className="my-table-background">
               <strong>IZO:</strong>
             </td>
-            <td className="my-table-background">{basicData.organizationIdentificationMark}</td>
+            <td className="my-table-background">
+              {basicData.organizationIdentificationMark}
+            </td>
           </tr>
           <tr>
             <td className="my-table-background">
@@ -203,12 +225,12 @@ export const StudyFocusIndex = () => {
   const [studyFocus, setStudyFocus] = useState("");
 
   useEffect(() => {
-    apiGet("/api/static/study-focus").then((data) => setStudyFocus(data))
-  })
+    apiGet("/api/static/study-focus").then((data) => setStudyFocus(data));
+  });
   return (
     <div className="container-content">
       <h1>Studijní zameření</h1>
-      <div dangerouslySetInnerHTML={{__html: studyFocus.content}}></div>
+      <div dangerouslySetInnerHTML={{ __html: studyFocus.content }}></div>
     </div>
   );
 };

@@ -23,6 +23,7 @@ import ArticleForm from "../pages/admin/ArticleForm";
 import StudyFocusForm from "../pages/admin/StudyFocusForm";
 import BasicDataForm from "../pages/admin/BasicDataForm";
 import SchoolManagementForm from "../pages/admin/SchoolManagementForm";
+import TeacherForm from "../pages/admin/TeacherForm";
 
 const AdminLayout = () => {
   return (
@@ -111,14 +112,24 @@ const AdminLayout = () => {
             />
             <Route
               path="/kontakty/vedeni-skoly/novy"
-              element={<SchoolManagementForm/>}
+              element={<SchoolManagementForm />}
             />
             <Route
               path="/kontakty/vedeni-skoly/:id/upravit"
-              element={<SchoolManagementForm/>}
+              element={<SchoolManagementForm />}
             />
           </Route>
-          <Route path="/kontakty/ucitele" element={<TeachersIndex />} />
+          <Route>
+            <Route
+              path="/kontakty/ucitele"
+              element={<TeachersIndex isEditable={true} />}
+            />
+            <Route path="/kontakty/ucitele/novy" element={<TeacherForm />} />
+            <Route
+              path="/kontakty/ucitele/:id/upravit"
+              element={<TeacherForm />}
+            />
+          </Route>
         </Routes>
       </div>
     </div>

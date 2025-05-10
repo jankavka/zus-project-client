@@ -1,19 +1,42 @@
 import React, { useEffect, useState } from "react";
-import { apiGet } from "../../utils/api";
+import { apiDelete, apiGet } from "../../utils/api";
 import { Link } from "react-router-dom";
 
 const SchoolManagementIndex = ({ isEditable }) => {
   const [schoolManagement, setSchoolManagement] = useState([]);
+  const [succesState, setScuccessState] = useState();
 
   useEffect(() => {
     apiGet("/api/school-management").then((data) => setSchoolManagement(data));
-    //console.log(schoolManagement);
+    if (schoolManagement.length !== 0) {
+      console.log(schoolManagement);
+    }
   }, []);
+
+  const handleDeleteMember = (id) => {
+    let aprove = confirm("Opravdu chcete vymazat záznam");
+    if (aprove) {
+      apiDelete(`/api/school-management/${id}/delete`)
+        .then(() => setScuccessState(true))
+        .catch((error) => console.log(error));
+    }
+    setSchoolManagement(schoolManagement.filter((item) => item.id != id));
+  };
 
   return (
     <div className="container-content">
       <h1>Vedení školy</h1>
-      {isEditable ? <Link to={"/admin/kontakty/vedeni-skoly/novy"} className="btn btn-success mb-3">Nový záznam</Link> : null}
+      {succesState ? (
+        <div className="alert alert-success">Záznam byl úspěšně vymazán</div>
+      ) : null}
+      {isEditable ? (
+        <Link
+          to={"/admin/kontakty/vedeni-skoly/novy"}
+          className="btn btn-success mb-3"
+        >
+          Nový záznam
+        </Link>
+      ) : null}
       <table className="table">
         <thead>
           <tr>
@@ -40,7 +63,23 @@ const SchoolManagementIndex = ({ isEditable }) => {
                 </span>
               </td>
               <td>
-                <Link className="btn btn-warning" to={`/admin/kontakty/vedeni-skoly/${member.id}/upravit`}>Upravit</Link>
+                {isEditable ? (
+                  <div>
+                    <Link
+                      className="btn btn-warning me-3"
+                      to={`/admin/kontakty/vedeni-skoly/${member.id}/upravit`}
+                    >
+                      Upravit
+                    </Link>
+
+                    <button
+                      onClick={() => handleDeleteMember(member.id)}
+                      className="btn btn-danger"
+                    >
+                      Vymazat
+                    </button>
+                  </div>
+                ) : null}
               </td>
             </tr>
           ))}

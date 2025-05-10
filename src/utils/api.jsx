@@ -5,7 +5,7 @@ const fetchData = async (apiUrl, requestOptions) => {
   await fetch(apiUrl, requestOptions).then((response) => {
     if (!response.ok) {
       const errorResponse = response.json();
-      throw new Error("Network error" + errorResponse.message);
+      throw new Error("Network error " + errorResponse.message);
     }
     response.json();
   });
@@ -57,8 +57,6 @@ export const apiPut = async (url, data) => {
   };
 
   const apiUrl = `${API_URL}${url}`;
-  const json = await fetch(apiUrl, requestOptions).then((response) =>
-    response.json()
-  );
+  const json = fetchData(apiUrl, requestOptions);
   return json;
 };

@@ -119,7 +119,7 @@ const PublicLayout = () => {
                   path="/kontakty/vedeni-skoly"
                   element={<SchoolManagementIndex isEditable={false} />}
                 />
-                <Route path="/kontakty/ucitele" element={<TeachersIndex />} />
+                <Route path="/kontakty/ucitele" element={<TeachersIndex isEditable={false} />} />
               </Route>
               <Route path="/kalendar" index element={<CalendarComplete />} />
             </Routes>
