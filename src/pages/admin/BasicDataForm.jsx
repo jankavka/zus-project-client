@@ -1,33 +1,107 @@
 import { useEffect, useState } from "react";
 import { apiGet, apiPost } from "../../utils/api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const BasicDataForm = () => {
   const [basicData, setBasicData] = useState({
     schoolName: "",
-    address: ""
+    address: "",
+    legalForm: "",
+    maxNumberOfStudents: "",
+    founder: "",
+    taxIdentificationNumber: "",
+    organizationIdentificationMark: "",
+    idNumber: "",
+    dataBox: "",
+    accountNumber: "",
   });
   const navigate = useNavigate();
+  const [director, setDirector] = useState({});
+  const [deputyDirector, setDeputyDirector] = useState({});
+  const [fieldCounter, setFieldCounter] = useState(1);
+  const [locationsOfEducation, setLocationsOfEducation] = useState([
+    " ",
+    " ",
+    " ",
+    " ",
+    " ",
+  ]);
 
   useEffect(() => {
     apiGet("/api/static/basic-data").then((data) => setBasicData(data));
-    console.log(basicData);
+    apiGet("/api/static/basic-data").then((data) =>
+      setLocationsOfEducation(data.locationsOfEducation)
+    );
+    apiGet("/api/static/basic-data").then((data) =>
+      setFieldCounter(
+        data.locationsOfEducation.filter((item) => item !== " ").length
+      )
+    );
+    apiGet("/api/school-management").then((data) =>
+      setDirector(
+        data.filter((member) => member.managementType === "director")[0]
+      )
+    );
+    apiGet("/api/school-management").then((data) =>
+      setDeputyDirector(
+        data.filter((member) => member.managementType === "deputyDirector")[0]
+      )
+    );
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    apiPost("/api/static/basic-data/create-or-edit", basicData ).then(() =>
+    const body = {
+      ...basicData,
+      locationsOfEducation,
+    };
+    apiPost("/api/static/basic-data/create-or-edit", body).then(() =>
       navigate("/admin/o-skole/zakladni-udaje")
     );
   };
 
+  useEffect(() => {
+    console.log("locations in basic data: " + locationsOfEducation);
+  }, [locationsOfEducation]);
+
   const onChange = (e) => {
-    setBasicData({...basicData, [e.target.name]: e.target.value})
-  }
+    setBasicData({ ...basicData, [e.target.name]: e.target.value });
+  };
 
   const handleGoBack = () => {
     navigate(-1);
-  }
+  };
+
+  const addInput = () => {
+    if (fieldCounter < 5) {
+      setFieldCounter((prev) => prev + 1);
+    } else {
+      alert("Dosažen maximální počet lokací");
+    }
+    console.log(fieldCounter);
+  };
+
+  const removeInput = (index) => {
+    if (fieldCounter > 1) {
+      setFieldCounter((prev) => prev - 1);
+      setLocationsOfEducation((prev) => {
+        let newLocations = prev;
+        newLocations[index] = " ";
+        return [...newLocations]
+      }
+      )
+    } else {
+      alert("Dosažen minimální počet lokací (1)");
+    }
+  };
+
+  const handleLocationsChange = (e, index) => {
+    setLocationsOfEducation((prev) => {
+      let newLocations = prev;
+      newLocations[index] = e.target.value;
+      return [...newLocations];
+    });
+  };
 
   return (
     <div>
@@ -37,10 +111,7 @@ const BasicDataForm = () => {
           <input
             className="form-control"
             value={basicData.schoolName}
-            name= "schoolName"
-            // onChange={(e) =>
-            //   setBasicData({ ...basicData, schoolName: e.target.value })
-            // }
+            name="schoolName"
             onChange={(e) => onChange(e)}
           />
         </div>
@@ -58,7 +129,7 @@ const BasicDataForm = () => {
           <input
             className="form-control"
             name="legalForm"
-            value={basicData.legaForm}
+            value={basicData.legalForm}
             onChange={(e) => onChange(e)}
           />
         </div>
@@ -73,32 +144,36 @@ const BasicDataForm = () => {
         </div>
         <div>
           <label>Místa poskytovaného vzdělávání</label>
-          <input
-            className="form-control"
-            value={basicData.locationsOfeducation}
-            name="locationsOfEducation"
-            onChange={(e) => onChange(e)}
-          />
+          <div>
+            <button
+              className="btn btn-info mb-3"
+              type="button"
+              onClick={addInput}
+            >
+              Přidej pole
+            </button>
+            {Array.from(Array(fieldCounter)).map((item, index) => {
+              console.log(index);
+              //console.log(item)
+              return (
+                <div>
+                  <input
+                    className="form-control mb-3"
+                    key={index}
+                    name={item}
+                    type="text"
+                    onChange={(e) => handleLocationsChange(e, index)}
+                    value={locationsOfEducation[index]}
+                  />
+                  <button onClick={() => removeInput(index)} type="button">
+                    Odebrat
+                  </button>
+                </div>
+              );
+            })}
+          </div>
         </div>
-        <div>
-          <label>Ředitel</label>
-          <input
-            className="form-control"
-            name="director"
-            value={basicData.director}
-            onChange={(e) => onChange(e)}
-          />
-        </div>
-        <div>
-          <label>Zástupce ředitele</label>
-          <input
-            className="form-control"
-            type="text"
-            value={basicData.deputyDirector}
-            name="deputyDirector"
-            onChange={(e) => onChange(e)}
-          />
-        </div>
+        <div></div>
         <div>
           <label>Zřizovatel</label>
           <input
@@ -159,9 +234,32 @@ const BasicDataForm = () => {
             onChange={(e) => onChange(e)}
           />
         </div>
+        <div>
+          <Link to={"/admin/kontakty/vedeni-skoly"}><h2>Vedení školy</h2></Link>
+          <table className="table">
+            <tbody>
+              <tr>
+                <td>Ředitel</td>
+                <td><Link to={"/admin/kontaky/vedeni-skoly/" + director.id}>{director.degree} {director.name}</Link></td>
+              </tr>
+              <tr>
+                <td>Zástupce Ředitele</td>
+                <td><Link to={"/admin/kontaky/vedeni-skoly/" + deputyDirector.id}>{director.degree} {director.name}</Link></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <div className="mt-3">
-          <button type="submit" className="btn btn-success me-3">Uložit</button>
-          <button className="btn btn-warning" onClick={handleGoBack}>Zpět</button>
+          <button type="submit" className="btn btn-success me-3">
+            Uložit
+          </button>
+          <button
+            type="button"
+            className="btn btn-warning"
+            onClick={handleGoBack}
+          >
+            Zpět
+          </button>
         </div>
       </form>
     </div>

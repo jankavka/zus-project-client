@@ -66,12 +66,14 @@ export const BasicDataIndex = ({ isEditable }) => {
             </td>
             <td className="my-table-background">
               {locations &&
-                locations.map((value, index) => (
-                  <span key={index}>
-                    {index + 1 + "."} {value}
-                    <br />
-                  </span>
-                ))}
+                locations
+                  .filter((item) => item != false)
+                  .map((value, index) => (
+                    <span key={index}>
+                      {index + 1 + "."} {value}
+                      <br />
+                    </span>
+                  ))}
             </td>
           </tr>
           <tr>
@@ -79,7 +81,15 @@ export const BasicDataIndex = ({ isEditable }) => {
               <strong>Ředitel</strong>
             </td>
             <td className="my-table-background">
-              {director.degree} {director.name}
+              {isEditable ? (
+                <Link to={`/admin/kontakty/vedeni-skoly/${director.id}`}>
+                  {director.degree} {director.name}
+                </Link>
+              ) : (
+                <Link to={`/kontakty/vedeni-skoly/${director.id}`}>
+                  {director.degree} {director.name}
+                </Link>
+              )}
             </td>
           </tr>
           <tr>
@@ -87,7 +97,11 @@ export const BasicDataIndex = ({ isEditable }) => {
               <strong>Zástupce ředitele:</strong>
             </td>
             <td className="my-table-background">
-              {deputyDirector.degree} {deputyDirector.name}
+              {isEditable ? <Link to={`/admin/kontakty/vedeni-skoly/${deputyDirector.id}`}>
+                {deputyDirector.degree} {deputyDirector.name}
+              </Link> : <Link to={`/kontakty/vedeni-skoly/${deputyDirector.id}`}>
+                {deputyDirector.degree} {deputyDirector.name}
+              </Link>}
             </td>
           </tr>
           <tr>
