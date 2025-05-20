@@ -31,6 +31,7 @@ import NavLinks from "../components/NavLinks";
 import CalendarBasic from "../components/CalendarBasic";
 import CalendarComplete from "../pages/public/CalendarComplete";
 import SchoolManagementDeatil from "../pages/public/SchoolManagementDetail";
+import SchoolFeeForm from "../pages/admin/SchoolFeeForm";
 
 const PublicLayout = () => {
   return (
@@ -60,7 +61,7 @@ const PublicLayout = () => {
                 />
                 <Route
                   path="/o-skole/historie-a-soucasnost"
-                  element={<HistoryAndPresentIndex />}
+                  element={<HistoryAndPresentIndex isEditable={false} />}
                 />
                 <Route
                   path="/o-skole/studijni-zamereni"
@@ -75,15 +76,15 @@ const PublicLayout = () => {
               <Route path="/pro-rodice-a-zaky">
                 <Route
                   path="/pro-rodice-a-zaky/rozvrh-kolektivni-vyuky"
-                  element={<GroupTrainingScheduleIndex />}
+                  element={<GroupTrainingScheduleIndex isEditable={false} />}
                 />
                 <Route
                   path="/pro-rodice-a-zaky/hudebni-nauka"
-                  element={<MusicTheoryIndex />}
+                  element={<MusicTheoryIndex isEditable={false} />}
                 />
                 <Route
                   path="/pro-rodice-a-zaky/skolne"
-                  element={<SchoolFeeIndex />}
+                  element={<SchoolFeeIndex isEditable={false} />}
                 />
               </Route>
 
@@ -95,11 +96,11 @@ const PublicLayout = () => {
               <Route path="/uredni-deska">
                 <Route
                   path="/uredni-deska/ochrana-osobnich-udaju"
-                  element={<PersonalDataProtectionIndex />}
+                  element={<PersonalDataProtectionIndex isEditable={false} />}
                 />
                 <Route
                   path="/uredni-deska/povinne-info"
-                  element={<RequiredInforamtionIndex />}
+                  element={<RequiredInforamtionIndex isEditable={false} />}
                 />
                 <Route
                   path="/uredni-deska/skolni-vzdelavaci-program"
@@ -120,8 +121,14 @@ const PublicLayout = () => {
                   path="/kontakty/vedeni-skoly"
                   element={<SchoolManagementIndex isEditable={false} />}
                 />
-                <Route path="/kontakty/vedeni-skoly/:id" element={<SchoolManagementDeatil isEditable={false}/>}/>
-                <Route path="/kontakty/ucitele" element={<TeachersIndex isEditable={false} />} />
+                <Route
+                  path="/kontakty/vedeni-skoly/:id"
+                  element={<SchoolManagementDeatil isEditable={false} />}
+                />
+                <Route
+                  path="/kontakty/ucitele"
+                  element={<TeachersIndex isEditable={false} />}
+                />
               </Route>
               <Route path="/kalendar" index element={<CalendarComplete />} />
             </Routes>

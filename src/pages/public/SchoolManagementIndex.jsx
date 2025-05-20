@@ -49,7 +49,7 @@ const SchoolManagementIndex = ({ isEditable }) => {
           {schoolManagement.map((member, index) => (
             <tr key={index}>
               <td>
-                {member.degree} {member.name}
+                <Link to={`/kontakty/vedeni-skoly/${member.id}`}>{member.degree} {member.name}</Link>
               </td>
               <td>
                 <span>{member.telNumber}</span>

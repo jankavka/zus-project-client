@@ -55,7 +55,7 @@ const SchoolManagementDeatil = ({ isEditable }) => {
       {isEditable ? (
         <div className="mb-3">
           <Link
-            className="btn btn-warning"
+            className="btn btn-warning me-3"
             to={`/kontakty/vedeni-skoly/${id}/upravit`}
           >
             Upravit
@@ -69,7 +69,7 @@ const SchoolManagementDeatil = ({ isEditable }) => {
           </button>
         </div>
       ) : null}
-      <button onClick={() => navigate(-1)} type="button">
+      <button onClick={() => navigate(-1)} className="btn btn-info" type="button">
         {" "}
         Zpět
       </button>

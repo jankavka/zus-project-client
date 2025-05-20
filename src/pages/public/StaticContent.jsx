@@ -97,11 +97,15 @@ export const BasicDataIndex = ({ isEditable }) => {
               <strong>Zástupce ředitele:</strong>
             </td>
             <td className="my-table-background">
-              {isEditable ? <Link to={`/admin/kontakty/vedeni-skoly/${deputyDirector.id}`}>
-                {deputyDirector.degree} {deputyDirector.name}
-              </Link> : <Link to={`/kontakty/vedeni-skoly/${deputyDirector.id}`}>
-                {deputyDirector.degree} {deputyDirector.name}
-              </Link>}
+              {isEditable ? (
+                <Link to={`/admin/kontakty/vedeni-skoly/${deputyDirector.id}`}>
+                  {deputyDirector.degree} {deputyDirector.name}
+                </Link>
+              ) : (
+                <Link to={`/kontakty/vedeni-skoly/${deputyDirector.id}`}>
+                  {deputyDirector.degree} {deputyDirector.name}
+                </Link>
+              )}
             </td>
           </tr>
           <tr>
@@ -115,7 +119,7 @@ export const BasicDataIndex = ({ isEditable }) => {
               <strong>IČO:</strong>
             </td>
             <td className="my-table-background">
-              {basicData.taxIdentificationNumber}
+              {basicData.identificationNumber}
             </td>
           </tr>
           <tr>
@@ -150,7 +154,7 @@ export const BasicDataIndex = ({ isEditable }) => {
   );
 };
 
-export const GroupTrainingScheduleIndex = () => {
+export const GroupTrainingScheduleIndex = ({ isEditable }) => {
   const [schedule, setSchedule] = useState({});
 
   useEffect(() => {
@@ -162,12 +166,20 @@ export const GroupTrainingScheduleIndex = () => {
   return (
     <div className="container-content">
       <h1>Rozvrh kolektivní výuky</h1>
-      <p>{schedule.content}</p>
+      {isEditable ? (
+        <Link
+          className="btn btn-warning mb-3"
+          to={"/admin/pro-rodice-a-zaky/rozvrh-kolektivni-vyuky/upravit"}
+        >
+          Upravit
+        </Link>
+      ) : null}
+      <div dangerouslySetInnerHTML={{ __html: schedule.content }}></div>
     </div>
   );
 };
 
-export const HistoryAndPresentIndex = () => {
+export const HistoryAndPresentIndex = ({ isEditable }) => {
   const [historyAndPresent, setHistoryAndPresent] = useState({});
 
   useEffect(() => {
@@ -179,12 +191,22 @@ export const HistoryAndPresentIndex = () => {
   return (
     <div className="container-content">
       <h1>Historie a současnost</h1>
-      <p>{historyAndPresent.content}</p>
+      <div
+        dangerouslySetInnerHTML={{ __html: historyAndPresent.content }}
+      ></div>
+      {isEditable ? (
+        <Link
+          className="btn btn-warning"
+          to="/admin/o-skole/historie-a-soucasnost/upravit"
+        >
+          Upravit
+        </Link>
+      ) : null}
     </div>
   );
 };
 
-export const MusicTheoryIndex = () => {
+export const MusicTheoryIndex = ({ isEditable }) => {
   const [musicTheory, setMusicTheory] = useState({});
 
   useEffect(() => {
@@ -194,12 +216,20 @@ export const MusicTheoryIndex = () => {
   return (
     <div className="container-content">
       <h1>Hudební Nauka</h1>
-      <p>{musicTheory.content}</p>
+      {isEditable ? (
+        <Link
+          className="btn btn-warning"
+          to={"/admin/pro-rodice-a-zaky/hudebni-nauka/upravit"}
+        >
+          Upravit
+        </Link>
+      ) : null}
+      <div dangerouslySetInnerHTML={{ __html: musicTheory.content }}></div>
     </div>
   );
 };
 
-export const PersonalDataProtectionIndex = () => {
+export const PersonalDataProtectionIndex = ({isEditable}) => {
   const [personalDataProtection, setPersonalDataProtection] = useState({});
 
   useEffect(() => {
@@ -211,13 +241,18 @@ export const PersonalDataProtectionIndex = () => {
   return (
     <div className="container-content">
       <h1>Ochrana osobních údajů</h1>
-      <p>{personalDataProtection.content}</p>
+      {isEditable ? <Link className="btn btn-warning mb-3" to={"/admin/uredni-deska/ochrana-osobnich-udaju/upravit"}>Upravit</Link> : null}
+      <div dangerouslySetInnerHTML={{__html: personalDataProtection.content}}></div>
     </div>
   );
 };
 
-export const RequiredInforamtionIndex = () => {
-  const [requiredInformation, setRequiredInformation] = useState({});
+export const RequiredInforamtionIndex = ({ isEditable }) => {
+  const [requiredInformation, setRequiredInformation] = useState({
+    organizationalStructure: [],
+    regulations: [],
+    annualReport: [],
+  });
   //set loading of specific part of object from API, Oficiální název, Kontaktní poštovní adresa
   const [basicData, setBasicData] = useState({});
 
@@ -231,11 +266,130 @@ export const RequiredInforamtionIndex = () => {
   return (
     <div className="container-content">
       <h1>Povinně zveřejňované informace</h1>
+      {isEditable ? (
+        <Link
+          className="btn btn-warning mb-3"
+          to="/admin/uredni-deska/povinne-info/upravit"
+        >
+          Upravit
+        </Link>
+      ) : null}
+      <ul>
+        <li>
+          <strong>Oficiální název:</strong> {basicData.schoolName}
+        </li>
+        <li>
+          <strong>Důvod a způsob založení: </strong>{" "}
+          {requiredInformation.founding}
+        </li>
+        <li>
+          <strong>Organizační struktura: </strong>
+          <ul>
+            {requiredInformation.organizationalStructure.map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+          </ul>
+        </li>
+        <li>
+          <strong>Kontakntí spojení</strong>
+          <ul>
+            <li>Kontaktní poštovní adresa: {basicData.address} </li>
+            <li>Úřední hodiny: {requiredInformation.officeHours} </li>
+            <li>Telefonní čísla: {requiredInformation.telNumbers} </li>
+            <li>
+              Adresa internetových stránek: {requiredInformation.website}{" "}
+            </li>
+            <li>Adresa podatelny: {basicData.address}</li>
+            <li>
+              Elektronická adresa podatelny: {basicData.emailMailingAddress}{" "}
+            </li>
+            <li>Datová schránka: {basicData.dataBox}</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Bankovní spojení: </strong>
+          {basicData.accountNumber}
+        </li>
+        <li>
+          <strong>IČO: </strong>
+          {basicData.identificationNumber}
+        </li>
+        <li>
+          <strong>DIČ: </strong>
+          {basicData.taxIdentificationNumber}
+        </li>
+        <li>
+          <strong>Dokumenty: </strong>Viz menu úřední deska
+        </li>
+        <li>
+          <strong>Žádosti o informace: </strong>
+          <ul>
+            <li>
+              prostřednictvím elektronické pošty:{" "}
+              {basicData.eamilMailingAddress}
+            </li>
+            <li>prostřednictvím datové schránky: {basicData.dataBox}</li>
+            <li>písemně na adresu: {basicData.address}</li>
+            <li>osobně: v sídle organizace na výše uvedené adrese</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Příjem a podání podnětů: </strong>
+          <ul>
+            <li>
+              Osoba určená k přijímání žádosti a vyřizování stížností, podnětů a
+              oznámení:
+              <ul>
+                <li>{requiredInformation.submissionsAndSuggestions}</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Předpisy: </strong>
+          <ul>
+            <li>
+              Nejdůležitější používané předpisy:
+              <ul>
+                {requiredInformation.regulations
+                  .filter((item) => item !== " ")
+                  .map((item, index) => (
+                    <li key={index}>{item}</li>
+                  ))}
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Úhrady za poskytování informací: </strong>
+          <ul>
+            <li>
+              Sazebník úhrad za poskytování informací:
+              <ul>
+                <li>{requiredInformation.paymentsForProvidingInformation}</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Licenční smlouvy: </strong>{" "}
+          {requiredInformation.licenseAgreements}
+        </li>
+        <li>
+          <strong>Výroční zpráva podle zákona č. 106/1999 Sb.:</strong>
+          <ul>
+            {requiredInformation &&
+              requiredInformation.annualReport
+                .filter((item) => item !== " ")
+                .map((item, index) => <li key={index}>{item}</li>)}
+          </ul>
+        </li>
+      </ul>
     </div>
   );
 };
 
-export const StudyFocusIndex = () => {
+export const StudyFocusIndex = (isEditable) => {
   const [studyFocus, setStudyFocus] = useState("");
 
   useEffect(() => {
@@ -244,12 +398,20 @@ export const StudyFocusIndex = () => {
   return (
     <div className="container-content">
       <h1>Studijní zameření</h1>
+      {isEditable ? (
+        <Link
+          className="btn btn-warning mb-3"
+          to={"/admin/o-skole/studijni-zamereni/upravit"}
+        >
+          Upravit
+        </Link>
+      ) : null}
       <div dangerouslySetInnerHTML={{ __html: studyFocus.content }}></div>
     </div>
   );
 };
 
-export const SchoolFeeIndex = () => {
+export const SchoolFeeIndex = ({isEditable}) => {
   const [schoolFee, setSchoolFee] = useState({});
 
   useEffect(() => {
@@ -259,7 +421,8 @@ export const SchoolFeeIndex = () => {
   return (
     <div className="container-content">
       <h1>Školné</h1>
-      <p>{schoolFee.content}</p>
+      {isEditable ? <Link className="btn btn-warning mb-3" to={"/admin/pro-rodice-a-zaky/skolne/upravit"}>Upravit</Link> :null}
+      <div dangerouslySetInnerHTML={{__html: schoolFee.content}}></div>
     </div>
   );
 };

@@ -7,7 +7,7 @@ const fetchData = async (apiUrl, requestOptions) => {
       const errorResponse = response.json();
       throw new Error("Network error " + errorResponse.message);
     }
-    response.json();
+    return response.json();
   });
 };
 

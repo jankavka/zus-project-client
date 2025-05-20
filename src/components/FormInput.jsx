@@ -1,0 +1,28 @@
+const FormInput = ({ label, name, value, onChange, isInput=true}) => {
+  return (
+    <div>
+      <label htmlFor={name}>{label}</label>
+      {isInput ? (
+        <input
+          onChange={onChange}
+          value={value}
+          id={name}
+          name={name}
+          className="form-control mb-2"
+          type="text"
+        />
+      ) : (
+        <textarea
+          onChange={onChange}
+          value={value}
+          name={name}
+          className="form-control"
+          type="text"
+          style={{minHeight: "150px"}}
+        />
+      )}
+    </div>
+  );
+};
+
+export default FormInput;
