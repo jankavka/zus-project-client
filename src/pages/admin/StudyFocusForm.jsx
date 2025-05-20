@@ -19,14 +19,15 @@ const StudyFocusForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(studyFocus)
-    apiPut("/api/static/update/study-focus", studyFocus);
-    navigate("/admin/o-skole/studijni-zamereni");
+    console.log(studyFocus);
+    apiPut("/api/static/update/study-focus", studyFocus)
+      .catch((error) => console.log(error))
+      .then(() => navigate("/admin/o-skole/studijni-zamereni"));
   };
 
   const hadnleGoBack = () => {
     navigate(-1);
-  }
+  };
 
   return (
     <div className="container-content">
@@ -61,7 +62,9 @@ const StudyFocusForm = () => {
         <button type="submit" className="btn btn-info">
           Odeslat
         </button>
-        <button className="btn btn-warning ms-3" onClick={hadnleGoBack}>Zpět</button>
+        <button className="btn btn-warning ms-3" onClick={hadnleGoBack}>
+          Zpět
+        </button>
       </form>
     </div>
   );

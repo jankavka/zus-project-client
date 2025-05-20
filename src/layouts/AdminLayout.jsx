@@ -25,6 +25,12 @@ import BasicDataForm from "../pages/admin/BasicDataForm";
 import SchoolManagementForm from "../pages/admin/SchoolManagementForm";
 import TeacherForm from "../pages/admin/TeacherForm";
 import SchoolManagementDeatil from "../pages/public/SchoolManagementDetail";
+import HistoryAndPresentForm from "../pages/admin/HistoryAndPresentForm";
+import RequiredInforamtionForm from "../pages/admin/RequiredInformationForm";
+import GroupTrainingScheduleForm from "../pages/admin/GroupTrainingScheduleForm";
+import MusicTheoryForm from "../pages/admin/MusicTheoryForm";
+import SchoolFeeForm from "../pages/admin/SchoolFeeForm";
+import PersonalDataProtectionForm from "../pages/admin/PersonalDataProtectionForm";
 
 const AdminLayout = () => {
   return (
@@ -56,7 +62,11 @@ const AdminLayout = () => {
           </Route>
           <Route
             path="/o-skole/historie-a-soucasnost"
-            element={<HistoryAndPresentIndex />}
+            element={<HistoryAndPresentIndex isEditable={true} />}
+          />
+          <Route
+            path="/o-skole/historie-a-soucasnost/upravit"
+            element={<HistoryAndPresentForm />}
           />
           <Route>
             <Route
@@ -76,27 +86,46 @@ const AdminLayout = () => {
 
           <Route
             path="/pro-rodice-a-zaky/rozvrh-kolektivni-vyuky"
-            element={<GroupTrainingScheduleIndex />}
+            element={<GroupTrainingScheduleIndex isEditable={true} />}
+          />
+          <Route
+            path="/pro-rodice-a-zaky/rozvrh-kolektivni-vyuky/upravit"
+            element={<GroupTrainingScheduleForm />}
           />
           <Route
             path="/pro-rodice-a-zaky/hudebni-nauka"
-            element={<MusicTheoryIndex />}
+            element={<MusicTheoryIndex isEditable={true} />}
+          />
+          <Route
+            path="/pro-rodice-a-zaky/hudebni-nauka/upravit"
+            element={<MusicTheoryForm />}
           />
           <Route
             path="/pro-rodice-a-zaky/skolne"
-            element={<SchoolFeeIndex />}
+            element={<SchoolFeeIndex isEditable={true} />}
           />
-
+          <Route
+            path="/pro-rodice-a-zaky/skolne/upravit"
+            element={<SchoolFeeForm />}
+          />
           <Route path="/galerie/foto" element={<FotoIndex />} />
           <Route path="/galerie/video" element={<VideoIndex />} />
 
           <Route
             path="/uredni-deska/ochrana-osobnich-udaju"
-            element={<PersonalDataProtectionIndex />}
+            element={<PersonalDataProtectionIndex isEditable={true} />}
           />
           <Route
-            path="/uredni-deska/povinne-zverejnovane/informace"
-            element={<RequiredInforamtionIndex />}
+            path="/uredni-deska/ochrana-osobnich-udaju/upravit"
+            element={<PersonalDataProtectionForm />}
+          />
+          <Route
+            path="/uredni-deska/povinne-info"
+            element={<RequiredInforamtionIndex isEditable={true} />}
+          />
+          <Route
+            path="/uredni-deska/povinne-info/upravit"
+            element={<RequiredInforamtionForm />}
           />
           <Route
             path="/uredni-deska/skolni-rad"
@@ -117,7 +146,7 @@ const AdminLayout = () => {
             />
             <Route
               path="/kontakty/vedeni-skoly/:id"
-              element= {<SchoolManagementDeatil isEditable={true}/>}
+              element={<SchoolManagementDeatil isEditable={true} />}
             />
             <Route
               path="/kontakty/vedeni-skoly/:id/upravit"

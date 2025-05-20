@@ -20,7 +20,7 @@ const AdminNavLinks = () => {
         { label: "Základní údaje", link: "/admin/o-skole/zakladni-udaje" },
         {
           label: "Historie a současnost",
-          link: "admin/o-skole/historie-a-soucasnost",
+          link: "/admin/o-skole/historie-a-soucasnost",
         },
         { label: "Studijní zaměření", link: "/admin/o-skole/studijni-zamereni" },
         { label: "Úspěchy školy", link: "/admin/o-skole/uspechy-skoly" },

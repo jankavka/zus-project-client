@@ -15,6 +15,7 @@ const SchoolManagementForm = () => {
   });
 
   const [error, setError] = useState();
+
   const handleChange = (e) => {
     setSchoolManagement({
       ...schoolManagement,
@@ -128,7 +129,6 @@ const SchoolManagementForm = () => {
         </div>
         <div>
           <button
-            onClick={handleSubmit}
             className="btn btn-success me-3"
             type="submit"
           >

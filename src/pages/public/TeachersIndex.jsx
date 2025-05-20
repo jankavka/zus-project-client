@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { apiGet, apiDelete } from "../../utils/api";
 import { Link } from "react-router-dom";
 
-const TeachersIndex = (isEditable) => {
+const TeachersIndex = ({ isEditable }) => {
   const [teachers, setTeachers] = useState([]);
 
   const deleteTeacher = (id) => {
@@ -50,18 +50,22 @@ const TeachersIndex = (isEditable) => {
                   <span> {teacher.telNumber}</span>
                 </td>
                 <td>
-                  <Link
-                    to={`/admin/kontakty/ucitele/${teacher.id}/upravit`}
-                    className="btn btn-warning me-3"
-                  >
-                    Upravit
-                  </Link>
-                  <button
-                    onClick={() => deleteTeacher(teacher.id)}
-                    className="btn btn-danger"
-                  >
-                    Vymazat
-                  </button>
+                  {isEditable ? (
+                    <div>
+                      <Link
+                        to={`/admin/kontakty/ucitele/${teacher.id}/upravit`}
+                        className="btn btn-warning me-3"
+                      >
+                        Upravit
+                      </Link>
+                      <button
+                        onClick={() => deleteTeacher(teacher.id)}
+                        className="btn btn-danger"
+                      >
+                        Vymazat
+                      </button>{" "}
+                    </div>
+                  ) : null}
                 </td>
               </tr>
             ))}

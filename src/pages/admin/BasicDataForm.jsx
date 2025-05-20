@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { apiGet, apiPost } from "../../utils/api";
 import { useNavigate, Link } from "react-router-dom";
+import formatDate from "../../components/formatDate";
+import { addInput, removeInput } from "../../components/InputManagement";
 
 const BasicDataForm = () => {
   const [basicData, setBasicData] = useState({
@@ -9,7 +11,7 @@ const BasicDataForm = () => {
     legalForm: "",
     maxNumberOfStudents: "",
     founder: "",
-    taxIdentificationNumber: "",
+    identificationNumber: "",
     organizationIdentificationMark: "",
     idNumber: "",
     dataBox: "",
@@ -19,13 +21,7 @@ const BasicDataForm = () => {
   const [director, setDirector] = useState({});
   const [deputyDirector, setDeputyDirector] = useState({});
   const [fieldCounter, setFieldCounter] = useState(1);
-  const [locationsOfEducation, setLocationsOfEducation] = useState([
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-  ]);
+  const [locationsOfEducation, setLocationsOfEducation] = useState([" "]);
 
   useEffect(() => {
     apiGet("/api/static/basic-data").then((data) => setBasicData(data));
@@ -72,29 +68,6 @@ const BasicDataForm = () => {
     navigate(-1);
   };
 
-  const addInput = () => {
-    if (fieldCounter < 5) {
-      setFieldCounter((prev) => prev + 1);
-    } else {
-      alert("Dosažen maximální počet lokací");
-    }
-    console.log(fieldCounter);
-  };
-
-  const removeInput = (index) => {
-    if (fieldCounter > 1) {
-      setFieldCounter((prev) => prev - 1);
-      setLocationsOfEducation((prev) => {
-        let newLocations = prev;
-        newLocations[index] = " ";
-        return [...newLocations]
-      }
-      )
-    } else {
-      alert("Dosažen minimální počet lokací (1)");
-    }
-  };
-
   const handleLocationsChange = (e, index) => {
     setLocationsOfEducation((prev) => {
       let newLocations = prev;
@@ -105,6 +78,8 @@ const BasicDataForm = () => {
 
   return (
     <div>
+      <h1>Základní údaje</h1>
+      <p>Naposledy upraveno: {formatDate(new Date(basicData.issuedDate))}</p>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Jméno školy</label>
@@ -148,26 +123,38 @@ const BasicDataForm = () => {
             <button
               className="btn btn-info mb-3"
               type="button"
-              onClick={addInput}
+              onClick={() => addInput(fieldCounter, setFieldCounter, 5)}
             >
               Přidej pole
             </button>
-            {Array.from(Array(fieldCounter)).map((item, index) => {
-              console.log(index);
-              //console.log(item)
+            {Array.from(Array(fieldCounter).keys()).map((item, index) => {
+              //console.log("index, item:" + index + " " + item);
               return (
-                <div>
+                <div key={index}>
                   <input
                     className="form-control mb-3"
-                    key={index}
                     name={item}
                     type="text"
                     onChange={(e) => handleLocationsChange(e, index)}
-                    value={locationsOfEducation[index]}
+                    value={locationsOfEducation[index] || " "}
                   />
-                  <button onClick={() => removeInput(index)} type="button">
-                    Odebrat
-                  </button>
+                  {index === fieldCounter - 1 ? (
+                    <button
+                      onClick={() =>
+                        removeInput(
+                          index,
+                          fieldCounter,
+                          setFieldCounter,
+                          setLocationsOfEducation
+                        )
+                      }
+                      type="button"
+                      className="btn btn-primary mb-3"
+                    >
+                      Odebrat pole
+                    </button>
+                  ) : null}
+                  <hr />
                 </div>
               );
             })}
@@ -189,8 +176,8 @@ const BasicDataForm = () => {
           <input
             className="form-control"
             type="text"
-            value={basicData.taxIdentificationNumber}
-            name="taxIdentificationNumber"
+            value={basicData.identificationNumber}
+            name="identificationNumber"
             onChange={(e) => onChange(e)}
           />
         </div>
@@ -235,16 +222,31 @@ const BasicDataForm = () => {
           />
         </div>
         <div>
-          <Link to={"/admin/kontakty/vedeni-skoly"}><h2>Vedení školy</h2></Link>
+          <div className="d-flex text-center align-items-end">
+            <h2 className="me-2">Vedení školy -</h2>
+            <Link to={"/admin/kontakty/vedeni-skoly"}>
+              <p>Detail</p>
+            </Link>
+          </div>
           <table className="table">
             <tbody>
               <tr>
                 <td>Ředitel</td>
-                <td><Link to={"/admin/kontaky/vedeni-skoly/" + director.id}>{director.degree} {director.name}</Link></td>
+                <td>
+                  <Link to={"/admin/kontakty/vedeni-skoly/" + director.id}>
+                    {director.degree} {director.name}
+                  </Link>
+                </td>
               </tr>
               <tr>
-                <td>Zástupce Ředitele</td>
-                <td><Link to={"/admin/kontaky/vedeni-skoly/" + deputyDirector.id}>{director.degree} {director.name}</Link></td>
+                <td>Zástupce ředitele</td>
+                <td>
+                  <Link
+                    to={"/admin/kontakty/vedeni-skoly/" + deputyDirector.id}
+                  >
+                    {deputyDirector.degree} {deputyDirector.name}
+                  </Link>
+                </td>
               </tr>
             </tbody>
           </table>
