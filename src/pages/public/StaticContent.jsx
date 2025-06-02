@@ -389,12 +389,12 @@ export const RequiredInforamtionIndex = ({ isEditable }) => {
   );
 };
 
-export const StudyFocusIndex = (isEditable) => {
+export const StudyFocusIndex = ({isEditable}) => {
   const [studyFocus, setStudyFocus] = useState("");
 
   useEffect(() => {
     apiGet("/api/static/study-focus").then((data) => setStudyFocus(data));
-  });
+  },[]);
   return (
     <div className="container-content">
       <h1>Studijní zameření</h1>

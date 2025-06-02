@@ -92,18 +92,21 @@ const CalendarComplete = () => {
   return (
     <div className="container-calendar">
       <h1 className="mb-3">Seznam akcí</h1>
-      <ul>
-        {events.length === 0 ? (
-          <LoadingText />
-        ) : (
-          events &&
-          events.map((event, index) => (
-            <li className="mb-2" key={index}>
-              {formatDate(new Date(event.start.dateTime.value))} - {event.summary}
-            </li>
-          ))
-        )}
-      </ul>
+      <div className="calendar-height">
+        <ul>
+          {events.length === 0 ? (
+            <LoadingText />
+          ) : (
+            events &&
+            events.map((event, index) => (
+              <li className="mb-2" key={index}>
+                {formatDate(new Date(event.start.dateTime.value))} -{" "}
+                {event.summary}
+              </li>
+            ))
+          )}
+        </ul>
+      </div>
       <div className=" row">
         <button className="col-5 my-button-previous" onClick={() => prevPage()}>
           předchozí strana

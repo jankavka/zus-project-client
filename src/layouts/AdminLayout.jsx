@@ -31,6 +31,9 @@ import GroupTrainingScheduleForm from "../pages/admin/GroupTrainingScheduleForm"
 import MusicTheoryForm from "../pages/admin/MusicTheoryForm";
 import SchoolFeeForm from "../pages/admin/SchoolFeeForm";
 import PersonalDataProtectionForm from "../pages/admin/PersonalDataProtectionForm";
+import SchoolYearIndex from "../pages/admin/SchoolYearIndex";
+import SchoolEducationProgramIndex from "../pages/public/SchoolEducationProgramIndex";
+import SchoolAchievementForm from "../pages/admin/SchoolAchievementForm";
 
 const AdminLayout = () => {
   return (
@@ -78,10 +81,22 @@ const AdminLayout = () => {
               element={<StudyFocusForm />}
             />
           </Route>
-          <Route path="/o-skole/základni-udaje" element={<BasicDataIndex />} />
+          <Route path="/o-skole/zakladni-udaje" element={<BasicDataIndex />} />
           <Route
             path="/o-skole/uspechy-skoly"
-            element={<SchoolAchievementsIndex />}
+            element={<SchoolAchievementsIndex forAdmin={true} />}
+          />
+          <Route
+            path="/o-skole/uspechy-skoly/upravit"
+            element={<SchoolAchievementForm/>}
+          />
+          <Route
+            path="/o-skole/uspechy-skoly/:id/upravit"
+            element={<SchoolAchievementForm/>}
+          />
+          <Route
+            path="/o-skole/uspechy-skoly/skolni-roky"
+            element={<SchoolYearIndex />}
           />
 
           <Route
@@ -130,6 +145,10 @@ const AdminLayout = () => {
           <Route
             path="/uredni-deska/skolni-rad"
             element={<SchoolRulesIndex />}
+          />
+          <Route
+            path="/uredni-deska/skolni-vzdelavaci-program"
+            element={<SchoolEducationProgramIndex isEditable={true} />}
           />
           <Route
             path="uredni-deska/vyrocni-zpravy"

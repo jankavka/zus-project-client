@@ -32,7 +32,7 @@ const RequiredInforamtionForm = () => {
     identificationNumber: "",
     taxIdentificationNumber: "",
   });
-  const navigate = useNavigate(-1);
+  const navigate = useNavigate();
 
   useEffect(() => {
     apiGet("/api/static/basic-data").then((data) => setBasicData(data));
@@ -378,11 +378,13 @@ const RequiredInforamtionForm = () => {
           </div>
         </div>
         <div>
-          <button type="submit" className="btn btn-success">
+          <button type="submit" className="btn btn-success me-3">
             Uložit
           </button>
+          <button className="btn btn-info" type="button" onClick={() => navigate(-1)}>Zpět</button>
         </div>
       </form>
+      
     </div>
   );
 };
