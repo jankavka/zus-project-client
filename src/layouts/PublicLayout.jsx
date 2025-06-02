@@ -69,7 +69,7 @@ const PublicLayout = () => {
                 />
                 <Route
                   path="/o-skole/uspechy-skoly"
-                  element={<SchoolAchievementsIndex />}
+                  element={<SchoolAchievementsIndex forAdmin={false} />}
                 />
               </Route>
 
@@ -104,7 +104,7 @@ const PublicLayout = () => {
                 />
                 <Route
                   path="/uredni-deska/skolni-vzdelavaci-program"
-                  element={<SchoolEducationProgramIndex />}
+                  element={<SchoolEducationProgramIndex isEditable={false} />}
                 />
                 <Route
                   path="/uredni-deska/vyrocni-zpravy"

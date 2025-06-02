@@ -51,10 +51,6 @@ const SchoolManagementForm = () => {
     }
   };
 
-  const handleGoBack = () => {
-    navigate(-1);
-  };
-
   const handleInputSelectChange = (e) => {
     let value = Array.from(e.target.selectedOptions, (item) => item.value);
     setSchoolManagement({ ...schoolManagement, managementType: value[0] });
@@ -118,7 +114,7 @@ const SchoolManagementForm = () => {
             className="form-select"
             multiple={false}
           >
-            <option disabled selected value="">
+            <option disabled value="">
               vyberte pozici
             </option>
             <option value={"director"}>{ManagementType["director"]}</option>

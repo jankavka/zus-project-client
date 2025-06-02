@@ -41,6 +41,10 @@ body {
     /*border: 1px solid black;*/
 }
 
+.calendar-height {
+    min-height: 20rem;
+}
+
 @media (max-width: 991px) {
     .container-calendar {
         max-width: 100%;

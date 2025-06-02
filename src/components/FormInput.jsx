@@ -16,6 +16,7 @@ const FormInput = ({ label, name, value, onChange, isInput=true}) => {
           onChange={onChange}
           value={value}
           name={name}
+          id={name}
           className="form-control"
           type="text"
           style={{minHeight: "150px"}}
