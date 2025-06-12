@@ -1,6 +1,6 @@
 import React from "react";
 import ArticlesIndex from "../pages/public/ArticlesIndex";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import {
   BasicDataIndex,
   GroupTrainingScheduleIndex,
@@ -34,6 +34,9 @@ import PersonalDataProtectionForm from "../pages/admin/PersonalDataProtectionFor
 import SchoolYearIndex from "../pages/admin/SchoolYearIndex";
 import SchoolEducationProgramIndex from "../pages/public/SchoolEducationProgramIndex";
 import SchoolAchievementForm from "../pages/admin/SchoolAchievementForm";
+import AlbumForm from "../pages/admin/AlbumForm";
+import ImagesForm from "../pages/admin/ImagesForm";
+import AlbumDetail from "../pages/public/AlbumDetail";
 
 const AdminLayout = () => {
   return (
@@ -42,6 +45,7 @@ const AdminLayout = () => {
       <div className="container-main">
         <h1 className="text-center">ADMIN</h1>
         <Routes>
+          <Route index element={<Navigate to={"/admin/o-skole/aktuality"} />}/>
           <Route>
             <Route
               path="/o-skole/aktuality"
@@ -123,7 +127,11 @@ const AdminLayout = () => {
             path="/pro-rodice-a-zaky/skolne/upravit"
             element={<SchoolFeeForm />}
           />
-          <Route path="/galerie/foto" element={<FotoIndex />} />
+          <Route path="/galerie/foto" element={<FotoIndex isEditable={true}/>} />
+          <Route path="/galerie/foto/nove-album" element={<AlbumForm/>}/>
+          <Route path="/galerie/foto/:albumName" element={<AlbumDetail isEditable={true}/>}/>
+          <Route path="/galerie/foto/pridat-foto" element={<ImagesForm/>} />
+          <Route path="/galerie/foto/pridat-foto/:albumNameParam" element={<ImagesForm/>}/>
           <Route path="/galerie/video" element={<VideoIndex />} />
 
           <Route
