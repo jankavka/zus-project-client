@@ -31,7 +31,7 @@ import NavLinks from "../components/NavLinks";
 import CalendarBasic from "../components/CalendarBasic";
 import CalendarComplete from "../pages/public/CalendarComplete";
 import SchoolManagementDeatil from "../pages/public/SchoolManagementDetail";
-import SchoolFeeForm from "../pages/admin/SchoolFeeForm";
+import AlbumDetail from "../pages/public/AlbumDetail";
 
 const PublicLayout = () => {
   return (
@@ -89,8 +89,15 @@ const PublicLayout = () => {
               </Route>
 
               <Route path="/galerie">
-                <Route path="/galerie/foto" element={<FotoIndex />} />
+                <Route
+                  path="/galerie/foto"
+                  element={<FotoIndex isEditable={false} />}
+                />
                 <Route path="/galerie/video" element={<VideoIndex />} />
+                <Route
+                  path="/galerie/foto/:albumName"
+                  element={<AlbumDetail isEditable={false} />}
+                />
               </Route>
 
               <Route path="/uredni-deska">

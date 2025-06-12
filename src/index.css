@@ -226,3 +226,16 @@ body>* {
 .my-table-background{
     background: var(--container-bg) !important;
 }
+
+.album-image{
+    max-width: 200px;
+    max-height: 200px;
+}
+
+.container-content-admin{
+    max-width: 1200px;
+    margin: 0 2rem 5rem 0;
+    background-color: var(--container-bg);
+    min-height: 700px;
+    padding: 3rem;
+}

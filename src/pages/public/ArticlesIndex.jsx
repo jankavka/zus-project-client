@@ -16,7 +16,7 @@ const ArticlesIndex = ({ isEditable }) => {
     let aprove = confirm("Opravdu chcete vymazat tento článek?");
     if (aprove) {
       apiDelete("/api/articles/delete/" + id);
-      navigate("/admin/o-skole/aktuality");
+      //navigate("/admin/o-skole/aktuality");
       setArticles(articles.filter((item) => item.id !== id));
     }
     
