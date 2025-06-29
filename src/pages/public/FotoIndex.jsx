@@ -11,6 +11,7 @@ const FotoIndex = ({ isEditable }) => {
     apiGet("/api/photos/all-albums-names").then((data) => setAlbumNames(data));
     apiGet("/api/photos/get-albums").then((data) => setAlbumsInfo(data));
     console.log(albumsInfo);
+    console.log(albumNames);
   }, []);
 
   useEffect(() => {
@@ -21,35 +22,27 @@ const FotoIndex = ({ isEditable }) => {
           description = albumsInfo[key].albumDescription;
         }
       }
-      apiGet(`/api/photos/get-images/${albumName}`).then((data) =>
+
+      apiGet("/api/photos/get-album/" + albumName).then((data) =>
         setPhotosInAlbums((prev) => {
           return {
             ...prev,
             [albumName]: {
-              //leadPictureUrl: `${API_URL}${data[0]?.url}` ,
-              leadPictureUrl:
-                data[0]?.url === undefined ? "" : `${API_URL}${data[0]?.url}`,
-              description: description,
+              leadPictureUrl: data.leadPictureUrl
+                ? `${API_URL}${data?.leadPictureUrl}`
+                : `${API_URL}${data.images[0].url}`,
+              description: data.albumDescription,
             },
           };
         })
       );
     });
     console.log(photosInAlbums);
+    //console.log(leadPictures)
   }, [albumNames, albumsInfo]);
 
-  const handleDeleteAlbum = (albumName) => {
-    let aprove = confirm("Opravdu chcete vymazat toto album?");
-    if (aprove) {
-      apiDelete(`/api/photos/delete-album/${albumName}`).then((data) =>
-        console.log(data)
-      );
-      setAlbumNames(albumNames.filter((album) => album !== albumName));
-    }
-  };
-
   return (
-    <div className={isEditable ? `container-content-admin` : `container-content`}>
+    <div className="container-content">
       <h1>Foto</h1>
       <div className="mb-3">
         {isEditable ? (
@@ -86,11 +79,7 @@ const FotoIndex = ({ isEditable }) => {
               >
                 <Link
                   style={{ textDecoration: "none" }}
-                  to={
-                    isEditable
-                      ? `/admin/galerie/foto/${albumName}`
-                      : `/galerie/foto/${albumName}`
-                  }
+                  to={`/galerie/foto/${albumName}`}
                 >
                   <div className="card mb-2" style={{ width: "18rem" }}>
                     {photosInAlbums[albumName]?.leadPictureUrl ? (
@@ -120,24 +109,6 @@ const FotoIndex = ({ isEditable }) => {
                     )}
                   </div>
                 </Link>
-                {isEditable ? (
-                  <div>
-                    <button
-                      type="button"
-                      className="btn btn-danger me-2"
-                      onClick={() => handleDeleteAlbum(albumName)}
-                    >
-                      Vymazat
-                    </button>
-                    <Link
-                      to={`/admin/galerie/foto/pridat-foto/${albumName}`}
-                      type="button"
-                      className="btn btn-success"
-                    >
-                      Přidat fotky
-                    </Link>
-                  </div>
-                ) : null}
               </div>
             ))
           : null}

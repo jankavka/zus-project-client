@@ -9,6 +9,7 @@ import {
 import PublicLayout from "./layouts/PublicLayout";
 import AdminLayout from "./layouts/AdminLayout";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import BackToTopButton from "./components/BackToTopButton";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/admin/*" element={<AdminLayout />} />
         </Routes>
       </Router>
+      <BackToTopButton/>
     </div>
   );
 }

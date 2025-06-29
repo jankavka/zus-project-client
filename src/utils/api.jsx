@@ -1,5 +1,5 @@
 export const API_URL = "http://localhost:8080";
-// export const API_URL = "http://10.0.0.3:8080"
+//export const API_URL = "http://10.0.0.3:8080"
 
 const fetchData = async (apiUrl, requestOptions) => {
   await fetch(apiUrl, requestOptions).then((response) => {

@@ -91,6 +91,7 @@ const AdminNavLinks = () => {
               {menu.map((item) => (
                 <Dropdown key={item.label} className="text-nav this-dropdown">
                   <DropdownToggle
+                  
                     id="dropdown-autoclose-true"
                     className="text-uppercase nav-buttons"
                   >
