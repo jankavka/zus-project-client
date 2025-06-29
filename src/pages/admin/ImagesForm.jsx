@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { apiGet } from "../../utils/api";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { API_URL } from "../../utils/api";
 
 const ImagesForm = () => {
@@ -9,16 +9,20 @@ const ImagesForm = () => {
   const [albums, setAlbums] = useState([]);
   const navigate = useNavigate();
   const [albumName, setAlbumName] = useState("");
-  const [errorState, setErrorState] = useState(false)
-  const {albumNameParam} = useParams()
+  const [errorState, setErrorState] = useState(false);
+  const { albumNameParam } = useParams();
+  const [photosInAlbum, setPhotosInAlbum] = useState([]);
 
   useEffect(() => {
     apiGet("/api/photos/all-albums-names").then((data) => {
       setAlbums(data);
     });
-    if(albumNameParam){
+    if (albumNameParam) {
       setAlbumName(albumNameParam);
-      console.log(albumName)
+      console.log(albumName);
+      apiGet("/api/photos/get-images/" + albumNameParam).then((data) =>
+        setPhotosInAlbum(data)
+      );
     }
   }, []);
 
@@ -32,16 +36,16 @@ const ImagesForm = () => {
       const filesToUpload = Array.from(e.target.files);
       return [...filesToUpload];
     });
-    console.log(files)
-    console.log(albumName)
+    console.log(files);
+    console.log(albumName);
     //console.log(albumNameParam)
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(files.length === 0 || albumName === false){
-        setErrorState(true)
-        return
+    if (files.length === 0 || albumName === false) {
+      setErrorState(true);
+      return;
     }
     const formData = new FormData();
     for (let file of files) {
@@ -61,8 +65,10 @@ const ImagesForm = () => {
   return (
     <div className="container-content">
       <h1>Vyberte fotky a album</h1>
-      {errorState ? <div className="alert alert-danger"> Je třeba vyplnit všechna pole</div>: null}
-      <form onSubmit={handleSubmit}>
+      {errorState ? (
+        <div className="alert alert-danger"> Je třeba vyplnit všechna pole</div>
+      ) : null}
+      <form onSubmit={handleSubmit} className="mb-3">
         <div>
           <label>Název alba</label>
           <select
@@ -129,6 +135,36 @@ const ImagesForm = () => {
           </button>
         </div>
       </form>
+      {albumNameParam ? (
+        <div>
+          <hr></hr>
+          <h5>Fotky v albu</h5>
+          <div className="list">
+            <div
+              className="images-form-photos d-flex flex-wrap justify-content-start align-items-center"
+            >
+              {photosInAlbum
+                ? photosInAlbum.map((image, index) => (
+                    <div key={index} style={{ margin: "1rem" }}>
+                      <div>
+                        <img
+                          style={{ maxHeight: "100px", maxWidth: "100px" }}
+                          src={`${API_URL}${image.url}`}
+                        />
+                      </div>
+                    </div>
+                  ))
+                : null}
+            </div>
+          </div>
+          <Link
+            className="btn btn-warning mb-3"
+            to={"/admin/galerie/foto/" + albumNameParam}
+          >
+            Upravit fotky
+          </Link>
+        </div>
+      ) : null}
     </div>
   );
 };

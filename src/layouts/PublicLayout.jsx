@@ -44,7 +44,7 @@ const PublicLayout = () => {
       </div>
       <div className="container-main">
         <div className="row">
-          <div className="col-lg-8">
+          <div className="col-lg-8 col-sm">
             <Routes>
               <Route index element={<Navigate to={"/o-skole/aktuality"} />} />
               <Route path="/o-skole">
@@ -91,12 +91,12 @@ const PublicLayout = () => {
               <Route path="/galerie">
                 <Route
                   path="/galerie/foto"
-                  element={<FotoIndex isEditable={false} />}
+                  element={<FotoIndex />}
                 />
                 <Route path="/galerie/video" element={<VideoIndex />} />
                 <Route
                   path="/galerie/foto/:albumName"
-                  element={<AlbumDetail isEditable={false} />}
+                  element={<AlbumDetail/>}
                 />
               </Route>
 
@@ -140,7 +140,7 @@ const PublicLayout = () => {
               <Route path="/kalendar" index element={<CalendarComplete />} />
             </Routes>
           </div>
-          <div className="col-lg-4">
+          <div className="col-lg-4 col-sm">
             <CalendarBasic />
           </div>
         </div>

@@ -46,7 +46,7 @@ const ArticlesIndex = ({ isEditable }) => {
       {articles
         .sort((a, b) => b.id - a.id)
         .map((article) => (
-          <div className="mb-5" key={article.id} style={{ maxWidth: "800px" }}>
+          <div className="mb-5 article-width" key={article.id} >
             <Link to={`/o-skole/aktuality/${article.id}`}>
               <img src="/src/images/vzor.jpg" className="picture-width mb-3" />
             </Link>

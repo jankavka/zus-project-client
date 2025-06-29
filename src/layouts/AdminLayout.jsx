@@ -12,7 +12,6 @@ import {
   StudyFocusIndex,
 } from "../pages/public/StaticContent";
 import SchoolAchievementsIndex from "../pages/public/SchoolAchievementsIndex";
-import FotoIndex from "../pages/public/FotoIndex";
 import VideoIndex from "../pages/public/VideoIndex";
 import SchoolRulesIndex from "../pages/public/ShoolRulesIndex";
 import AnualReportIndex from "../pages/public/AnualReportIndex";
@@ -36,7 +35,8 @@ import SchoolEducationProgramIndex from "../pages/public/SchoolEducationProgramI
 import SchoolAchievementForm from "../pages/admin/SchoolAchievementForm";
 import AlbumForm from "../pages/admin/AlbumForm";
 import ImagesForm from "../pages/admin/ImagesForm";
-import AlbumDetail from "../pages/public/AlbumDetail";
+import AdminFotoIndex from "../pages/admin/AdminFotoIndex";
+import AdminAlbumDetail from "../pages/admin/AdminAlbumDetail";
 
 const AdminLayout = () => {
   return (
@@ -127,10 +127,11 @@ const AdminLayout = () => {
             path="/pro-rodice-a-zaky/skolne/upravit"
             element={<SchoolFeeForm />}
           />
-          <Route path="/galerie/foto" element={<FotoIndex isEditable={true}/>} />
+          <Route path="/galerie/foto" element={<AdminFotoIndex isEditable={true}/>} />
           <Route path="/galerie/foto/nove-album" element={<AlbumForm/>}/>
-          <Route path="/galerie/foto/:albumName" element={<AlbumDetail isEditable={true}/>}/>
+          <Route path="/galerie/foto/:albumName" element={<AdminAlbumDetail/>}/>
           <Route path="/galerie/foto/pridat-foto" element={<ImagesForm/>} />
+          <Route path="/galerie/foto/upravit-album/:albumNameParam" element={<AlbumForm/>}/>
           <Route path="/galerie/foto/pridat-foto/:albumNameParam" element={<ImagesForm/>}/>
           <Route path="/galerie/video" element={<VideoIndex />} />
 

@@ -4,15 +4,18 @@
     --red-menu: #983839;
     --main-width: 1150px;
     --container-bg: #F2F2F2;
+    --my-dark-bg: #9B9797;
+    --my-light-bg: #FFFFFF;
 
 }
+
 body {
     padding-top: 40px;
 }
 
 
 .bg-mydark {
-    background-color: #9B9797;
+    background-color: var(--my-dark-bg);
 }
 
 .navbar-container {
@@ -32,35 +35,65 @@ body {
 
 }
 
+@media(max-width: 768px) {
+    .container-content {
+        max-width: 100px;
+    }
+}
+
+@media (max-width: 991px) {
+    .container-content {
+        min-width: 100%;
+        margin: 0 2rem 5rem 0;
+        background-color: var(--container-bg);
+        min-height: 700px;
+        padding: 2rem;
+    }
+}
+
 .container-calendar {
-    /*{max-width: 300px;*/
     margin: 0 0 5rem 0;
     background-color: var(--container-bg);
     min-height: 300px;
     padding: 2rem;
-    /*border: 1px solid black;*/
 }
 
 .calendar-height {
     min-height: 20rem;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 768px) {
     .container-calendar {
-        max-width: 100%;
+        max-width: 500px;
         margin: 0 auto;
     }
 
     .container-content {
-        max-width: 100%;
+        max-width: 100px;
         margin: 1rem auto;
     }
 
 }
 
+.article-width {
+    max-width: 800px;
+}
+
+@media(max-width: 767px) {
+    .article-width {
+        max-width: 100%;
+    }
+}
+
 .container-main {
     max-width: var(--main-width);
     margin: 1rem auto;
+}
+
+@media(max-width: 767px) {
+    .container-main {
+        max-width: 500px;
+    }
 }
 
 .navbar-width {
@@ -76,17 +109,21 @@ body {
 .nav-bg {
     background-color: var(--red-menu)
 }
-.nav-bg-admin{
+
+.nav-bg-admin {
     background-color: green;
 }
 
 .nav-position-fixed {
     width: 100%;
     position: fixed;
-    z-index: 1;
+    z-index: 1050;
     top: 0;
+    left: 0;
+    background-color: var(--red-menu);
 
 }
+
 
 .search-icon {
     background-image: url(/src/images/search-icon-blacka.tiff);
@@ -124,6 +161,12 @@ body {
     background-size: cover;
 }
 
+@media(max-width: 767px) {
+    .img-bg-school {
+        max-width: 100%;
+    }
+}
+
 .brd {
     border: 1px solid black;
 }
@@ -158,6 +201,7 @@ body {
         background-color: var(--red-menu) !important;
         border: 0px !important;
     }
+
     .submenu-admin {
         background-color: rgb(88, 182, 88) !important;
         border: 0px !important;
@@ -207,7 +251,7 @@ body>* {
     }
 }
 
-.my-button-next{
+.my-button-next {
     background-color: var(--red-menu);
     border-radius: 5px;
     border: 1px solid black;
@@ -215,7 +259,7 @@ body>* {
     padding: 0.3rem;
 }
 
-.my-button-previous{
+.my-button-previous {
     background-color: red;
     border-radius: 5px;
     border: 1px solid black;
@@ -223,19 +267,60 @@ body>* {
     padding: 0.3rem;
 }
 
-.my-table-background{
+.my-table-background {
     background: var(--container-bg) !important;
 }
 
-.album-image{
+.album-image {
     max-width: 200px;
     max-height: 200px;
 }
 
-.container-content-admin{
+.container-content-admin {
     max-width: 1200px;
     margin: 0 2rem 5rem 0;
     background-color: var(--container-bg);
     min-height: 700px;
     padding: 3rem;
+}
+
+.list {
+    list-style-type: none;
+    margin: 0;
+}
+
+.bottom {
+    background-color: rgb(83, 83, 83);
+    min-height: 200px;
+    text-align: center;
+    border-top: 1px solid black;
+    margin-top: 100px;
+}
+
+@media(max-width: 768px) {
+    .bottom {
+        width: 100%;
+    }
+}
+
+.scroll-button {
+    position: fixed;
+    bottom: 20px;
+    right: 2%;
+    z-index: 1000;
+    max-width: 50px;
+    max-height: 50px;
+    background-color: grey;
+    color: grey;
+    border-radius: 10px;
+    opacity: 0.5;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    border: none
+}
+
+.scroll-button:hover {
+    opacity: 1;
+
 }

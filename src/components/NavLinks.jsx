@@ -80,7 +80,7 @@ const NavLinks = () => {
 
   return (
     <div className="nav-position-fixed ">
-      <Navbar expand="md" className="nav-bg ">
+      <Navbar expand="md" className="nav-bg">
         <Container>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
