@@ -1,3 +1,9 @@
+@font-face {
+    font-family: "GillSans";
+    src: url("/fonts/gillsansmt.ttf");
+}
+
+
 /*former max width 1150 */
 :root {
     --max-width: 950px;
@@ -11,6 +17,11 @@
 
 body {
     padding-top: 40px;
+    
+}
+
+* {
+    font-family: "GillSans"
 }
 
 
@@ -103,7 +114,7 @@ body {
 
 
 .nav-item .nav-text {
-    color: #FFFFFF
+    color: #FFFFFF;
 }
 
 .nav-bg {
@@ -174,6 +185,7 @@ body {
 #logo {
     width: 100px;
     height: 100px;
+    margin: 0 0 5px 5px;
 }
 
 .position-logo {
@@ -212,13 +224,17 @@ body {
     color: black !important;
 }
 
+.opacity {
+    opacity: 0.8;
+}
 
-@media (hover: hover) or (min-width: 992px) {
+/*Used for showing menu on medium and larger devices on hover */
+/* @media (hover: hover) or (min-width: 992px) {
     .this-dropdown:hover>.dropdown-menu {
         display: block !important;
         background-color: #3A506B !important;
     }
-}
+} */
 
 .picture-width {
     max-width: 500px;
@@ -238,11 +254,6 @@ body {
     .text-nav:hover text.nav {
         color: black !important;
     }
-}
-
-
-body>* {
-    font-family: 'Gill Sans MT';
 }
 
 @media(min-width:992px) {
@@ -292,8 +303,11 @@ body>* {
 .bottom {
     background-color: rgb(83, 83, 83);
     min-height: 200px;
-    text-align: center;
-    border-top: 1px solid black;
+    display: flex;
+    justify-content: center;
+
+    align-items: center;
+    /*border-top: 1px solid black;*/
     margin-top: 100px;
 }
 

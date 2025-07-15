@@ -3,10 +3,13 @@ import { useState, useEffect } from "react";
 import { apiGet } from "../../utils/api";
 import LoadingText from "../../components/LoadingText";
 import formatDate from "../../components/formatDate";
+import NoEvents from "../../components/NoEvents";
 
 // works only with all day events. Otherwise event.start.date.value will be undefined
 const CalendarComplete = () => {
   const [events, setEvents] = useState([]);
+  const [isHiddenEvents, setIsHiddenEvents] = useState(true);
+  const [isHiddenLoadingText, setIsHiddenLoadingText] = useState(false);
   const [filter, setFilter] = useState({
     limit: 10,
     nextPageToken: undefined,
@@ -30,6 +33,14 @@ const CalendarComplete = () => {
         return [...prev, data.nextPageToken];
       });
     });
+
+    const timerNoEvents = setTimeout(() => setIsHiddenEvents(false), 10000);
+    const timerLoadingText = setTimeout(
+      () => setIsHiddenLoadingText(true),
+      10000
+    );
+
+    return () => clearTimeout(timerNoEvents, timerLoadingText);
   }, []);
 
   //moves events list to next page
@@ -91,33 +102,44 @@ const CalendarComplete = () => {
 
   return (
     <div className="container-calendar">
-      <h1 className="mb-3">Seznam akcí</h1>
+      <h5 className="mb-3 text-uppercase">Seznam akcí</h5>
       <div className="calendar-height">
+        {events.length === 0 ? (
+          <div>
+            <LoadingText isHidden={isHiddenLoadingText} />
+            <NoEvents isHidden={isHiddenEvents} />
+          </div>
+        ) : null}
         <ul>
-          {events.length === 0 ? (
-            <LoadingText />
-          ) : (
-            events &&
-            events.map((event, index) => (
-              <li className="mb-2" key={index}>
-                {formatDate(new Date(event.start.dateTime.value))} -{" "}
-                {event.summary}
-              </li>
-            ))
-          )}
+          {events.length === 0
+            ? null
+            : events &&
+              events.map((event, index) => (
+                <li className="mb-2" key={index}>
+                  {formatDate(new Date(event.start.dateTime.value))} -{" "}
+                  {event.summary}
+                </li>
+              ))}
         </ul>
       </div>
-      <div className=" row">
-        <button className="col-5 my-button-previous" onClick={() => prevPage()}>
-          předchozí strana
-        </button>
-        <button
-          className="offset-1 col-5 my-button-next"
-          onClick={() => nextPage()}
-        >
-          další strana
-        </button>
-      </div>
+      {isHiddenEvents ? (
+        <div className="row">
+          <button
+            className="col-5 my-button-previous"
+            onClick={() => prevPage()}
+          >
+            předchozí strana
+          </button>
+          <button
+            className="offset-1 col-5 my-button-next"
+            onClick={() => nextPage()}
+          >
+            další strana
+          </button>
+        </div>
+      ) : (
+        <div className="row"></div>
+      )}
     </div>
   );
 };

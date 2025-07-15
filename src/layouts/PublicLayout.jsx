@@ -32,6 +32,10 @@ import CalendarBasic from "../components/CalendarBasic";
 import CalendarComplete from "../pages/public/CalendarComplete";
 import SchoolManagementDeatil from "../pages/public/SchoolManagementDetail";
 import AlbumDetail from "../pages/public/AlbumDetail";
+import NotFound from "../pages/public/NotFound";
+import SchoolSupport from "../pages/public/SchoolSupport";
+import EntranceExam from "../pages/public/EntranceExam";
+import GeneralInformation from "../pages/public/GeneralInformation";
 
 const PublicLayout = () => {
   return (
@@ -39,105 +43,107 @@ const PublicLayout = () => {
       <NavLinks />
       <div className="img-bg-school position-logo">
         <Link to={"/o-skole/aktuality"}>
-          <img id="logo" src="/src/images/logo f2.png" alt="škola" />
+          <img id="logo" src="/src/images/logo.png" alt="škola" />
         </Link>
       </div>
       <div className="container-main">
         <div className="row">
           <div className="col-lg-8 col-sm">
             <Routes>
-              <Route index element={<Navigate to={"/o-skole/aktuality"} />} />
-              <Route path="/o-skole">
-                <Route path="/o-skole/aktuality">
-                  <Route index element={<ArticlesIndex isEditable={false} />} />
-                  <Route
-                    path="/o-skole/aktuality/:id"
-                    element={<ArticleDetail />}
-                  />
-                </Route>
-                <Route
-                  path="/o-skole/zakladni-udaje"
-                  element={<BasicDataIndex isEditable={false} />}
-                />
-                <Route
-                  path="/o-skole/historie-a-soucasnost"
-                  element={<HistoryAndPresentIndex isEditable={false} />}
-                />
-                <Route
-                  path="/o-skole/studijni-zamereni"
-                  element={<StudyFocusIndex />}
-                />
-                <Route
-                  path="/o-skole/uspechy-skoly"
-                  element={<SchoolAchievementsIndex forAdmin={false} />}
-                />
-              </Route>
+              <Route index element={<Navigate to={"/uvod/aktuality"} />} />
 
-              <Route path="/pro-rodice-a-zaky">
-                <Route
-                  path="/pro-rodice-a-zaky/rozvrh-kolektivni-vyuky"
-                  element={<GroupTrainingScheduleIndex isEditable={false} />}
-                />
-                <Route
-                  path="/pro-rodice-a-zaky/hudebni-nauka"
-                  element={<MusicTheoryIndex isEditable={false} />}
-                />
-                <Route
-                  path="/pro-rodice-a-zaky/skolne"
-                  element={<SchoolFeeIndex isEditable={false} />}
-                />
-              </Route>
+              <Route
+                path="/uvod/aktuality"
+                element={<ArticlesIndex isEditable={false} />}
+              />
+              <Route path="/uvod/aktuality/:id" element={<ArticleDetail />} />
+              <Route
+                path="/o-skole/zakladni-udaje"
+                element={<BasicDataIndex isEditable={false} />}
+              />
+              <Route
+                path="/o-skole/historie-a-soucasnost"
+                element={<HistoryAndPresentIndex isEditable={false} />}
+              />
+              <Route
+                path="/o-skole/studijni-zamereni"
+                element={<StudyFocusIndex />}
+              />
+              <Route
+                path="/o-skole/uspechy-skoly"
+                element={<SchoolAchievementsIndex forAdmin={false} />}
+              />
 
-              <Route path="/galerie">
-                <Route
-                  path="/galerie/foto"
-                  element={<FotoIndex />}
-                />
-                <Route path="/galerie/video" element={<VideoIndex />} />
-                <Route
-                  path="/galerie/foto/:albumName"
-                  element={<AlbumDetail/>}
-                />
-              </Route>
+              <Route
+                path="/pro-rodice-a-zaky/prijimaci-zkousky"
+                element={<EntranceExam isEditable={false} />}
+              />
 
-              <Route path="/uredni-deska">
-                <Route
-                  path="/uredni-deska/ochrana-osobnich-udaju"
-                  element={<PersonalDataProtectionIndex isEditable={false} />}
-                />
-                <Route
-                  path="/uredni-deska/povinne-info"
-                  element={<RequiredInforamtionIndex isEditable={false} />}
-                />
-                <Route
-                  path="/uredni-deska/skolni-vzdelavaci-program"
-                  element={<SchoolEducationProgramIndex isEditable={false} />}
-                />
-                <Route
-                  path="/uredni-deska/vyrocni-zpravy"
-                  element={<AnualReportIndex />}
-                />
-                <Route
-                  path="/uredni-deska/skolni-rad"
-                  element={<SchoolRulesIndex />}
-                />
-              </Route>
+              <Route
+                path="/pro-rodice-a-zaky/rozvrh-kolektivni-vyuky"
+                element={<GroupTrainingScheduleIndex isEditable={false} />}
+              />
+              <Route
+                path="/pro-rodice-a-zaky/hudebni-nauka"
+                element={<MusicTheoryIndex isEditable={false} />}
+              />
+              <Route
+                path="/pro-rodice-a-zaky/skolne"
+                element={<SchoolFeeIndex isEditable={false} />}
+              />
 
-              <Route path="/kontakty">
-                <Route
-                  path="/kontakty/vedeni-skoly"
-                  element={<SchoolManagementIndex isEditable={false} />}
-                />
-                <Route
-                  path="/kontakty/vedeni-skoly/:id"
-                  element={<SchoolManagementDeatil isEditable={false} />}
-                />
-                <Route
-                  path="/kontakty/ucitele"
-                  element={<TeachersIndex isEditable={false} />}
-                />
-              </Route>
+              <Route path="/galerie/foto" element={<FotoIndex />} />
+              <Route path="/galerie/video" element={<VideoIndex />} />
+              <Route
+                path="/galerie/foto/:albumName"
+                element={<AlbumDetail />}
+              />
+
+              <Route
+                path="/uredni-deska/ochrana-osobnich-udaju"
+                element={<PersonalDataProtectionIndex isEditable={false} />}
+              />
+              <Route
+                path="/uredni-deska/povinne-info"
+                element={<RequiredInforamtionIndex isEditable={false} />}
+              />
+              <Route
+                path="/uredni-deska/skolni-vzdelavaci-program"
+                element={<SchoolEducationProgramIndex isEditable={false} />}
+              />
+              <Route
+                path="/uredni-deska/vyrocni-zpravy"
+                element={<AnualReportIndex />}
+              />
+              <Route
+                path="/uredni-deska/skolni-rad"
+                element={<SchoolRulesIndex />}
+              />
+
+              <Route
+                path="/kontakty/obecne-info"
+                element={<GeneralInformation isEditable={false} />}
+              />
+
+              <Route
+                path="/kontakty/vedeni-skoly"
+                element={<SchoolManagementIndex isEditable={false} />}
+              />
+              <Route
+                path="/kontakty/vedeni-skoly/:id"
+                element={<SchoolManagementDeatil isEditable={false} />}
+              />
+              <Route
+                path="/kontakty/ucitele"
+                element={<TeachersIndex isEditable={false} />}
+              />
+
               <Route path="/kalendar" index element={<CalendarComplete />} />
+              <Route
+                path="/podpora-skoly"
+                element={<SchoolSupport isEditable={false} />}
+              />
+              <Route path="/*" element={<NotFound />} />
             </Routes>
           </div>
           <div className="col-lg-4 col-sm">

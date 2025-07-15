@@ -26,7 +26,7 @@ const HistoryAndPresentForm = () => {
 
   return (
     <div className="container-content">
-      <h1>Historie a současnost</h1>
+      <h5 className="text-uppercase">Historie a současnost</h5>
       <div className="mb-3">
         <label>Titulek </label>
         <input

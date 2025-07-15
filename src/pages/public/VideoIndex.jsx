@@ -12,7 +12,7 @@ const VideoIndex = () => {
 
   return (
     <div className="container-content">
-      <h1>Video</h1>
+      <h5 className="text-uppercase">Video</h5>
       <div className="row">
         {videos.map((video) => (
           <div key={video.videoId} className="col-md-4 mb-4">

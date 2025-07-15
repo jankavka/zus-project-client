@@ -20,7 +20,7 @@ const TeachersIndex = ({ isEditable }) => {
 
   return (
     <div className="container-content">
-      <h1>Učitelé</h1>
+      <h5 className="text-uppercase">Učitelé</h5>
       {isEditable ? (
         <Link
           className="btn btn-success mb-3"

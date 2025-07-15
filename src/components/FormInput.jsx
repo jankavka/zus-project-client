@@ -1,4 +1,4 @@
-const FormInput = ({ label, name, value, onChange, isInput=true, required=false}) => {
+const FormInput = ({ label, name, value, onChange, isInput=true, required=false, type="text"}) => {
   return (
     <div>
       <label htmlFor={name}>{label}</label>
@@ -9,7 +9,7 @@ const FormInput = ({ label, name, value, onChange, isInput=true, required=false}
           id={name}
           name={name}
           className="form-control mb-2"
-          type="text"
+          type={type}
           required={required}
         />
       ) : (

@@ -35,7 +35,7 @@ const MusicTheoryForm = () => {
 
   return (
     <div className="container-content">
-      <h1>Hudební Nauka</h1>
+      <h5 className="text-uppercase">Hudební Nauka</h5>
       <p>Poslední aktualizace: {formatDate(new Date(musicTheory.issuedDate))}</p>
       <form onSubmit={handleSubmit}>
         <FormInput

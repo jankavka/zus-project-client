@@ -10,8 +10,6 @@ const AdminFotoIndex = ({ isEditable }) => {
   useEffect(() => {
     apiGet("/api/photos/all-albums-names").then((data) => setAlbumNames(data));
     apiGet("/api/photos/get-albums").then((data) => setAlbumsInfo(data));
-    console.log(albumsInfo);
-    console.log(albumNames);
   }, []);
 
   useEffect(() => {
@@ -36,7 +34,6 @@ const AdminFotoIndex = ({ isEditable }) => {
         })
       );
     });
-    console.log(photosInAlbums);
   }, [albumNames, albumsInfo]);
 
   const handleDeleteAlbum = (albumName) => {
@@ -51,11 +48,11 @@ const AdminFotoIndex = ({ isEditable }) => {
 
   return (
     <div className="container-content">
-      <h1>Foto</h1>
+      <h5 className="text-uppercase">Foto</h5>
       <div className="mb-3">
         {isEditable ? (
-          <div>
-            <div className="row">
+          <div className="ms-3">
+            <div className="row mb-2">
               <Link
                 className="btn btn-success me-3 col-5 col-md-2"
                 to={"/admin/galerie/foto/nove-album"}
@@ -70,7 +67,7 @@ const AdminFotoIndex = ({ isEditable }) => {
               </Link>
             </div>
             <div className="row">
-              <small>
+              <small style={{marginLeft: "0", padding:"0"}}>
                 (Pokud chcete přidat fotky, musíte použít existující album nebo
                 jej vytvořit)
               </small>

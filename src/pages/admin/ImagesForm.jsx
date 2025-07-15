@@ -64,7 +64,7 @@ const ImagesForm = () => {
 
   return (
     <div className="container-content">
-      <h1>Vyberte fotky a album</h1>
+      <h5 className="text-uppercase">Vyberte fotky a album</h5>
       {errorState ? (
         <div className="alert alert-danger"> Je třeba vyplnit všechna pole</div>
       ) : null}
@@ -140,9 +140,7 @@ const ImagesForm = () => {
           <hr></hr>
           <h5>Fotky v albu</h5>
           <div className="list">
-            <div
-              className="images-form-photos d-flex flex-wrap justify-content-start align-items-center"
-            >
+            <div className="images-form-photos d-flex flex-wrap justify-content-start align-items-center">
               {photosInAlbum
                 ? photosInAlbum.map((image, index) => (
                     <div key={index} style={{ margin: "1rem" }}>

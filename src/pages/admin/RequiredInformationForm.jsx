@@ -126,7 +126,7 @@ const RequiredInforamtionForm = () => {
 
   return (
     <div className="container-content">
-      <h1>Povinně zveřejňované inforamce</h1>
+      <h5 className="text-uppercase">Povinně zveřejňované inforamce</h5>
       <p>
         <strong>Naposledy upraveno: </strong>
         {formatDate(new Date(requieredInformation.issuedDate))}

@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ArticlesIndex from "../pages/public/ArticlesIndex";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import {
   BasicDataIndex,
   GroupTrainingScheduleIndex,
@@ -37,22 +37,55 @@ import AlbumForm from "../pages/admin/AlbumForm";
 import ImagesForm from "../pages/admin/ImagesForm";
 import AdminFotoIndex from "../pages/admin/AdminFotoIndex";
 import AdminAlbumDetail from "../pages/admin/AdminAlbumDetail";
+import NotFound from "../pages/public/NotFound";
+import { useSession } from "../contexts/session";
+import { apiDelete } from "../utils/api";
+import useMedia from "use-media";
+import EntranceExam from "../pages/public/EntranceExam";
+import SchoolSupport from "../pages/public/SchoolSupport";
+import GeneralInformation from "../pages/public/GeneralInformation";
+import ArticleDetail from "../pages/public/ArticleDetail";
 
 const AdminLayout = () => {
+  const { session, setSession } = useSession();
+  const navigate = useNavigate();
+
+  const handleLogoutClick = async () => {
+    await apiDelete("/api/auth");
+    setSession({ data: null, status: "unauthorized" });
+    navigate("/admin/login");
+  };
+  const isMobile = useMedia({ maxWidth: "767px" });
+
   return (
     <div>
       <AdminNavLinks />
       <div className="container-main">
-        <h1 className="text-center">ADMIN</h1>
+        <div
+          className={`d-flex-column mb-3 justify-content-center text-align-center text-center ${
+            isMobile ? "" : "col-9"
+          }`}
+        >
+          <h1 className="text-center">ADMIN</h1>
+          <small className="">Přihlášený uživatel: {session.data.email}</small>
+        </div>
+        <div className={`text-center mb-2 ${isMobile ? "" : "col-9"}`}>
+          <button onClick={handleLogoutClick} className="btn btn-light">
+            Odhlásit
+          </button>
+        </div>
+
         <Routes>
-          <Route index element={<Navigate to={"/admin/o-skole/aktuality"} />}/>
+          <Route index element={<Navigate to={"/admin/login"} />} />
+
           <Route>
             <Route
-              path="/o-skole/aktuality"
+              path="/uvod/aktuality"
               element={<ArticlesIndex isEditable={true} />}
             />
+            <Route path="/uvod/aktuality/:id" element={<ArticleDetail/>}/>
             <Route
-              path="/o-skole/aktuality/:id/upravit"
+              path="/uvod/aktuality/:id/upravit"
               element={<ArticleForm />}
             />
             <Route path="/o-skole/aktuality/novy" element={<ArticleForm />} />
@@ -78,7 +111,7 @@ const AdminLayout = () => {
           <Route>
             <Route
               path="/o-skole/studijni-zamereni"
-              element={<StudyFocusIndex />}
+              element={<StudyFocusIndex isEditable={true} />}
             />
             <Route
               path="/o-skole/studijni-zamereni/upravit"
@@ -92,15 +125,20 @@ const AdminLayout = () => {
           />
           <Route
             path="/o-skole/uspechy-skoly/upravit"
-            element={<SchoolAchievementForm/>}
+            element={<SchoolAchievementForm />}
           />
           <Route
             path="/o-skole/uspechy-skoly/:id/upravit"
-            element={<SchoolAchievementForm/>}
+            element={<SchoolAchievementForm />}
           />
           <Route
             path="/o-skole/uspechy-skoly/skolni-roky"
             element={<SchoolYearIndex />}
+          />
+
+          <Route
+            path="/pro-rodice-a-zaky/prijimaci-zkousky"
+            element={<EntranceExam isEditable={true} />}
           />
 
           <Route
@@ -127,12 +165,24 @@ const AdminLayout = () => {
             path="/pro-rodice-a-zaky/skolne/upravit"
             element={<SchoolFeeForm />}
           />
-          <Route path="/galerie/foto" element={<AdminFotoIndex isEditable={true}/>} />
-          <Route path="/galerie/foto/nove-album" element={<AlbumForm/>}/>
-          <Route path="/galerie/foto/:albumName" element={<AdminAlbumDetail/>}/>
-          <Route path="/galerie/foto/pridat-foto" element={<ImagesForm/>} />
-          <Route path="/galerie/foto/upravit-album/:albumNameParam" element={<AlbumForm/>}/>
-          <Route path="/galerie/foto/pridat-foto/:albumNameParam" element={<ImagesForm/>}/>
+          <Route
+            path="/galerie/foto"
+            element={<AdminFotoIndex isEditable={true} />}
+          />
+          <Route path="/galerie/foto/nove-album" element={<AlbumForm />} />
+          <Route
+            path="/galerie/foto/:albumName"
+            element={<AdminAlbumDetail />}
+          />
+          <Route path="/galerie/foto/pridat-foto" element={<ImagesForm />} />
+          <Route
+            path="/galerie/foto/upravit-album/:albumNameParam"
+            element={<AlbumForm />}
+          />
+          <Route
+            path="/galerie/foto/pridat-foto/:albumNameParam"
+            element={<ImagesForm />}
+          />
           <Route path="/galerie/video" element={<VideoIndex />} />
 
           <Route
@@ -165,6 +215,10 @@ const AdminLayout = () => {
           />
           <Route>
             <Route
+              path="/kontakty/obecne-info"
+              element={<GeneralInformation isEditable={true} />}
+            />
+            <Route
               path="/kontakty/vedeni-skoly"
               element={<SchoolManagementIndex isEditable={true} />}
             />
@@ -192,6 +246,12 @@ const AdminLayout = () => {
               element={<TeacherForm />}
             />
           </Route>
+          <Route
+            path="/podpora-skoly"
+            element={<SchoolSupport isEditable={true} />}
+          />
+
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </div>

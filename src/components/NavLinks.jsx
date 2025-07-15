@@ -8,15 +8,20 @@ import {
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
+import useMedia from "use-media";
 
 const NavLinks = () => {
-  const [isCollapsed, setIsCollapsed] = useState("");
+  const [hoveredMenu, setHoveredMenu] = useState();
+  const isMobile = useMedia({ maxWidth: "767px" });
 
   const menu = [
     {
+      label: "Úvod",
+      link: "/uvod/aktuality",
+    },
+    {
       label: "o škole",
       subMenu: [
-        { label: "Aktuality", link: "/o-skole/aktuality" },
         { label: "Základní údaje", link: "/o-skole/zakladni-udaje" },
         {
           label: "Historie a současnost",
@@ -30,6 +35,10 @@ const NavLinks = () => {
       label: "pro rodiče a žáky",
       subMenu: [
         {
+          label: "Přijímací a talentové zkoušky",
+          link: "/pro-rodice-a-zaky/prijimaci-zkousky",
+        },
+        {
           label: "Rozvrh kolektivní výuky",
           link: "/pro-rodice-a-zaky/rozvrh-kolektivni-vyuky",
         },
@@ -39,7 +48,6 @@ const NavLinks = () => {
           label: "Přihláška",
           link: "https://klasifikace.jphsw.cz/application/default?hash=7e7757b1e12abcb736ab9a754ffb617a",
         },
-        { label: "Odhláška ze studia", link: "" },
       ],
     },
     {
@@ -72,11 +80,35 @@ const NavLinks = () => {
     {
       label: "kontakty",
       subMenu: [
+        { label: "Obecné informace", link: "/kontakty/obecne-informace" },
         { label: "Vedení školy", link: "/kontakty/vedeni-skoly" },
         { label: "Učitelé", link: "/kontakty/ucitele" },
       ],
     },
+    { label: "Podpora školy", link: "/podpora-skoly" },
   ];
+
+  const handleOnMouseEnter = (itemName) => {
+    if (!isMobile) {
+      setHoveredMenu(itemName);
+    } else {
+      return null;
+    }
+  };
+
+  const handleOnMouseLeave = () => {
+    if (!isMobile) {
+      setHoveredMenu(null);
+    } else {
+      return null;
+    }
+  };
+
+  const handleShow = (itemName) => {
+    if (hoveredMenu === itemName) {
+      return true;
+    }
+  };
 
   return (
     <div className="nav-position-fixed ">
@@ -86,34 +118,59 @@ const NavLinks = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav
               fill
-              className="navbar-container text-white justify-content-between navbar-width"
+              className="navbar-container text-white d-flex justify-content-start navbar-width mt-1"
             >
-              {menu.map((item) => (
-                <Dropdown key={item.label} className="text-nav this-dropdown">
-                  <DropdownToggle
-                    id="dropdown-autoclose-true"
-                    className="text-uppercase nav-buttons"
+              {menu.map((item, index) =>
+                item.link ? (
+                  <Link
+                    to={item.link}
+                    className={`text-uppercase text-white nav-button ${
+                      isMobile ? "mt-1 mb-1" : ""
+                    }`}
+                    style={{
+                      textDecoration: "none",
+                      alignSelf: `${isMobile ? "start" : "center"}`,
+                      marginLeft: `${isMobile ? "12px" : "10px"}`,
+                    }}
+                    key={index}
                   >
                     {item.label}
-                  </DropdownToggle>
-                  <DropdownMenu
-                    renderOnMount={true}
-                    rootCloseEvent="click"
-                    className="submenu"
+                  </Link>
+                ) : (
+                  <Dropdown
+                    key={item.label}
+                    className="text-nav"
+                    onMouseLeave={() => handleOnMouseLeave()}
+                    onMouseEnter={() => handleOnMouseEnter(item.label)}
+                    show={handleShow(item.label)}
                   >
-                    {item.subMenu.map((subItem) => (
-                      <Dropdown.Item
-                        key={subItem.label}
-                        as={Link}
-                        to={subItem.link}
-                        className="text-nav"
-                      >
-                        {subItem.label}{" "}
-                      </Dropdown.Item>
-                    ))}
-                  </DropdownMenu>
-                </Dropdown>
-              ))}
+                    <DropdownToggle
+                      id="dropdown-autoclose-true"
+                      className="text-uppercase nav-buttons"
+                    >
+                      {item.label}
+                    </DropdownToggle>
+                    <DropdownMenu
+                      renderOnMount={true}
+                      rootCloseEvent="click"
+                      className={`submenu ${
+                        isMobile ? "" : "opacity"
+                      } rounded-0`}
+                    >
+                      {item.subMenu.map((subItem) => (
+                        <Dropdown.Item
+                          key={subItem.label}
+                          as={Link}
+                          to={subItem.link}
+                          className="text-nav"
+                        >
+                          {subItem.label}{" "}
+                        </Dropdown.Item>
+                      ))}
+                    </DropdownMenu>
+                  </Dropdown>
+                )
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>

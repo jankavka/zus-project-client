@@ -58,6 +58,11 @@ const SchoolManagementForm = () => {
 
   return (
     <div className="container-content">
+      {id ? (
+        <h5 className="text-uppercase">Upravit člena vedení</h5>
+      ) : (
+        <h5 className="text-uppercase">Přidat člena vedení</h5>
+      )}
       {error ? <div className="alert alert-danger">{error.message}</div> : null}
       <form onSubmit={handleSubmit}>
         <div>
@@ -124,10 +129,7 @@ const SchoolManagementForm = () => {
           </select>
         </div>
         <div>
-          <button
-            className="btn btn-success me-3"
-            type="submit"
-          >
+          <button className="btn btn-success me-3" type="submit">
             Uložit
           </button>
           <button

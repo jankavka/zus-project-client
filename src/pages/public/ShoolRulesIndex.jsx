@@ -5,15 +5,17 @@ import { Link } from "react-router-dom";
 const SchoolRulesIndex = () => {
   return (
     <div className="container-content">
-      <h1>Školní řád</h1>
+      <h5 className="text-uppercase">Školní řád</h5>
       <ul>
         <li>
-          <Link
-            to={`${API_URL}/api/files/skolni-rad.pdf`}
-            style={{ color: "black" }}
+          <button
+            className="btn btn-light"
+            onClick={() =>
+              window.open(`${API_URL}/api/files/skolni-rad.pdf`, "_blank")
+            }
           >
-            KE STAŽENÍ ZDE
-          </Link>
+            Otevřít
+          </button>
         </li>
       </ul>
     </div>

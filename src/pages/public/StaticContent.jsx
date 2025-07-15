@@ -23,7 +23,7 @@ export const BasicDataIndex = ({ isEditable }) => {
   const locations = basicData.locationsOfEducation;
   return (
     <div className="container-content">
-      <h1 className="mb-3">Základní údaje</h1>
+      <h5 className=" text-uppercase mb-3">Základní údaje</h5>
       {isEditable ? (
         <Link
           className="btn btn-success"
@@ -165,7 +165,7 @@ export const GroupTrainingScheduleIndex = ({ isEditable }) => {
 
   return (
     <div className="container-content">
-      <h1>Rozvrh kolektivní výuky</h1>
+      <h5 className="text-uppercase">Rozvrh kolektivní výuky</h5>
       {isEditable ? (
         <Link
           className="btn btn-warning mb-3"
@@ -215,7 +215,7 @@ export const MusicTheoryIndex = ({ isEditable }) => {
 
   return (
     <div className="container-content">
-      <h1>Hudební Nauka</h1>
+      <h5 className="text-uppercase">Hudební Nauka</h5>
       {isEditable ? (
         <Link
           className="btn btn-warning"
@@ -229,7 +229,7 @@ export const MusicTheoryIndex = ({ isEditable }) => {
   );
 };
 
-export const PersonalDataProtectionIndex = ({isEditable}) => {
+export const PersonalDataProtectionIndex = ({ isEditable }) => {
   const [personalDataProtection, setPersonalDataProtection] = useState({});
 
   useEffect(() => {
@@ -240,9 +240,18 @@ export const PersonalDataProtectionIndex = ({isEditable}) => {
 
   return (
     <div className="container-content">
-      <h1>Ochrana osobních údajů</h1>
-      {isEditable ? <Link className="btn btn-warning mb-3" to={"/admin/uredni-deska/ochrana-osobnich-udaju/upravit"}>Upravit</Link> : null}
-      <div dangerouslySetInnerHTML={{__html: personalDataProtection.content}}></div>
+      <h5 className="text-uppercase">Ochrana osobních údajů</h5>
+      {isEditable ? (
+        <Link
+          className="btn btn-warning mb-3"
+          to={"/admin/uredni-deska/ochrana-osobnich-udaju/upravit"}
+        >
+          Upravit
+        </Link>
+      ) : null}
+      <div
+        dangerouslySetInnerHTML={{ __html: personalDataProtection.content }}
+      ></div>
     </div>
   );
 };
@@ -389,12 +398,12 @@ export const RequiredInforamtionIndex = ({ isEditable }) => {
   );
 };
 
-export const StudyFocusIndex = ({isEditable}) => {
+export const StudyFocusIndex = ({ isEditable }) => {
   const [studyFocus, setStudyFocus] = useState("");
 
   useEffect(() => {
     apiGet("/api/static/study-focus").then((data) => setStudyFocus(data));
-  },[]);
+  }, []);
   return (
     <div className="container-content">
       <h1>Studijní zameření</h1>
@@ -411,7 +420,7 @@ export const StudyFocusIndex = ({isEditable}) => {
   );
 };
 
-export const SchoolFeeIndex = ({isEditable}) => {
+export const SchoolFeeIndex = ({ isEditable }) => {
   const [schoolFee, setSchoolFee] = useState({});
 
   useEffect(() => {
@@ -420,9 +429,16 @@ export const SchoolFeeIndex = ({isEditable}) => {
 
   return (
     <div className="container-content">
-      <h1>Školné</h1>
-      {isEditable ? <Link className="btn btn-warning mb-3" to={"/admin/pro-rodice-a-zaky/skolne/upravit"}>Upravit</Link> :null}
-      <div dangerouslySetInnerHTML={{__html: schoolFee.content}}></div>
+      <h5 className="text-uppercase">Školné</h5>
+      {isEditable ? (
+        <Link
+          className="btn btn-warning mb-3"
+          to={"/admin/pro-rodice-a-zaky/skolne/upravit"}
+        >
+          Upravit
+        </Link>
+      ) : null}
+      <div dangerouslySetInnerHTML={{ __html: schoolFee.content }}></div>
     </div>
   );
 };

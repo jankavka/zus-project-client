@@ -6,7 +6,8 @@ const MyEditor = ({ subject, onChange, editorRef }) => {
   return (
     <div>
       <Editor
-        apiKey="rcmrt6sw2f0nceh681w44zyk5imlqqsnmi54yv1tmb4kx2yw"
+        //apiKey="rcmrt6sw2f0nceh681w44zyk5imlqqsnmi54yv1tmb4kx2yw"
+        apiKey="no-api-key"
         onInit={(_evt, editor) => (editorRef.current = editor)}
         //initialValue={subject.content ? subject.content : ""}
         value={subject.content ? subject.content : ""}

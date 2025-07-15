@@ -4,7 +4,7 @@ const SchoolEducationProgramIndex = () => {
 
     return(
         <div className="container-content">
-            <h1>Školní vzdělávací program</h1>
+            <h5 className="text-uppercase">Školní vzdělávací program</h5>
         </div>
     );
 };

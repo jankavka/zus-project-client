@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const LoadingText = () => {
+const LoadingText = ({isHidden}) => {
   const [text, setText] = useState("Načítám");
   const [number, setNumber] = useState(0);
 
@@ -23,7 +23,7 @@ const LoadingText = () => {
   }, []);
 
   return (
-    <div>
+    <div hidden={isHidden}>
       <p>
         {text}
       </p>
