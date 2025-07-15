@@ -5,6 +5,7 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 
 export default [
   { ignores: ['dist'] },
+  { ignores: ['dist', 'src/tinymce'] },
   {
     files: ['**/*.{js,jsx}'],
     languageOptions: {

@@ -78,7 +78,7 @@ const BasicDataForm = () => {
 
   return (
     <div>
-      <h1>Základní údaje</h1>
+      <h5 className="text-uppercase">Základní údaje</h5>
       <p>Naposledy upraveno: {formatDate(new Date(basicData.issuedDate))}</p>
       <form onSubmit={handleSubmit}>
         <div>

@@ -8,7 +8,7 @@ const SchoolAchievementForm = () => {
   const [schoolAchievement, setSchoolAchievement] = useState({
     title: "",
     content: "",
-    schoolYear: {id: ""},
+    schoolYear: { id: "" },
   });
   const [schoolYears, setSchoolYears] = useState([]);
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ const SchoolAchievementForm = () => {
       console.log(value);
       return {
         ...prev,
-        schoolYear: {id: value},
+        schoolYear: { id: value },
       };
     });
   };
@@ -58,12 +58,12 @@ const SchoolAchievementForm = () => {
 
   useEffect(() => {
     console.log(schoolAchievement);
-    console.log(schoolYears)
+    console.log(schoolYears);
   }, [schoolAchievement]);
 
   return (
     <div className="container-content">
-      <h1>Úspěchy školy</h1>
+      <h5 className="text-uppercase">Úspěchy školy</h5>
       <form onSubmit={(e) => handleSubmit(e, id)}>
         <div>
           <FormInput

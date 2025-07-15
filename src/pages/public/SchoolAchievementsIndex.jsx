@@ -21,7 +21,7 @@ const SchoolAchievementsIndex = ({ forAdmin }) => {
 
   return (
     <div className="container-content">
-      <h1>Úspěchy školy</h1>
+      <h5 className="text-uppercase">Úspěchy školy</h5>
       {forAdmin ? (
         <div>
           <Link

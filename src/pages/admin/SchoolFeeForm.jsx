@@ -32,7 +32,7 @@ const SchoolFeeForm = () => {
 
   return (
     <div className="container-content">
-      <h1>Školné</h1>
+      <h5 className="text-uppercase">Školné</h5>
       <form onSubmit={handleSubmit}>
         <FormInput
           label={"Titulek"}

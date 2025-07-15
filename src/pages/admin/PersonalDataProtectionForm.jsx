@@ -38,7 +38,7 @@ const PersonalDataProtectionForm = () => {
 
   return (
     <div className="container-content">
-      <h1>Ochrana osobnách údajů</h1>
+      <h5 className="text-uppercase">Ochrana osobnách údajů</h5>
       <p>
         Poslední aktualizace:{" "}
         {formatDate(new Date(personalDataProtection.issuedDate))}

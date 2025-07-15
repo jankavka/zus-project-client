@@ -44,23 +44,31 @@ const SchoolYearIndex = () => {
 
   return (
     <div className="container-content">
-      <h1>Školní roky</h1>
+      <h5 className="text-uppercase">Školní roky</h5>
       <table className="table">
         <tbody>
-          {schoolYears ? schoolYears.map((year, index) => (
-            <tr key={index}>
-              <td className="text-center" >{year.schoolYear}</td>
-              <td className="text-center">
-                <button
-                  className="btn btn-danger ms-3"
-                  type="button"
-                  onClick={() => handleDelete(year.id)}
-                >
-                  Delete
-                </button>{" "}
+          {schoolYears ? (
+            schoolYears.map((year, index) => (
+              <tr key={index}>
+                <td className="text-center">{year.schoolYear}</td>
+                <td className="text-center">
+                  <button
+                    className="btn btn-danger ms-3"
+                    type="button"
+                    onClick={() => handleDelete(year.id)}
+                  >
+                    Delete
+                  </button>{" "}
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td>
+                <LoadingText />
               </td>
             </tr>
-          )): <tr><td><LoadingText/></td></tr>}
+          )}
         </tbody>
       </table>
       <form onSubmit={handleSubmit}>
@@ -73,7 +81,13 @@ const SchoolYearIndex = () => {
         <button type="submit" className="btn btn-success me-3">
           Přidej
         </button>
-        <button className="btn btn-info" type="button" onClick={() => navigate(-1)}>Zpět</button>
+        <button
+          className="btn btn-info"
+          type="button"
+          onClick={() => navigate(-1)}
+        >
+          Zpět
+        </button>
       </form>
     </div>
   );

@@ -29,7 +29,7 @@ const SchoolManagementDeatil = ({ isEditable }) => {
 
   return (
     <div className="container-content">
-      <h1>Vedení školy</h1>
+      <h5 className="text-uppercase">Vedení školy</h5>
       <table className="table">
         <tbody>
           <tr>

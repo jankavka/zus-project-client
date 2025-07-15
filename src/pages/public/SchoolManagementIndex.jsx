@@ -25,7 +25,7 @@ const SchoolManagementIndex = ({ isEditable }) => {
 
   return (
     <div className="container-content">
-      <h1>Vedení školy</h1>
+      <h5 className="text-uppercase">Vedení školy</h5>
       {succesState ? (
         <div className="alert alert-success">Záznam byl úspěšně vymazán</div>
       ) : null}

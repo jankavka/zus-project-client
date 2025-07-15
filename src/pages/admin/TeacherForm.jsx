@@ -24,18 +24,25 @@ const TeacherForm = () => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    if(id){
-    apiPut(`/api/teachers/${id}/edit`, teacher).then(() => navigate("/admin/kontakty/ucitele"))
+    e.preventDefault();
+    if (id) {
+      apiPut(`/api/teachers/${id}/edit`, teacher).then(() =>
+        navigate("/admin/kontakty/ucitele")
+      );
     } else {
-      apiPost("/api/teachers/create", teacher).then(() => navigate("/admin/kontakty/ucitele"))
+      apiPost("/api/teachers/create", teacher).then(() =>
+        navigate("/admin/kontakty/ucitele")
+      );
     }
-  }
-
+  };
 
   return (
     <div className="container-content">
-      {id ? <h1>Upravit učitele</h1> : <h1>Nový učitel</h1>}
+      {id ? (
+        <h5 className="text-uppercase">Upravit učitele</h5>
+      ) : (
+        <h5 className="text-uppercase">Nový učitel</h5>
+      )}
       <form onSubmit={handleSubmit}>
         <div>
           <label>Jméno</label>
@@ -81,7 +88,11 @@ const TeacherForm = () => {
           <button type="submit" className="btn btn-success me-3">
             Uložit
           </button>
-          <button type="button" className="btn btn-info" onClick={() => navigate(-1)}>
+          <button
+            type="button"
+            className="btn btn-info"
+            onClick={() => navigate(-1)}
+          >
             Zpět
           </button>
         </div>

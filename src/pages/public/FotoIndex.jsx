@@ -43,7 +43,7 @@ const FotoIndex = ({ isEditable }) => {
 
   return (
     <div className="container-content">
-      <h1>Foto</h1>
+      <h5 className="text-uppercase">Foto</h5>
       <div className="mb-3">
         {isEditable ? (
           <div>

@@ -3,8 +3,8 @@ import React from "react";
 const AnualReportIndex = () => {
 
     return(
-        <div className="container-content">
-            <h1>Výroční zprávy</h1>
+        <div className="text-uppercase container-content">
+            <h5>Výroční zprávy</h5>
         </div>
     );
 };

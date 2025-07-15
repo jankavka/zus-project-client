@@ -35,7 +35,7 @@ const GroupTrainingScheduleForm = () => {
 
   return (
     <div className="container-content">
-      <h1>Rozvrh klolektivní výuky</h1>
+      <h5 className="text-uppercase">Rozvrh klolektivní výuky</h5>
       <p>
         Poslední aktualiuace:{" "}
         {formatDate(new Date(groupTrainingSchedule.issuedDate))}

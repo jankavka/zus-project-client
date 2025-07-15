@@ -9,27 +9,33 @@ const AlbumForm = () => {
   const [albumDescription, setAlbumDescription] = useState("");
   const [leadPictureUrl, setLeadPictureUrl] = useState("");
   const [photosInAlbum, setPhotosInAlbum] = useState([]);
+  const [oldAlbumName, setOldAlbumName] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     setAlbumName(albumNameParam);
     if (albumNameParam) {
       setAlbumDescription(
         apiGet("/api/photos/get-album/" + albumNameParam).then((data) => {
-          setAlbumDescription(data.albumDescription), setLeadPictureUrl(data.leadPictureUrl)}
-        )
+          setAlbumDescription(data.albumDescription),
+            setLeadPictureUrl(data.leadPictureUrl);
+
+          setOldAlbumName(albumNameParam);
+        })
       );
       apiGet("/api/photos/get-images/" + albumNameParam).then((data) =>
         setPhotosInAlbum(data)
       );
+      
     }
-    //console.log(leadPictureUrl)
   }, []);
-
-  const navigate = useNavigate();
 
   const handleChangeLeadPhoto = (e) => {
     setLeadPictureUrl(e.target.value);
-    console.log(leadPictureUrl);
+  };
+
+  const handleChangeAlbumName = (e) => {
+    setAlbumName(e.target.value);
   };
 
   const handleSubmit = (e) => {
@@ -38,12 +44,13 @@ const AlbumForm = () => {
       const body = {
         albumName: albumName,
         albumDescription: albumDescription,
-        leadPictureUrl: leadPictureUrl,
+        leadPictureUrl: leadPictureUrl.replace(oldAlbumName, albumName),
       };
       apiPut("/api/photos/edit-album/" + albumNameParam, body).then(() =>
         navigate("/admin/galerie/foto")
       );
-      console.log(body);
+      
+      console.log("body: " + body.leadPictureUrl);
     } else {
       const body = {
         albumName: albumName,
@@ -57,14 +64,14 @@ const AlbumForm = () => {
 
   return (
     <div className="container-content">
-      <h1>Přidej album</h1>
+      {albumNameParam ? <h5 className="text-uppercase">Uprav album</h5> : <h5 className="text-uppercase">Přidej album</h5>}
       <form onSubmit={(e) => handleSubmit(e)}>
         <div>
           <FormInput
             label="Název složky:"
             name="albumName"
             value={albumName || ""}
-            onChange={(e) => setAlbumName(e.target.value)}
+            onChange={(e) => handleChangeAlbumName(e)}
             required={true}
           />
         </div>
@@ -103,7 +110,7 @@ const AlbumForm = () => {
                             className="form-check-input"
                             type="radio"
                             checked={leadPictureUrl === image.url}
-                            value={image.url}
+                            value={image.url || leadPictureUrl}
                             onChange={(e) => handleChangeLeadPhoto(e)}
                           />
                         </td>

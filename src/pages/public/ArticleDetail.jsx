@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { apiGet } from "../../utils/api";
 import { useParams, Link, useNavigate } from "react-router-dom";
+import { API_URL } from "../../utils/api";
 
 const ArticleDetail = () => {
   const [article, setArticle] = useState({});
@@ -15,9 +16,17 @@ const ArticleDetail = () => {
     apiGet("/api/articles/" + id).then((data) => setArticle(data));
   }, []);
 
+  console.log(article);
+
   return (
     <div className="container-content">
-      <h1 className="mb-5">{article.title}</h1>
+      <h5 className="mb-3 text-uppercase">{article.title}</h5>
+      <img
+        className="mb-3"
+        src={`${API_URL}${article.image?.url}`}
+        alt=""
+        style={{ maxHeight: "400px", maxWidth: "300px" }}
+      />
       <div dangerouslySetInnerHTML={{ __html: article.content }}></div>
 
       <Link onClick={handleBack}>Zpět</Link>

@@ -24,7 +24,7 @@ const AlbumDetail = () => {
 
   return (
     <div className="container-content">
-      <h1>Album: {albumDescription}</h1>
+      <h5 className="text-uppercase">Album: {albumDescription}</h5>
       <div className="row">
         {images.map((image, index) => (
           <div className="col" key={index}>
