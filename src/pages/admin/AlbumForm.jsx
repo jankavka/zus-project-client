@@ -10,23 +10,25 @@ const AlbumForm = () => {
   const [leadPictureUrl, setLeadPictureUrl] = useState("");
   const [photosInAlbum, setPhotosInAlbum] = useState([]);
   const [oldAlbumName, setOldAlbumName] = useState("");
+  const [isHidden, setIsHidden] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     setAlbumName(albumNameParam);
     if (albumNameParam) {
       setAlbumDescription(
-        apiGet("/api/photos/get-album/" + albumNameParam).then((data) => {
-          setAlbumDescription(data.albumDescription),
-            setLeadPictureUrl(data.leadPictureUrl);
+        apiGet("/api/photos/get-album/" + albumNameParam)
+          .then((data) => {
+            setAlbumDescription(data.albumDescription),
+              setLeadPictureUrl(data.leadPictureUrl);
 
-          setOldAlbumName(albumNameParam);
-        })
+            setOldAlbumName(albumNameParam);
+          })
+          .catch((error) => console.log(error))
       );
       apiGet("/api/photos/get-images/" + albumNameParam).then((data) =>
         setPhotosInAlbum(data)
-      );
-      
+      ).catch((error) => console.log(error));
     }
   }, []);
 
@@ -44,17 +46,19 @@ const AlbumForm = () => {
       const body = {
         albumName: albumName,
         albumDescription: albumDescription,
-        leadPictureUrl: leadPictureUrl.replace(oldAlbumName, albumName),
+        leadPictureUrl: leadPictureUrl?.replace(oldAlbumName, albumName),
+        isHidden: isHidden
       };
       apiPut("/api/photos/edit-album/" + albumNameParam, body).then(() =>
         navigate("/admin/galerie/foto")
       );
-      
+
       console.log("body: " + body.leadPictureUrl);
     } else {
       const body = {
         albumName: albumName,
         albumDescription: albumDescription,
+        isHidden: isHidden
       };
       apiPost("/api/photos/new-album", body).then(() => {
         navigate("/admin/galerie/foto");
@@ -64,7 +68,11 @@ const AlbumForm = () => {
 
   return (
     <div className="container-content">
-      {albumNameParam ? <h5 className="text-uppercase">Uprav album</h5> : <h5 className="text-uppercase">Přidej album</h5>}
+      {albumNameParam ? (
+        <h5 className="text-uppercase">Uprav album</h5>
+      ) : (
+        <h5 className="text-uppercase">Přidej album</h5>
+      )}
       <form onSubmit={(e) => handleSubmit(e)}>
         <div>
           <FormInput
@@ -84,6 +92,33 @@ const AlbumForm = () => {
             required={true}
           />
         </div>
+        <div>Skryté</div>
+        <div className="form-check">
+          <input
+            id="yes"
+            name="isHidden"
+            className="form-check-input"
+            onChange={() => setIsHidden(true)}
+            type="radio"
+          />
+          <label htmlFor="yes" className="form-check-label">
+            ano
+          </label>
+        </div>
+        <div className="form-check">
+          <input
+            checked = {!isHidden}
+            id="no"
+            name="isHidden"
+            className="form-check-input"
+            type="radio"
+            onChange={() => setIsHidden(false)}
+          />
+          <label htmlFor="no" className="form-check-label">
+            ne
+          </label>
+        </div>
+
         {albumNameParam ? (
           <div>
             <h5 className="mt-5">Vyberte úvodní fotku</h5>
@@ -95,7 +130,7 @@ const AlbumForm = () => {
                 </tr>
               </thead>
               <tbody>
-                {photosInAlbum
+                {photosInAlbum.length
                   ? photosInAlbum.map((image, index) => (
                       <tr key={index}>
                         <td>
@@ -135,7 +170,7 @@ const AlbumForm = () => {
           <button
             type="button"
             className="btn btn-info"
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/admin/galerie/foto")}
           >
             Zpět
           </button>

@@ -12,13 +12,14 @@ const ArticleForm = () => {
     title: "",
     content: "",
     issuedDate: "",
-    image: { id: "" },
+    imageUrl: "",
   });
   const [albumsNames, setAlbumsNames] = useState([]);
   const { id } = useParams();
   const navigate = useNavigate();
   const [albumName, setAlbumName] = useState("");
   const [images, setImages] = useState([]);
+  const [errorState, setErrorState] = useState("");
 
   useEffect(() => {
     if (id) {
@@ -38,18 +39,24 @@ const ArticleForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (id) {
-      apiPut(`/api/articles/edit/${id}`, article).then(() =>
-        navigate("/admin/o-skole/aktuality")
-      );
+      apiPut(`/api/articles/edit/${id}`, article)
+        .then(() => navigate("/admin/uvod/aktuality"))
+        .catch((error) => setErrorState(error.message));
     } else {
-      apiPost("/api/articles/create", article).then(() =>
-        navigate("/admin/o-skole/aktuality")
-      );
+      apiPost("/api/articles/create", article)
+        .then(() => navigate("/admin/uvod/aktuality"))
+        .catch((error) => setErrorState(error.message));
     }
   };
 
   return (
     <div className="container-content">
+      {errorState ? (
+        <div className="mb-3 alert alert-danger">
+          <div className="text-uppercase">Vyplňte všechna pole</div>
+          <small>{errorState} </small>
+        </div>
+      ) : null}
       {id ? (
         <h5 className="text-uppercase">Upravit článek</h5>
       ) : (
@@ -85,7 +92,7 @@ const ArticleForm = () => {
             value={albumName}
             name=""
             id=""
-            className="form-control"
+            className="form-select"
             onChange={(e) => setAlbumName(e.target.value)}
           >
             <option value={""} disabled>
@@ -121,13 +128,13 @@ const ArticleForm = () => {
                       <input
                         type="radio"
                         className="form-check-input"
-                        value={image.id}
-                        checked={article.image?.id == image.id}
+                        value={image.url}
+                        checked={article.imageUrl == image.url}
                         onChange={(e) =>
                           setArticle((prev) => {
                             return {
                               ...prev,
-                              image: { id: e.target.value },
+                              imageUrl: e.target.value,
                             };
                           })
                         }

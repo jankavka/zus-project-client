@@ -1,6 +1,12 @@
 import React, { useEffect } from "react";
 import ArticlesIndex from "../pages/public/ArticlesIndex";
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 import {
   BasicDataIndex,
   GroupTrainingScheduleIndex,
@@ -35,27 +41,42 @@ import SchoolEducationProgramIndex from "../pages/public/SchoolEducationProgramI
 import SchoolAchievementForm from "../pages/admin/SchoolAchievementForm";
 import AlbumForm from "../pages/admin/AlbumForm";
 import ImagesForm from "../pages/admin/ImagesForm";
-import AdminFotoIndex from "../pages/admin/AdminFotoIndex";
+import AdminAlbumIndex from "../pages/admin/AdminAlbumIndex";
 import AdminAlbumDetail from "../pages/admin/AdminAlbumDetail";
 import NotFound from "../pages/public/NotFound";
 import { useSession } from "../contexts/session";
 import { apiDelete } from "../utils/api";
 import useMedia from "use-media";
 import EntranceExam from "../pages/public/EntranceExam";
-import SchoolSupport from "../pages/public/SchoolSupport";
 import GeneralInformation from "../pages/public/GeneralInformation";
 import ArticleDetail from "../pages/public/ArticleDetail";
+import SchoolSupportIndex from "../pages/public/SchoolSupportIndex";
+import SchoolSupportForm from "../pages/admin/SchoolSupportForm";
+import EntranceExamForm from "../pages/admin/EntranceExamForm";
 
 const AdminLayout = () => {
   const { session, setSession } = useSession();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogoutClick = async () => {
     await apiDelete("/api/auth");
     setSession({ data: null, status: "unauthorized" });
+    localStorage.removeItem("lastAdminPath");
     navigate("/admin/login");
   };
   const isMobile = useMedia({ maxWidth: "767px" });
+
+  useEffect(() => {
+    console.log(location.pathname);
+    if (
+      location.pathname.startsWith("/admin") &&
+      location.pathname !== "/admin/login" &&
+      location.pathname !== "/admin"
+    ) {
+      localStorage.setItem("lastAdminPath", location.pathname);
+    }
+  }, [location.pathname]);
 
   return (
     <div>
@@ -76,14 +97,25 @@ const AdminLayout = () => {
         </div>
 
         <Routes>
-          <Route index element={<Navigate to={"/admin/login"} />} />
+          <Route
+            path="/admin"
+            element={
+              <Navigate
+                to={
+                  localStorage.getItem("lastAdminPath") ||
+                  "/admin/uvod/aktuality"
+                }
+                replace
+              />
+            }
+          />
 
           <Route>
             <Route
               path="/uvod/aktuality"
               element={<ArticlesIndex isEditable={true} />}
             />
-            <Route path="/uvod/aktuality/:id" element={<ArticleDetail/>}/>
+            <Route path="/uvod/aktuality/:id" element={<ArticleDetail isAdmin={true} />} />
             <Route
               path="/uvod/aktuality/:id/upravit"
               element={<ArticleForm />}
@@ -142,6 +174,11 @@ const AdminLayout = () => {
           />
 
           <Route
+            path="/pro-rodice-a-zaky/prijimaci-zkousky/upravit"
+            element={<EntranceExamForm/>}
+          />
+
+          <Route
             path="/pro-rodice-a-zaky/rozvrh-kolektivni-vyuky"
             element={<GroupTrainingScheduleIndex isEditable={true} />}
           />
@@ -167,7 +204,7 @@ const AdminLayout = () => {
           />
           <Route
             path="/galerie/foto"
-            element={<AdminFotoIndex isEditable={true} />}
+            element={<AdminAlbumIndex isEditable={true} />}
           />
           <Route path="/galerie/foto/nove-album" element={<AlbumForm />} />
           <Route
@@ -248,7 +285,11 @@ const AdminLayout = () => {
           </Route>
           <Route
             path="/podpora-skoly"
-            element={<SchoolSupport isEditable={true} />}
+            element={<SchoolSupportIndex isEditable={true} />}
+          />
+          <Route
+            path="/podpora-skoly/upravit"
+            element={<SchoolSupportForm />}
           />
 
           <Route path="*" element={<NotFound />} />

@@ -64,7 +64,7 @@ const AdminAlbumDetail = () => {
           ))}
         </tbody>
       </table>
-        <button className="btn btn-info" type="button" onClick={() => navigate(-1)}>Zpět</button>
+        <button className="btn btn-info" type="button" onClick={() => navigate("/admin/galerie/foto/upravit-album/" + albumName)}>Zpět</button>
     </div>
   );
 };

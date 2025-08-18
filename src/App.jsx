@@ -1,4 +1,3 @@
-import { React } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -21,7 +20,7 @@ function App() {
           <Route path="/*" element={<PublicLayout />} />
           <Route path="/admin/login" element={<LoginPage />} />
           <Route path="/admin/registrace" element={<RegistrationForm />} />
-          <Route path="/admin/no-admin" element={<NoAdmin/>}/>
+          <Route path="/admin/no-admin" element={<NoAdmin />} />
 
           <Route
             path="/admin/*"

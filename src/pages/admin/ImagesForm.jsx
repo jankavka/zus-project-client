@@ -56,6 +56,7 @@ const ImagesForm = () => {
 
     fetch(`${API_URL}/api/photos/add-photos`, {
       method: "POST",
+      credentials: "include",
       body: formData,
     })
       .catch((error) => console.log(error))

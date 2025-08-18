@@ -17,7 +17,7 @@
 
 body {
     padding-top: 40px;
-    
+
 }
 
 * {
@@ -337,4 +337,18 @@ body {
 .scroll-button:hover {
     opacity: 1;
 
+}
+
+.search {
+    background: url(/src/images/search-icon.webp) no-repeat center / 30px 30px;
+    width: 50px;
+    height: 20px;
+    border: none;
+    border-radius: 50%;
+    padding: 0;
+    outline: none;
+}
+
+.search:hover {
+    background: url(/src/images/search-icon-black.webp) no-repeat center /40px 40px;
 }
