@@ -4,12 +4,29 @@ import { Link } from "react-router-dom";
 
 const SchoolAchievementsIndex = ({ forAdmin }) => {
   const [schoolAchievements, setSchoolAchievements] = useState([]);
+  const [schoolYears, setSchoolYears] = useState([]);
+  const [selectedYear, setSelectedYear] = useState({
+    id: "",
+    schoolYear: "",
+  });
 
   useEffect(() => {
-    apiGet("/api/school-achievements").then((data) =>
-      setSchoolAchievements(data)
-    );
+    apiGet("/api/school-year")
+      //last year has lowest id!!!
+      .then((data) => {
+        setSchoolYears(data);
+        setSelectedYear(data.sort((a, b) => b.id - a.id)[0]);
+      })
+      .catch((error) => console.log(error));
   }, []);
+
+  useEffect(() => {
+    if (selectedYear.id) {
+      apiGet(`/api/school-achievements/year/${selectedYear.id}`)
+        .then((data) => setSchoolAchievements(data))
+        .catch((error) => console.log(error));
+    }
+  }, [selectedYear]);
 
   const deleteAchievement = (e, id) => {
     let aprove = confirm("Opravdu chcece smazat položku?");
@@ -18,6 +35,14 @@ const SchoolAchievementsIndex = ({ forAdmin }) => {
       setSchoolAchievements(schoolAchievements.filter((item) => item.id != id));
     }
   };
+
+  const handleChange = (e) => {
+    setSelectedYear({
+      id: e.target.value,
+    });
+  };
+
+  console.log(selectedYear);
 
   return (
     <div className="container-content">
@@ -39,10 +64,27 @@ const SchoolAchievementsIndex = ({ forAdmin }) => {
         </div>
       ) : null}
       <br />
+      <div className="mb-5">
+        <label htmlFor="yearSelect">Vyberte rok:</label>
+        <select
+          value={selectedYear.id || " "}
+          className="form-select w-50"
+          onChange={(e) => handleChange(e)}
+          id="yearSelect"
+        >
+          <option value="">Vyberte rok</option>
+          {schoolYears &&
+            schoolYears.map((year, index) => (
+              <option value={year.id} key={index}>
+                {year.schoolYear}
+              </option>
+            ))}
+        </select>
+      </div>
       {schoolAchievements
         ? schoolAchievements.map((item, index) => (
             <div key={index}>
-              <h5 style={{color: "#986545"}}>{item.title}</h5>
+              <h5 style={{ color: "#986545" }}>{item.title}</h5>
               <p>Školní rok: {item.schoolYear.schoolYear}</p>
               <div dangerouslySetInnerHTML={{ __html: item.content }}></div>
               {forAdmin ? (

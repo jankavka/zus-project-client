@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Container,
   Dropdown,
@@ -7,12 +7,15 @@ import {
   Navbar,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { apiGet } from "../utils/api";
 import Nav from "react-bootstrap/Nav";
 import useMedia from "use-media";
+import SearchTool from "./SearchTool";
 
 const NavLinks = () => {
   const [hoveredMenu, setHoveredMenu] = useState();
   const isMobile = useMedia({ maxWidth: "767px" });
+  const [isEntranceExamHidden, setIsEntranceExamHidden] = useState(false);
 
   const menu = [
     {
@@ -80,13 +83,20 @@ const NavLinks = () => {
     {
       label: "kontakty",
       subMenu: [
-        { label: "Obecné informace", link: "/kontakty/obecne-informace" },
+        { label: "Obecné informace", link: "/kontakty/obecne-info" },
         { label: "Vedení školy", link: "/kontakty/vedeni-skoly" },
         { label: "Učitelé", link: "/kontakty/ucitele" },
       ],
     },
     { label: "Podpora školy", link: "/podpora-skoly" },
   ];
+
+  useEffect(() => {
+    apiGet("/api/entrance-exam/is-hidden").then((data) =>
+      setIsEntranceExamHidden(data)
+    
+    ).catch((error) => console.error(error));
+  }, []);
 
   const handleOnMouseEnter = (itemName) => {
     if (!isMobile) {
@@ -144,12 +154,12 @@ const NavLinks = () => {
                     onMouseEnter={() => handleOnMouseEnter(item.label)}
                     show={handleShow(item.label)}
                   >
-                    <DropdownToggle
+                    <Dropdown.Toggle
                       id="dropdown-autoclose-true"
                       className="text-uppercase nav-buttons"
                     >
                       {item.label}
-                    </DropdownToggle>
+                    </Dropdown.Toggle>
                     <DropdownMenu
                       renderOnMount={true}
                       rootCloseEvent="click"
@@ -161,6 +171,11 @@ const NavLinks = () => {
                         <Dropdown.Item
                           key={subItem.label}
                           as={Link}
+                          hidden={
+                            subItem.link === "/pro-rodice-a-zaky/prijimaci-zkousky"
+                              ? isEntranceExamHidden
+                              : false
+                          }
                           to={subItem.link}
                           className="text-nav"
                         >
@@ -171,6 +186,7 @@ const NavLinks = () => {
                   </Dropdown>
                 )
               )}
+              <SearchTool/>
             </Nav>
           </Navbar.Collapse>
         </Container>

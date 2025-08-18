@@ -2,11 +2,16 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { apiGet } from "../../utils/api";
 import { Link } from "react-router-dom";
+import useMedia from "use-media";
 
 export const BasicDataIndex = ({ isEditable }) => {
   const [basicData, setBasicData] = useState([]);
   const [director, setDirector] = useState({});
   const [deputyDirector, setDeputyDirector] = useState({});
+  //const isMobile = useMedia({maxWidth: "767px"})
+  
+  //mobile or tablet
+  const isMobile = useMedia({maxWidth: "991px"})
 
   useEffect(() => {
     apiGet("/api/static/basic-data").then((data) => setBasicData(data));
@@ -64,12 +69,12 @@ export const BasicDataIndex = ({ isEditable }) => {
             <td className="my-table-background">
               <strong>Místa poskytovaného vzdělávání:</strong>
             </td>
-            <td className="my-table-background">
+            <td className={`my-table-background`}>
               {locations &&
                 locations
                   .filter((item) => item != false)
                   .map((value, index) => (
-                    <span key={index}>
+                    <span className={`${isMobile ? "" : "text-nowrap"}`} key={index}>
                       {index + 1 + "."} {value}
                       <br />
                     </span>
@@ -190,7 +195,7 @@ export const HistoryAndPresentIndex = ({ isEditable }) => {
 
   return (
     <div className="container-content">
-      <h1>Historie a současnost</h1>
+      <h5 className="text-uppercase">Historie a současnost</h5>
       <div
         dangerouslySetInnerHTML={{ __html: historyAndPresent.content }}
       ></div>
@@ -274,7 +279,7 @@ export const RequiredInforamtionIndex = ({ isEditable }) => {
 
   return (
     <div className="container-content">
-      <h1>Povinně zveřejňované informace</h1>
+      <h5 className="text-uppercase">Povinně zveřejňované informace</h5>
       {isEditable ? (
         <Link
           className="btn btn-warning mb-3"
@@ -406,7 +411,7 @@ export const StudyFocusIndex = ({ isEditable }) => {
   }, []);
   return (
     <div className="container-content">
-      <h1>Studijní zameření</h1>
+      <h5 className="text-uppercase">Studijní zameření</h5>
       {isEditable ? (
         <Link
           className="btn btn-warning mb-3"

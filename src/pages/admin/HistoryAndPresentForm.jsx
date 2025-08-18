@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { apiGet,apiPut } from "../../utils/api";
+import { apiGet, apiPut } from "../../utils/api";
 import MyEditor from "../../components/MyEditor";
 import { useNavigate } from "react-router-dom";
 
 const HistoryAndPresentForm = () => {
-  const [historyAndPresent, setHistoryAndPresent] = useState({});
+  const [historyAndPresent, setHistoryAndPresent] = useState({
+    title: "",
+    content: "",
+  });
   const editorRef = useRef(null);
   const navigate = useNavigate();
 
@@ -33,7 +36,12 @@ const HistoryAndPresentForm = () => {
           className="form-control"
           type="text"
           value={historyAndPresent.title}
-          onChange={(e) => setHistoryAndPresent({...historyAndPresent, title: e.target.value})}
+          onChange={(e) =>
+            setHistoryAndPresent({
+              ...historyAndPresent,
+              title: e.target.value,
+            })
+          }
         />
       </div>
       <div className="mb-3">
@@ -50,8 +58,16 @@ const HistoryAndPresentForm = () => {
         ></MyEditor>
       </div>
       <div>
-      <button className="btn btn-success me-3" onClick={handleSubmit}>Uložit</button>
-      <button className="btn btn-info" type="button" onClick={() => navigate(-1)}>Zpět</button>
+        <button className="btn btn-success me-3" onClick={handleSubmit}>
+          Uložit
+        </button>
+        <button
+          className="btn btn-info"
+          type="button"
+          onClick={() => navigate(-1)}
+        >
+          Zpět
+        </button>
       </div>
     </div>
   );

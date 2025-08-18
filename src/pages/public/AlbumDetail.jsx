@@ -1,18 +1,27 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { apiGet } from "../../utils/api";
 import { API_URL } from "../../utils/api";
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
 
 const AlbumDetail = () => {
   const { albumName } = useParams();
   const [images, setImages] = useState([]);
   const [albumDescription, setAlbumDescription] = useState("");
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [slides, setSlides] = useState([]);
+  const [slideIndex, setSlideIndex] = useState(0);
+  const captionsRef = useRef(null)
 
   useEffect(() => {
-    apiGet(`/api/photos/get-images/${albumName}`).then((data) =>
-      setImages(data)
-    );
+    apiGet(`/api/photos/get-images/${albumName}`).then((data) => {
+      setImages(data);
+      for (let image of data) {
+        setSlides((prev) => [...prev, { src: `${API_URL}${image.url}`}]);
+      }
+    });
     apiGet("/api/photos/get-albums").then((data) => {
       for (let key in data) {
         if (data[key].albumName === albumName) {
@@ -22,26 +31,45 @@ const AlbumDetail = () => {
     });
   }, []);
 
+  console.log(slides);
+  console.log(images);
+
   return (
     <div className="container-content">
       <h5 className="text-uppercase">Album: {albumDescription}</h5>
       <div className="row">
         {images.map((image, index) => (
-          <div className="col" key={index}>
-            <img
-              className="album-image me-3 mb-3"
-              src={`${API_URL}${image.url}`}
-            />
+          <div id={index} className="col" key={index}>
+            <Link
+              type="button"
+              onClick={() => {
+                setOpen(true);
+                setSlideIndex(index);
+              }}
+            >
+              <img
+                className="album-image me-3 mb-3"
+                src={`${API_URL}${image.url}`}
+              />
+            </Link>
           </div>
         ))}
+        <Lightbox
+          open={open}
+          close={() => setOpen(false)}
+          slides={slides}
+          index={slideIndex}
+        />
       </div>
       <div>
         <button
-          className="btn btn-info"
+          className="btn btn-light border-black"
           type="button"
-          onClick={() => navigate(-1)}
+          onClick={() =>
+            navigate("/galerie/foto", { preventScrollReset: false })
+          }
         >
-          Zpět
+          Zpět na alba
         </button>
       </div>
     </div>

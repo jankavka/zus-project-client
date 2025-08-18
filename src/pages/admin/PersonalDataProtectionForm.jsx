@@ -31,7 +31,10 @@ const PersonalDataProtectionForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    apiPut("/api/static/update/personal-data-protection", personalDataProtection)
+    apiPut(
+      "/api/static/update/personal-data-protection",
+      personalDataProtection
+    )
       .catch((error) => console.log(error))
       .then(() => navigation("/admin/uredni-deska/ochrana-osobnich-udaju"));
   };
@@ -51,16 +54,27 @@ const PersonalDataProtectionForm = () => {
           onChange={handleInputChange}
         />
         <MyEditor
-            subject={personalDataProtection}
-            editorRef={editorRef}
-            onChange={() => {
-                setPersonalDataProtection({
-                    ...personalDataProtection,
-                    content: editorRef.current.getContent()
-                })
-            }}
+          subject={personalDataProtection}
+          editorRef={editorRef}
+          onChange={() => {
+            setPersonalDataProtection({
+              ...personalDataProtection,
+              content: editorRef.current.getContent(),
+            });
+          }}
         />
-        <button className="btn btn-success mt-3" type="submit">Uložit</button>
+        <div className="d-flex justify-content-evenly">
+          <button className="btn btn-success mt-3" type="submit">
+            Uložit
+          </button>
+          <button
+            className="btn btn-info mt-3"
+            type="button"
+            onClick={() => navigation(-1)}
+          >
+            Zpět
+          </button>
+        </div>
       </form>
     </div>
   );

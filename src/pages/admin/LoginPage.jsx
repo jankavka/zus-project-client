@@ -11,6 +11,7 @@ const LoginPage = () => {
   const [errorState, setErrorState] = useState(false);
   const [errorAdmin, setErrorAdmin] = useState(false);
   const navigate = useNavigate();
+  const from = localStorage.getItem("lastAdminPath") || "/admin/uvod/aktuality"
 
   useEffect(() => {
     console.log("Session changed:", session);
@@ -18,7 +19,7 @@ const LoginPage = () => {
       console.warn("No user logged");
     }
     if (session.status === "authenticated" && session.data) {
-      navigate("/admin/uvod/aktuality");
+      navigate(from)
     }
   }, [session.data, session.status]);
 
@@ -35,11 +36,6 @@ const LoginPage = () => {
         console.error("Login failed:", error);
         setErrorState(true);
       });
-
-    if (session.data !== null) {
-      console.log(session);
-      navigate("/admin/o-skole/aktuality");
-    }
   };
 
   console.log(session);

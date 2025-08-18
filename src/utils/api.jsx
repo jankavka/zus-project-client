@@ -25,10 +25,19 @@ export const apiGet = async (url, params) => {
     credentials: "include",
   };
   const apiUrl = `${API_URL}${url}?${new URLSearchParams(requestParams)}`;
-  const json = await fetch(apiUrl, requestOptions).then((response) =>
-    response.json()
-  );
-  return json;
+  console.log(apiUrl)
+
+  const response = await fetch(apiUrl, requestOptions)
+  const body = await response.json()
+
+  if (!response.ok){
+    const error = new Error("Error: Internal server Error")
+    throw error
+
+  }
+  
+  
+  return body;
 };
 
 export const apiPost = async (url, data) => {
