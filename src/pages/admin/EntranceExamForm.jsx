@@ -3,6 +3,8 @@ import { apiGet, apiPost } from "../../utils/api";
 import FormInput from "../../components/FormInput";
 import MyEditor from "../../components/MyEditor";
 import { useNavigate } from "react-router-dom";
+import FlashMessage from "../../components/FlashMessage";
+import { messages } from "../../components/FlashMessageTexts";
 
 const EntranceExamForm = () => {
   const [isHidden, setIsHidden] = useState(false);
@@ -12,25 +14,48 @@ const EntranceExamForm = () => {
     hidden: isHidden,
   });
   const editorRef = useRef();
-
   const navigate = useNavigate();
+  const [errorState, setErrorState] = useState(false);
+  const [savingErrorState, setSavingErrorState] = useState(false);
 
   console.log(entranceExam);
 
   useEffect(() => {
-    apiGet("/api/entrance-exam").then((data) => setEntranceExam(data));
+    apiGet("/api/entrance-exam")
+      .then((data) => setEntranceExam(data))
+      .catch((error) => {
+        setErrorState(true);
+        console.error(error);
+      });
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     apiPost("/api/entrance-exam", entranceExam)
-      .catch((error) => console.error(error))
-      .then(() => navigate("/admin/pro-rodice-a-zaky/prijimaci-zkousky"));
+      .then(() =>
+        navigate("/admin/pro-rodice-a-zaky/prijimaci-zkousky", {
+          state: { successState: true },
+        })
+      )
+      .catch((error) => {
+        setSavingErrorState(true)
+        console.error(error);
+      });
   };
 
   return (
     <div className="container-content">
       <h5 className="text-uppercase mb-3">Přijímací zkoušky</h5>
+      <FlashMessage
+        success={false}
+        state={errorState}
+        text={messages.dataLoadErr}
+      />
+      <FlashMessage
+        success={false}
+        state={savingErrorState}
+        text={messages.dataUpdateErr}
+      />
       <form onSubmit={(e) => handleSubmit(e)}>
         <div className="mb-3">
           <FormInput

@@ -1,34 +1,72 @@
 import React, { useEffect, useState } from "react";
 import { apiDelete, apiGet } from "../../utils/api";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import FlashMessage from "../../components/FlashMessage";
+import { messages } from "../../components/FlashMessageTexts";
 
 const SchoolManagementIndex = ({ isEditable }) => {
+  const location = useLocation();
   const [schoolManagement, setSchoolManagement] = useState([]);
-  const [succesState, setScuccessState] = useState();
+  const [loadingErrorState, setLoadingErrorState] = useState(false);
+  const [deleteSuccessState, setDeleteSuccessState] = useState(
+    location.state?.deleteSuccessState || false
+  );
+  const [deleteErrorState, setDeleteErrorState] = useState(false);
+  const { successCreateState } = location.state || false;
+  const { successEditState } = location.state || false;
 
   useEffect(() => {
-    apiGet("/api/school-management").then((data) => setSchoolManagement(data));
-    if (schoolManagement.length !== 0) {
-      console.log(schoolManagement);
-    }
+    apiGet("/api/school-management")
+      .then((data) => setSchoolManagement(data))
+      .catch((error) => {
+        setLoadingErrorState(true);
+        console.error(error);
+      });
   }, []);
 
   const handleDeleteMember = (id) => {
     let aprove = confirm("Opravdu chcete vymazat záznam");
     if (aprove) {
       apiDelete(`/api/school-management/${id}/delete`)
-        .then(() => setScuccessState(true))
-        .catch((error) => console.log(error));
+        .then(() => {
+          setDeleteSuccessState(true);
+          setSchoolManagement(schoolManagement.filter((item) => item.id != id));
+        })
+        .catch((error) => {
+          setDeleteErrorState(true);
+          console.error(error);
+        });
     }
-    setSchoolManagement(schoolManagement.filter((item) => item.id != id));
   };
 
   return (
     <div className="container-content">
       <h5 className="text-uppercase">Vedení školy</h5>
-      {succesState ? (
-        <div className="alert alert-success">Záznam byl úspěšně vymazán</div>
-      ) : null}
+      <FlashMessage
+        success={true}
+        state={deleteSuccessState}
+        text={messages.dataDeleteOk}
+      />
+      <FlashMessage
+        success={true}
+        state={successCreateState}
+        text={messages.dataCreateOk}
+      />
+      <FlashMessage
+        success={true}
+        state={successEditState}
+        text={messages.dataUpdateOk}
+      />
+      <FlashMessage
+        success={false}
+        state={deleteErrorState}
+        text={messages.dataDeleteErr}
+      />
+      <FlashMessage
+        success={false}
+        state={loadingErrorState}
+        text={messages.dataLoadErr}
+      />
       {isEditable ? (
         <Link
           to={"/admin/kontakty/vedeni-skoly/novy"}
@@ -49,7 +87,15 @@ const SchoolManagementIndex = ({ isEditable }) => {
           {schoolManagement.map((member, index) => (
             <tr key={index}>
               <td>
-                <Link to={`/kontakty/vedeni-skoly/${member.id}`}>{member.degree} {member.name}</Link>
+                {isEditable ? (
+                  <Link to={`/admin/kontakty/vedeni-skoly/${member.id}`}>
+                    {member.degree} {member.name}
+                  </Link>
+                ) : (
+                  <Link to={`/kontakty/vedeni-skoly/${member.id}`}>
+                    {member.degree} {member.name}
+                  </Link>
+                )}
               </td>
               <td>
                 <span>{member.telNumber}</span>

@@ -2,12 +2,16 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { apiDelete, apiGet } from "../../utils/api";
 import { API_URL } from "../../utils/api";
+import FlashMessage from "../../components/FlashMessage";
+import { messages } from "../../components/FlashMessageTexts";
 
 const AdminAlbumDetail = () => {
   const { albumName } = useParams();
   const [images, setImages] = useState([]);
   const [albumDescription, setAlbumDescription] = useState("");
   const navigate = useNavigate();
+  const [deleteSuccessState, setDeleteSuccessState] = useState(null);
+  const [deleteErrorState, setDeleteErrorState] = useState(null);
 
   useEffect(() => {
     apiGet(`/api/photos/get-images/${albumName}`).then((data) =>
@@ -25,7 +29,12 @@ const AdminAlbumDetail = () => {
   const deleteImage = (id) => {
     let aprove = confirm("Opravdu chcete vymazat tento obrázek?");
     if (aprove) {
-      apiDelete(`/api/photos/delete-image/${id}`);
+      apiDelete(`/api/photos/delete-image/${id}`)
+        .then(() => setDeleteSuccessState(true))
+        .catch((error) => {
+          setDeleteErrorState(true);
+          console.error(error);
+        });
 
       setImages(images.filter((image) => image.id !== id));
     }
@@ -34,6 +43,16 @@ const AdminAlbumDetail = () => {
   return (
     <div className="container-content">
       <h5 className="text-uppercase">Album: {albumDescription}</h5>
+      <FlashMessage
+        success={true}
+        state={deleteSuccessState}
+        text={messages.fileDeleteOk}
+      />
+      <FlashMessage
+        success={false}
+        state={deleteErrorState}
+        text={messages.fileDeleteErr}
+      />
       <table className="table table-responsive">
         <thead>
           <tr>
@@ -64,7 +83,15 @@ const AdminAlbumDetail = () => {
           ))}
         </tbody>
       </table>
-        <button className="btn btn-info" type="button" onClick={() => navigate("/admin/galerie/foto/upravit-album/" + albumName)}>Zpět</button>
+      <button
+        className="btn btn-info"
+        type="button"
+        onClick={() =>
+          navigate(-1)
+        }
+      >
+        Zpět
+      </button>
     </div>
   );
 };

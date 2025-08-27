@@ -60,6 +60,10 @@ export const apiDelete = async (url) => {
   };
   const apiUrl = `${API_URL}${url}`;
   const data = await fetch(apiUrl, requestOptions);
+  if (!data.ok){
+    const errorResponse = await response.json();
+    throw new Error("Error: " + errorResponse.message)
+  }
   const json = await data.json();
   
   return json

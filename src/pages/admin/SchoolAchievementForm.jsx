@@ -3,6 +3,8 @@ import { apiGet, apiPost, apiPut } from "../../utils/api";
 import FormInput from "../../components/FormInput";
 import { useNavigate, useParams } from "react-router-dom";
 import MyEditor from "../../components/MyEditor";
+import FlashMessage from "../../components/FlashMessage";
+import { messages } from "../../components/FlashMessageTexts";
 
 const SchoolAchievementForm = () => {
   const [schoolAchievement, setSchoolAchievement] = useState({
@@ -14,21 +16,32 @@ const SchoolAchievementForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const editorRef = useRef();
-
-  const [counter, setCounter] = useState(1);
+  //const [counter, setCounter] = useState(1);
+  const [loadingErrorState, setLoadingErrorState] = useState(false);
+  const [uploadingErrorState, setUploadingErrorState] = useState(false);
+  const [creatingErrorState, setCreatingErrorState] = useState(false);
 
   useEffect(() => {
     if (id) {
-      apiGet(`/api/school-achievements/${id}`).then((data) =>
-        setSchoolAchievement(data)
-      );
+      apiGet(`/api/school-achievements/${id}`)
+        .then((data) => setSchoolAchievement(data))
+        .catch((error) => {
+          setLoadingErrorState(true);
+          console.error(error);
+        });
       apiGet("/api/school-year")
-        .catch((error) => console.log(error))
-        .then((data) => setSchoolYears(data));
+        .then((data) => setSchoolYears(data))
+        .catch((error) => {
+          setLoadingErrorState(true);
+          console.error(error);
+        });
     } else {
       apiGet("/api/school-year")
-        .catch((error) => console.log(error))
-        .then((data) => setSchoolYears(data));
+        .then((data) => setSchoolYears(data))
+        .catch((error) => {
+          setLoadingErrorState(true);
+          console.error(error);
+        });
     }
   }, []);
 
@@ -47,12 +60,26 @@ const SchoolAchievementForm = () => {
     e.preventDefault();
     if (id) {
       apiPut(`/api/school-achievements/edit/${id}`, schoolAchievement)
-        .catch((error) => console.log(error))
-        .then(() => navigate("/admin/o-skole/uspechy-skoly"));
+        .then(() =>
+          navigate("/admin/o-skole/uspechy-skoly", {
+            state: { successState: true },
+          })
+        )
+        .catch((error) => {
+          setUploadingErrorState(true);
+          console.error(error);
+        });
     } else {
       apiPost("/api/school-achievements/create", schoolAchievement)
-        .catch((error) => console.log(error))
-        .then(() => navigate("/admin/o-skole/uspechy-skoly"));
+        .then(() =>
+          navigate("/admin/o-skole/uspechy-skoly", {
+            state: { successState: true },
+          })
+        )
+        .catch((error) => {
+          setCreatingErrorState(true);
+          console.error(error);
+        });
     }
   };
 
@@ -64,6 +91,21 @@ const SchoolAchievementForm = () => {
   return (
     <div className="container-content">
       <h5 className="text-uppercase">Úspěchy školy</h5>
+      <FlashMessage
+        success={false}
+        state={loadingErrorState}
+        text={messages.dataLoadErr}
+      />
+      <FlashMessage
+        success={false}
+        state={uploadingErrorState}
+        text={messages.dataUpdateErr}
+      />
+      <FlashMessage
+        success={false}
+        state={creatingErrorState}
+        text={messages.dataCreateErr}
+      />
       <form onSubmit={(e) => handleSubmit(e, id)}>
         <div>
           <FormInput

@@ -1,3 +1,5 @@
+import FlashMessage from "../../components/FlashMessage";
+import { messages } from "../../components/FlashMessageTexts";
 import FormInput from "../../components/FormInput";
 import { apiPost } from "../../utils/api";
 import { useEffect, useState } from "react";
@@ -8,9 +10,10 @@ const RegistrationForm = () => {
   const [passwordOne, setPasswordOne] = useState("");
   const [passwordTwo, setPasswordTwo] = useState("");
   const [passwordError, setPasswordError] = useState(false);
-  const [someError, setSomeError] = useState(false);
+  const [sizeError, setSizeError] = useState(false);
   const navigate = useNavigate();
   const [success, setSuccess] = useState(false);
+  const [someError, setSomeError] = useState(false);
 
   useEffect(() => {
     if (success) {
@@ -23,13 +26,18 @@ const RegistrationForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (passwordOne === passwordTwo) {
-      const body = { email: email, password: passwordTwo };
-      apiPost("/api/user", body)
-        .then(() => setSuccess(true))
-        .catch((error) => {
-          setSomeError(true);
-          console.log(error);
-        });
+      if (passwordOne.length < 6) {
+        setSizeError(true);
+        console.error("Error: Minimální délka hesla je 6 znaků  ");
+      } else {
+        const body = { email: email, password: passwordTwo };
+        apiPost("/api/user", body)
+          .then(() => setSuccess(true))
+          .catch((error) => {
+            setSomeError(true);
+            console.error("Unexpected error: " + error);
+          });
+      }
     } else {
       setPasswordError(true);
     }
@@ -39,14 +47,21 @@ const RegistrationForm = () => {
     <div className="d-flex justify-content-center">
       <div className="container-content" style={{ width: "960px" }}>
         <h5 className="text-uppercase">Registrace</h5>
-        {passwordError ? (
-          <div className="alert alert-danger">Hesla se neshodují</div>
-        ) : null}
-        {someError ? (
-          <div className="alert alert-danger">
-            Minimální délka hesla je 6 znaků
-          </div>
-        ) : null}
+        <FlashMessage
+          success={false}
+          state={passwordError}
+          text={`${messages.loginErr}. Hesla se neshodují`}
+        />
+        <FlashMessage
+          success={false}
+          state={sizeError}
+          text={`${messages.loginErr}. Minimální délka hesla je 6 znaků `}
+        />
+        <FlashMessage
+          success={false}
+          state={someError}
+          text={"Neočekávaná chyba"}
+        />
         <form onSubmit={(e) => handleSubmit(e)}>
           <FormInput
             label="Email"

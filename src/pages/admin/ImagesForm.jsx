@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { apiGet } from "../../utils/api";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { API_URL } from "../../utils/api";
+import FlashMessage from "../../components/FlashMessage";
+import { messages } from "../../components/FlashMessageTexts";
 
 const ImagesForm = () => {
   const fileInputRef = useRef(null);
@@ -12,17 +14,27 @@ const ImagesForm = () => {
   const [errorState, setErrorState] = useState(false);
   const { albumNameParam } = useParams();
   const [photosInAlbum, setPhotosInAlbum] = useState([]);
+  const [loadingErrorState, setLoadingErrorState] = useState(false);
+  const [uploadingErrorState, setUploadingErrorState] = useState(false);
 
   useEffect(() => {
-    apiGet("/api/photos/all-albums-names").then((data) => {
-      setAlbums(data);
-    });
+    apiGet("/api/photos/all-albums-names")
+      .then((data) => {
+        setAlbums(data);
+      })
+      .catch((error) => {
+        setLoadingErrorState(true);
+        console.error(error);
+      });
     if (albumNameParam) {
       setAlbumName(albumNameParam);
       console.log(albumName);
-      apiGet("/api/photos/get-images/" + albumNameParam).then((data) =>
-        setPhotosInAlbum(data)
-      );
+      apiGet("/api/photos/get-images/" + albumNameParam)
+        .then((data) => setPhotosInAlbum(data))
+        .catch((error) => {
+          setLoadingErrorState(true);
+          console.error(error);
+        });
     }
   }, []);
 
@@ -59,16 +71,31 @@ const ImagesForm = () => {
       credentials: "include",
       body: formData,
     })
-      .catch((error) => console.log(error))
-      .then(() => navigate("/admin/galerie/foto"));
+      .then(() => navigate("/admin/galerie/foto", {state: {successState: true}}))
+      .catch((error) => {
+        setUploadingErrorState(true);
+        console.log(error);
+      });
   };
 
   return (
     <div className="container-content">
       <h5 className="text-uppercase">Vyberte fotky a album</h5>
-      {errorState ? (
-        <div className="alert alert-danger"> Je třeba vyplnit všechna pole</div>
-      ) : null}
+      <FlashMessage
+        success={false}
+        state={errorState}
+        text={`${messages.fileCreateErr}. Máte vyplněna všechna pole?`}
+      />
+      <FlashMessage
+        success={false}
+        state={uploadingErrorState}
+        text={messages.fileCreateErr}
+      />
+      <FlashMessage
+        success={false}
+        state={loadingErrorState}
+        text={messages.fileLoadErr}
+      />
       <form onSubmit={handleSubmit} className="mb-3">
         <div>
           <label>Název alba</label>

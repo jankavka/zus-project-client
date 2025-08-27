@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import FormInput from "../../components/FormInput";
 import { API_URL, apiGet, apiPost, apiPut } from "../../utils/api";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import FlashMessage from "../../components/FlashMessage";
+import { messages } from "../../components/FlashMessageTexts";
 
 const AlbumForm = () => {
   const { albumNameParam } = useParams();
@@ -12,6 +14,7 @@ const AlbumForm = () => {
   const [oldAlbumName, setOldAlbumName] = useState("");
   const [isHidden, setIsHidden] = useState(false);
   const navigate = useNavigate();
+  const [errorState, setErrorState] = useState(false);
 
   useEffect(() => {
     setAlbumName(albumNameParam);
@@ -26,9 +29,9 @@ const AlbumForm = () => {
           })
           .catch((error) => console.log(error))
       );
-      apiGet("/api/photos/get-images/" + albumNameParam).then((data) =>
-        setPhotosInAlbum(data)
-      ).catch((error) => console.log(error));
+      apiGet("/api/photos/get-images/" + albumNameParam)
+        .then((data) => setPhotosInAlbum(data))
+        .catch((error) => console.log(error));
     }
   }, []);
 
@@ -47,22 +50,32 @@ const AlbumForm = () => {
         albumName: albumName,
         albumDescription: albumDescription,
         leadPictureUrl: leadPictureUrl?.replace(oldAlbumName, albumName),
-        isHidden: isHidden
+        isHidden: isHidden,
       };
-      apiPut("/api/photos/edit-album/" + albumNameParam, body).then(() =>
-        navigate("/admin/galerie/foto")
-      );
-
-      console.log("body: " + body.leadPictureUrl);
+      apiPut("/api/photos/edit-album/" + albumNameParam, body)
+        .then(() =>
+          navigate("/admin/galerie/foto", { state: { editSuccessState: true } })
+        )
+        .catch((error) => {
+          setErrorState(true);
+          console.error("Error: " + error);
+        });
     } else {
       const body = {
         albumName: albumName,
         albumDescription: albumDescription,
-        isHidden: isHidden
+        isHidden: isHidden,
       };
-      apiPost("/api/photos/new-album", body).then(() => {
-        navigate("/admin/galerie/foto");
-      });
+      apiPost("/api/photos/new-album", body)
+        .then(() => {
+          navigate("/admin/galerie/foto", {
+            state: { createSuccessState: true },
+          });
+        })
+        .catch((error) => {
+          setErrorState(true);
+          console.error("Error:" + error);
+        });
     }
   };
 
@@ -73,6 +86,11 @@ const AlbumForm = () => {
       ) : (
         <h5 className="text-uppercase">Přidej album</h5>
       )}
+      <FlashMessage
+        success={false}
+        state={errorState}
+        text={messages.dataCreateErr}
+      />
       <form onSubmit={(e) => handleSubmit(e)}>
         <div>
           <FormInput
@@ -107,7 +125,7 @@ const AlbumForm = () => {
         </div>
         <div className="form-check">
           <input
-            checked = {!isHidden}
+            checked={!isHidden}
             id="no"
             name="isHidden"
             className="form-check-input"
@@ -158,7 +176,7 @@ const AlbumForm = () => {
               className="btn btn-warning mb-3"
               to={"/admin/galerie/foto/" + albumNameParam}
             >
-              Vybrat a vymazat fotky
+              Editace obsahu alba
             </Link>
           </div>
         ) : null}

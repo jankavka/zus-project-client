@@ -3,6 +3,8 @@ import { apiGet, apiPost } from "../../utils/api";
 import { useNavigate, Link } from "react-router-dom";
 import formatDate from "../../components/formatDate";
 import { addInput, removeInput } from "../../components/InputManagement";
+import FlashMessage from "../../components/FlashMessage";
+import { messages } from "../../components/FlashMessageTexts";
 
 const BasicDataForm = () => {
   const [basicData, setBasicData] = useState({
@@ -22,27 +24,34 @@ const BasicDataForm = () => {
   const [deputyDirector, setDeputyDirector] = useState({});
   const [fieldCounter, setFieldCounter] = useState(1);
   const [locationsOfEducation, setLocationsOfEducation] = useState([" "]);
+  const [errorState, setErrorState] = useState(false);
 
   useEffect(() => {
     apiGet("/api/static/basic-data").then((data) => setBasicData(data));
     apiGet("/api/static/basic-data").then((data) =>
       setLocationsOfEducation(data.locationsOfEducation)
     );
-    apiGet("/api/static/basic-data").then((data) =>
-      setFieldCounter(
-        data.locationsOfEducation.filter((item) => item !== " ").length
+    apiGet("/api/static/basic-data")
+      .then((data) =>
+        setFieldCounter(
+          data.locationsOfEducation.filter((item) => item !== " ").length
+        )
       )
-    );
-    apiGet("/api/school-management").then((data) =>
-      setDirector(
-        data.filter((member) => member.managementType === "director")[0]
+      .catch((error) => console.error(error));
+    apiGet("/api/school-management")
+      .then((data) =>
+        setDirector(
+          data.filter((member) => member.managementType === "director")[0]
+        )
       )
-    );
-    apiGet("/api/school-management").then((data) =>
-      setDeputyDirector(
-        data.filter((member) => member.managementType === "deputyDirector")[0]
+      .catch((error) => console.error(error));
+    apiGet("/api/school-management")
+      .then((data) =>
+        setDeputyDirector(
+          data.filter((member) => member.managementType === "deputyDirector")[0]
+        )
       )
-    );
+      .catch((error) => console.error(error));
   }, []);
 
   const handleSubmit = (e) => {
@@ -51,9 +60,16 @@ const BasicDataForm = () => {
       ...basicData,
       locationsOfEducation,
     };
-    apiPost("/api/static/basic-data/create-or-edit", body).then(() =>
-      navigate("/admin/o-skole/zakladni-udaje")
-    );
+    apiPost("/api/static/basic-data/create-or-edit", body)
+      .then(() =>
+        navigate("/admin/o-skole/zakladni-udaje", {
+          state: { successState: true },
+        })
+      )
+      .catch((error) => {
+        setErrorState(true);
+        console.error(error);
+      });
   };
 
   useEffect(() => {
@@ -79,6 +95,11 @@ const BasicDataForm = () => {
   return (
     <div>
       <h5 className="text-uppercase">Základní údaje</h5>
+      <FlashMessage
+        success={false}
+        state={errorState}
+        text={messages.dataUpdateErr}
+      />
       <p>Naposledy upraveno: {formatDate(new Date(basicData.issuedDate))}</p>
       <form onSubmit={handleSubmit}>
         <div>

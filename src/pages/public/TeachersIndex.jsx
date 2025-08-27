@@ -1,26 +1,67 @@
 import React, { useEffect, useState } from "react";
 import { apiGet, apiDelete } from "../../utils/api";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import FlashMessage from "../../components/FlashMessage";
+import { messages } from "../../components/FlashMessageTexts";
 
 const TeachersIndex = ({ isEditable }) => {
   const [teachers, setTeachers] = useState([]);
+  const location = useLocation();
+  const { successEditState } = location.state || false;
+  const { successCreateState } = location.state || false;
+  const [loadingErrorState, setLoadingErrorState] = useState(false);
+  const [deleteSuccessState, setDeleteSuccessState] = useState(false);
+  const [deleteErrorState, setDeleteErrorState] = useState(false);
 
   const deleteTeacher = (id) => {
     let aprove = confirm("Opravdu chcete vymazat záznam?");
     if (aprove) {
-      apiDelete(`/api/teachers/${id}/delete`).then(() =>
-        setTeachers(teachers.filter((item) => item.id !== id))
-      );
+      apiDelete(`/api/teachers/${id}/delete`)
+        .then(() => setTeachers(teachers.filter((item) => item.id !== id)))
+        .catch((error) => {
+          setDeleteErrorState(true);
+          console.error(error);
+        });
     }
   };
 
   useEffect(() => {
-    apiGet("/api/teachers").then((data) => setTeachers(data));
+    apiGet("/api/teachers")
+      .then((data) => setTeachers(data))
+      .catch((error) => {
+        setLoadingErrorState(true);
+        console.error(error);
+      });
   }, []);
 
   return (
     <div className="container-content">
       <h5 className="text-uppercase">Učitelé</h5>
+      <FlashMessage
+        success={true}
+        state={successCreateState}
+        text={messages.dataCreateOk}
+      />
+      <FlashMessage
+        success={true}
+        state={successEditState}
+        text={messages.dataUpdateOk}
+      />
+      <FlashMessage
+        success={true}
+        state={deleteSuccessState}
+        text={messages.dataDeleteOk}
+      />
+      <FlashMessage
+        success={false}
+        state={deleteErrorState}
+        text={messages.dataDeleteErr}
+      />
+      <FlashMessage
+        success={false}
+        stae={loadingErrorState}
+        text={messages.dataLoadErr}
+      />
       {isEditable ? (
         <Link
           className="btn btn-success mb-3"
