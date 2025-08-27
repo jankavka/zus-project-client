@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import MyEditor from "../../components/MyEditor";
 import { useNavigate } from "react-router-dom";
 import { apiPut, apiGet } from "../../utils/api";
+import FlashMessage from "../../components/FlashMessage";
+import { messages } from "../../components/FlashMessageTexts";
 
 const SchoolSupportForm = () => {
   const [schoolSupport, setSchoolSupport] = useState({
@@ -10,25 +12,45 @@ const SchoolSupportForm = () => {
   });
   const editorRef = useRef();
   const navigate = useNavigate();
+  const [loadingErrorState, setLoadingErrorState] = useState(false);
+  const [uploadingErrorState, setUploadingErrorState] = useState(false);
 
   useEffect(() => {
     apiGet("/api/static/school-support")
-      ?.then((data) => setSchoolSupport(data))
-      .catch((error) => console.log(error));
+      .then((data) => setSchoolSupport(data))
+      .catch((error) => {
+        setLoadingErrorState(true);
+        console.error(error);
+      });
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     apiPut("/api/static/update/school-support", schoolSupport)
-      .catch((error) => console.log(error))
-      .then(() => navigate("/admin/podpora-skoly"));
+      .then(() =>
+        navigate("/admin/podpora-skoly", { state: { successState: true } })
+      )
+      .catch((error) => {
+        setUploadingErrorState(true);
+        console.error(error);
+      });
   };
 
-  console.log(schoolSupport)
+  console.log(schoolSupport);
 
   return (
     <div className="container-content">
       <h5 className="text-uppercase">Podpora školy</h5>
+      <FlashMessage
+        success={false}
+        state={loadingErrorState}
+        text={messages.dataLoadErr}
+      />
+      <FlashMessage
+        success={false}
+        state={uploadingErrorState}
+        text={messages.dataUpdateErr}
+      />
       <div className="mb-3">
         <label>Titulek </label>
         <input
@@ -57,7 +79,10 @@ const SchoolSupportForm = () => {
         ></MyEditor>
       </div>
       <div>
-        <button className="btn btn-success me-3" onClick={(e) => handleSubmit(e)}>
+        <button
+          className="btn btn-success me-3"
+          onClick={(e) => handleSubmit(e)}
+        >
           Uložit
         </button>
         <button

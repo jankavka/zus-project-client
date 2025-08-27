@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { apiGet, apiPut } from "../../utils/api";
 import FormInput from "../../components/FormInput";
 import MyEditor from "../../components/MyEditor";
+import FlashMessage from "../../components/FlashMessage";
+import { messages } from "../../components/FlashMessageTexts";
 
 const SchoolFeeForm = () => {
   const [schoolFee, setSchoolFee] = useState({
@@ -11,9 +13,16 @@ const SchoolFeeForm = () => {
   });
   const editorRef = useRef();
   const navigate = useNavigate();
+  const [loadingErrorState, setLoadingErrorState] = useState(false);
+  const [uploadingErrorState, setUploadingErrorState] = useState(false);
 
   useEffect(() => {
-    apiGet("/api/static/school-fee").then((data) => setSchoolFee(data));
+    apiGet("/api/static/school-fee")
+      .then((data) => setSchoolFee(data))
+      .catch((error) => {
+        setLoadingErrorState(true);
+        console.error(error);
+      });
   }, []);
 
   const handleInputChange = (e) => {
@@ -26,13 +35,30 @@ const SchoolFeeForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     apiPut("/api/static/update/school-fee", schoolFee)
-      .catch((error) => console.log(error))
-      .then(() => navigate("/admin/pro-rodice-a-zaky/skolne"));
+      .then(() =>
+        navigate("/admin/pro-rodice-a-zaky/skolne", {
+          state: { successState: true },
+        })
+      )
+      .catch((error) => {
+        setUploadingErrorState(true);
+        console.error(error);
+      });
   };
 
   return (
     <div className="container-content">
       <h5 className="text-uppercase">Školné</h5>
+      <FlashMessage
+        success={false}
+        state={loadingErrorState}
+        text={messages.dataLoadErr}
+      />
+      <FlashMessage
+        success={false}
+        state={uploadingErrorState}
+        text={messages.dataUpdateErr}
+      />
       <form onSubmit={handleSubmit}>
         <FormInput
           label={"Titulek"}

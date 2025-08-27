@@ -4,6 +4,8 @@ import { apiGet } from "../../utils/api";
 import { API_URL } from "../../utils/api";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
+import FlashMessage from "../../components/FlashMessage";
+import { messages } from "../../components/FlashMessageTexts";
 
 const AlbumDetail = () => {
   const { albumName } = useParams();
@@ -13,22 +15,33 @@ const AlbumDetail = () => {
   const [open, setOpen] = useState(false);
   const [slides, setSlides] = useState([]);
   const [slideIndex, setSlideIndex] = useState(0);
-  const captionsRef = useRef(null)
+  //const captionsRef = useRef(null);
+  const [loadinErrorState, setLoadingErrorState] = useState(false);
 
   useEffect(() => {
-    apiGet(`/api/photos/get-images/${albumName}`).then((data) => {
-      setImages(data);
-      for (let image of data) {
-        setSlides((prev) => [...prev, { src: `${API_URL}${image.url}`}]);
-      }
-    });
-    apiGet("/api/photos/get-albums").then((data) => {
-      for (let key in data) {
-        if (data[key].albumName === albumName) {
-          setAlbumDescription(data[key].albumDescription);
+    apiGet(`/api/photos/get-images/${albumName}`)
+      .then((data) => {
+        setImages(data);
+        for (let image of data) {
+          setSlides((prev) => [...prev, { src: `${API_URL}${image.url}` }]);
         }
-      }
-    });
+      })
+      .catch((error) => {
+        setLoadingErrorState(true);
+        console.error(error);
+      });
+    apiGet("/api/photos/get-albums")
+      .then((data) => {
+        for (let key in data) {
+          if (data[key].albumName === albumName) {
+            setAlbumDescription(data[key].albumDescription);
+          }
+        }
+      })
+      .catch((error) => {
+        setLoadingErrorState(false);
+        console.error(error);
+      });
   }, []);
 
   console.log(slides);
@@ -37,6 +50,11 @@ const AlbumDetail = () => {
   return (
     <div className="container-content">
       <h5 className="text-uppercase">Album: {albumDescription}</h5>
+      <FlashMessage
+        success={false}
+        state={loadinErrorState}
+        text={messages.dataLoadErr}
+      />
       <div className="row">
         {images.map((image, index) => (
           <div id={index} className="col" key={index}>

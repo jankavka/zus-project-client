@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { apiDelete, apiGet } from "../../utils/api";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import LoadingText from "../../components/LoadingText.jsx";
 import { API_URL } from "../../utils/api";
+import FlashMessage from "../../components/FlashMessage.jsx";
+import { messages } from "../../components/FlashMessageTexts.js";
 
 const ArticlesIndex = ({ isEditable }) => {
   const [articles, setArticles] = useState([]);
   const [page, setPage] = useState(0);
   const [isDisabled, setIsDisabled] = useState(false);
+  const location = useLocation();
+  const { editSuccessState } = location.state || false;
+  const { createSuccessState } = location.state || false;
 
   useEffect(() => {
-    window.scrollTo({top: 0})
+    window.scrollTo({ top: 0 });
     const body = {
       limit: 5,
       page: page,
@@ -50,12 +55,22 @@ const ArticlesIndex = ({ isEditable }) => {
     });
   };
 
-  console.log(articles)
+  console.log(articles);
 
   if (articles.length === 0) {
     return (
       <div className="container-content">
-        <h1 className="mb-5">Aktuality</h1>
+        <h5 className="mb-5">Aktuality</h5>
+        <FlashMessage
+          success={true}
+          state={editSuccessState}
+          text={messages.dataUpdateOk}
+        />
+        <FlashMessage
+          success={true}
+          state={createSuccessState}
+          text={messages.dataCreateOk}
+        />
         <LoadingText />
         <div className="d-flex justify-content-start">
           <button
@@ -78,6 +93,16 @@ const ArticlesIndex = ({ isEditable }) => {
   return (
     <div className="container-content">
       <h5 className="mb-3 text-uppercase">Aktuality</h5>
+      <FlashMessage
+        success={true}
+        state={editSuccessState}
+        text={messages.dataUpdateOk}
+      />
+      <FlashMessage
+        success={true}
+        state={createSuccessState}
+        text={messages.dataCreateOk}
+      />
       {isEditable ? (
         <Link
           className="btn btn-success mb-3"

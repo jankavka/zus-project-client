@@ -4,6 +4,8 @@ import { apiGet, apiPut } from "../../utils/api";
 import formatDate from "../../components/formatDate";
 import MyEditor from "../../components/MyEditor";
 import FormInput from "../../components/FormInput";
+import FlashMessage from "../../components/FlashMessage";
+import { messages } from "../../components/FlashMessageTexts";
 
 const PersonalDataProtectionForm = () => {
   const [personalDataProtection, setPersonalDataProtection] = useState({
@@ -12,12 +14,17 @@ const PersonalDataProtectionForm = () => {
   });
   const editorRef = useRef();
   const navigation = useNavigate();
+  const [loadingErrorState, setLoadingErrorState] = useState(false);
+  const [savingErrorState, setSavingErrorState] = useState(false);
 
   useEffect(() => {
     apiGet("/api/static/personal-data-protection")
-      .catch((error) => console.log(error))
       .then((data) => {
         setPersonalDataProtection(data);
+      })
+      .catch((error) => {
+        setLoadingErrorState(true);
+        console.error(error);
       });
   }, []);
 
@@ -35,13 +42,30 @@ const PersonalDataProtectionForm = () => {
       "/api/static/update/personal-data-protection",
       personalDataProtection
     )
-      .catch((error) => console.log(error))
-      .then(() => navigation("/admin/uredni-deska/ochrana-osobnich-udaju"));
+      .then(() =>
+        navigation("/admin/uredni-deska/ochrana-osobnich-udaju", {
+          state: { successState: true },
+        })
+      )
+      .catch((error) => {
+        setSavingErrorState(true);
+        console.log(error);
+      });
   };
 
   return (
     <div className="container-content">
       <h5 className="text-uppercase">Ochrana osobnách údajů</h5>
+      <FlashMessage
+        success={false}
+        state={savingErrorState}
+        text={messages.dataUpdateErr}
+      />
+      <FlashMessage
+        success={false}
+        state={loadingErrorState}
+        text={messages.dataLoadErr}
+      />
       <p>
         Poslední aktualizace:{" "}
         {formatDate(new Date(personalDataProtection.issuedDate))}

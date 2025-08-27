@@ -33,7 +33,7 @@ import CalendarComplete from "../pages/public/CalendarComplete";
 import SchoolManagementDeatil from "../pages/public/SchoolManagementDetail";
 import AlbumDetail from "../pages/public/AlbumDetail";
 import NotFound from "../pages/public/NotFound";
-import EntranceExam from "../pages/public/EntranceExam";
+import EntranceExamIndex from "../pages/public/EntranceExamIndex";
 import GeneralInformation from "../pages/public/GeneralInformation";
 import SchoolSupportIndex from "../pages/public/SchoolSupportIndex";
 
@@ -56,7 +56,10 @@ const PublicLayout = () => {
                 path="/uvod/aktuality"
                 element={<ArticlesIndex isEditable={false} />}
               />
-              <Route path="/uvod/aktuality/:id" element={<ArticleDetail isAdmin={false} />} />
+              <Route
+                path="/uvod/aktuality/:id"
+                element={<ArticleDetail isAdmin={false} />}
+              />
               <Route
                 path="/o-skole/zakladni-udaje"
                 element={<BasicDataIndex isEditable={false} />}
@@ -76,8 +79,7 @@ const PublicLayout = () => {
 
               <Route
                 path="/pro-rodice-a-zaky/prijimaci-zkousky"
-                element={<EntranceExam isEditable={false} />}
-                
+                element={<EntranceExamIndex isEditable={false} />}
               />
 
               <Route
@@ -114,7 +116,7 @@ const PublicLayout = () => {
               />
               <Route
                 path="/uredni-deska/vyrocni-zpravy"
-                element={<AnualReportIndex />}
+                element={<AnualReportIndex isEditable={false} />}
               />
               <Route
                 path="/uredni-deska/skolni-rad"

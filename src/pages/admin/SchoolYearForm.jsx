@@ -1,20 +1,31 @@
 import { useEffect, useState } from "react";
 import { apiDelete, apiGet, apiPost } from "../../utils/api";
 import FormInput from "../../components/FormInput";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import LoadingText from "../../components/LoadingText";
+import FlashMessage from "../../components/FlashMessage";
+import { messages } from "../../components/FlashMessageTexts";
 
-const SchoolYearIndex = () => {
+const SchoolYearForm = () => {
   const [schoolYears, setSchoolYears] = useState([]);
   const [newSchoolYear, setNewSchoolYear] = useState({
     schoolYear: "",
   });
   const navigate = useNavigate();
+  const [loadingErrorState, setLoadingErrorState] = useState(false);
+  const [uploadingErrorState, setUploadingErrorState] = useState(false);
+  const location = useLocation();
+  const { deleteSuccessState } = location.state || false;
+  const { successState } = location.state || false;
+  const [deleteErrorState, setDeleteErrorState] = useState(false);
 
   useEffect(() => {
     apiGet("/api/school-year")
-      .catch((error) => console.log(error))
-      .then((data) => setSchoolYears(data));
+      .then((data) => setSchoolYears(data))
+      .catch((error) => {
+        setLoadingErrorState(true);
+        console.error(error);
+      });
   }, []);
 
   const handleChange = (e) => {
@@ -26,18 +37,32 @@ const SchoolYearIndex = () => {
   const handleDelete = (id) => {
     const aprove = confirm("Opravdu chcete vymazat tento školní rok?");
     if (aprove) {
-      apiDelete(`/api/school-year/${id}`).then(() =>
-        navigate("/admin/o-skole/uspechy-skoly/skolni-roky")
-      );
-      setSchoolYears(schoolYears.filter((year) => year.id != id));
+      apiDelete(`/api/school-year/${id}`)
+        .then(() => {
+          //ssetSchoolYears(schoolYears.filter((year) => year.id != id));
+          navigate("/admin/o-skole/uspechy-skoly/skolni-roky", {
+            state: { deleteSuccessState: true },
+          });
+        })
+        .catch((error) => {
+          setDeleteErrorState(true);
+          console.error(error);
+        });
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    apiPost("/api/school-year/create", newSchoolYear).then(() =>
-      navigate("/admin/o-skole/uspechy-skoly/skolni-roky")
-    );
+    apiPost("/api/school-year/create", newSchoolYear)
+      .then(() =>
+        navigate("/admin/o-skole/uspechy-skoly/skolni-roky", {
+          state: { successState: true },
+        })
+      )
+      .catch((error) => {
+        setUploadingErrorState(true);
+        console.error(error);
+      });
     setSchoolYears((prev) => [...prev, newSchoolYear]);
     setNewSchoolYear(" ");
   };
@@ -45,6 +70,31 @@ const SchoolYearIndex = () => {
   return (
     <div className="container-content">
       <h5 className="text-uppercase">Školní roky</h5>
+      <FlashMessage
+        success={true}
+        state={deleteSuccessState}
+        text={messages.dataDeleteOk}
+      />
+      <FlashMessage
+        success={false}
+        state={deleteErrorState}
+        text={messages.dataDeleteErr}
+      />
+      <FlashMessage
+        success={false}
+        state={uploadingErrorState}
+        text={messages.dataUpdateErr}
+      />
+      <FlashMessage
+        success={false}
+        state={loadingErrorState}
+        text={messages.dataLoadErr}
+      />
+      <FlashMessage
+        success={true}
+        state={successState}
+        text={messages.dataCreateOk}
+      />
       <table className="table">
         <tbody>
           {schoolYears ? (
@@ -93,4 +143,4 @@ const SchoolYearIndex = () => {
   );
 };
 
-export default SchoolYearIndex;
+export default SchoolYearForm;

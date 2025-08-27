@@ -1,7 +1,9 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { apiDelete, apiGet, apiPost, apiPut } from "../../utils/api";
+import { apiGet, apiPost, apiPut } from "../../utils/api";
 import { useNavigate } from "react-router-dom";
+import FlashMessage from "../../components/FlashMessage";
+import { messages } from "../../components/FlashMessageTexts";
 
 const TeacherForm = () => {
   const { id } = useParams();
@@ -12,10 +14,18 @@ const TeacherForm = () => {
     telNumber: "",
   });
   const navigate = useNavigate();
+  const [loadingErrorState, setLoadingErrorState] = useState(false);
+  const [uploadingErrorState, setUploadingErrorState] = useState(false);
+  const [createErrorState, setCreateErrorState] = useState(false);
 
   useEffect(() => {
     if (id) {
-      apiGet(`/api/teachers/${id}`).then((data) => setTeacher(data));
+      apiGet(`/api/teachers/${id}`)
+        .then((data) => setTeacher(data))
+        .catch((error) => {
+          setLoadingErrorState(true);
+          console.error(error);
+        });
     }
   }, []);
 
@@ -26,13 +36,27 @@ const TeacherForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (id) {
-      apiPut(`/api/teachers/${id}/edit`, teacher).then(() =>
-        navigate("/admin/kontakty/ucitele")
-      );
+      apiPut(`/api/teachers/${id}/edit`, teacher)
+        .then(() =>
+          navigate("/admin/kontakty/ucitele", {
+            state: { successEditState: true },
+          })
+        )
+        .catch((error) => {
+          setUploadingErrorState(true);
+          console.error(error);
+        });
     } else {
-      apiPost("/api/teachers/create", teacher).then(() =>
-        navigate("/admin/kontakty/ucitele")
-      );
+      apiPost("/api/teachers/create", teacher)
+        .then(() =>
+          navigate("/admin/kontakty/ucitele", {
+            state: { successCreateState: true },
+          })
+        )
+        .catch((error) => {
+          setCreateErrorState(true);
+          console.error(error);
+        });
     }
   };
 
@@ -43,6 +67,21 @@ const TeacherForm = () => {
       ) : (
         <h5 className="text-uppercase">Nový učitel</h5>
       )}
+      <FlashMessage
+        success={false}
+        state={loadingErrorState}
+        text={messages.dataLoadErr}
+      />
+      <FlashMessage
+        success={false}
+        state={uploadingErrorState}
+        text={messages.dataUpdateErr}
+      />
+      <FlashMessage
+        success={flase}
+        state={createErrorState}
+        text={messages.dataCreateErr}
+      />
       <form onSubmit={handleSubmit}>
         <div>
           <label>Jméno</label>

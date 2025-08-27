@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { apiGet } from "../../utils/api";
+import FlashMessage from "../../components/FlashMessage";
+import { messages } from "../../components/FlashMessageTexts";
 
 const VideoIndex = () => {
   const [videos, setVideos] = useState([]);
+  const [loadingErrorState, setLoadingErrorState] = useState(false);
 
   useEffect(() => {
-    apiGet("/api/youtube/videos").then((data) => setVideos(data));
+    apiGet("/api/youtube/videos")
+      .then((data) => setVideos(data))
+      .catch((error) => {
+        setLoadingErrorState(true);
+        console.error(error);
+      });
   }, []);
 
   console.log(videos);
@@ -13,6 +21,11 @@ const VideoIndex = () => {
   return (
     <div className="container-content">
       <h5 className="text-uppercase">Video</h5>
+      <FlashMessage
+        success={false}
+        state={loadingErrorState}
+        text={messages.dataLoadErr}
+      />
       <div className="row">
         {videos.map((video) => (
           <div key={video.videoId} className="col-md-4 mb-4">

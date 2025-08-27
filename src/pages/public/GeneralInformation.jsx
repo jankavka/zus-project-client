@@ -1,13 +1,21 @@
 import useMedia from "use-media";
 import { useState, useEffect } from "react";
 import { apiGet } from "../../utils/api";
+import FlashMessage from "../../components/FlashMessage";
+import { messages } from "../../components/FlashMessageTexts";
 
 const GeneralInformation = () => {
   const isMobile = useMedia({ maxWidth: "767px" });
   const [basicData, setBasicData] = useState({});
+  const [loadingErrorState, setLoadingErrorState] = useState(false);
 
   useEffect(() => {
-    apiGet("/api/static/basic-data").then((data) => setBasicData(data));
+    apiGet("/api/static/basic-data")
+      .then((data) => setBasicData(data))
+      .catch((error) => {
+        setLoadingErrorState(true);
+        console.error(error);
+      });
   }, []);
 
   console.log(basicData);
@@ -15,6 +23,11 @@ const GeneralInformation = () => {
   return (
     <div className="container-content">
       <h5 className="text-uppercase mb-3">Obecné informace</h5>
+      <FlashMessage
+        success={false}
+        state={loadingErrorState}
+        text={messages.dataLoadErr}
+      />
       <table className="table mb-3">
         <tbody>
           <tr>

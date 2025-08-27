@@ -5,6 +5,8 @@ import { apiGet, apiPost, apiPut } from "../../utils/api";
 import formatDate from "../../components/formatDate";
 import MyEditor from "../../components/MyEditor";
 import { API_URL } from "../../utils/api";
+import FlashMessage from "../../components/FlashMessage";
+import { messages } from "../../components/FlashMessageTexts";
 
 const ArticleForm = () => {
   const editorRef = useRef(null);
@@ -40,28 +42,41 @@ const ArticleForm = () => {
     e.preventDefault();
     if (id) {
       apiPut(`/api/articles/edit/${id}`, article)
-        .then(() => navigate("/admin/uvod/aktuality"))
-        .catch((error) => setErrorState(error.message));
+        .then(() =>
+          navigate("/admin/uvod/aktuality", {
+            state: { editSuccessState: true },
+          })
+        )
+        .catch((error) => {
+          setErrorState(error.message);
+          console.error(error);
+        });
     } else {
       apiPost("/api/articles/create", article)
-        .then(() => navigate("/admin/uvod/aktuality"))
-        .catch((error) => setErrorState(error.message));
+        .then(() =>
+          navigate("/admin/uvod/aktuality", {
+            state: { createSuccessState: true },
+          })
+        )
+        .catch((error) => {
+          setErrorState(error.message);
+          console.error(error);
+        });
     }
   };
 
   return (
     <div className="container-content">
-      {errorState ? (
-        <div className="mb-3 alert alert-danger">
-          <div className="text-uppercase">Vyplňte všechna pole</div>
-          <small>{errorState} </small>
-        </div>
-      ) : null}
       {id ? (
         <h5 className="text-uppercase">Upravit článek</h5>
       ) : (
         <h5 className="text-uppercase">Nový článek</h5>
       )}
+      <FlashMessage
+        success={false}
+        state={errorState}
+        text={`${messages.dataCreateErr} Máte vyplněna všechna pole?`}
+      />
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label>Titulek</label>

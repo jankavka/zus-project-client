@@ -2,6 +2,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import ManagementType from "./ManagementType";
 import { useEffect, useState } from "react";
 import { apiGet, apiPost, apiPut } from "../../utils/api";
+import FlashMessage from "../../components/FlashMessage";
+import { messages } from "../../components/FlashMessageTexts";
 
 const SchoolManagementForm = () => {
   const { id } = useParams();
@@ -13,8 +15,8 @@ const SchoolManagementForm = () => {
     email: "",
     managementType: "",
   });
-
-  const [error, setError] = useState();
+  const [error, setError] = useState(false);
+  const [loadingErrorState, setLoadingErrorState] = useState(false);
 
   const handleChange = (e) => {
     setSchoolManagement({
@@ -25,9 +27,12 @@ const SchoolManagementForm = () => {
 
   useEffect(() => {
     if (id) {
-      apiGet(`/api/school-management/${id}`).then((data) =>
-        setSchoolManagement(data)
-      );
+      apiGet(`/api/school-management/${id}`)
+        .then((data) => setSchoolManagement(data))
+        .catch((error) => {
+          setLoadingErrorState(true);
+          console.error(error);
+        });
     }
   }, []);
 
@@ -35,19 +40,26 @@ const SchoolManagementForm = () => {
     e.preventDefault();
     if (id) {
       apiPut(`/api/school-managament/${id}/edit`, schoolManagement)
-        .then(() => navigate("/admin/kontakty/vedeni-skoly"))
+        .then(() =>
+          navigate("/admin/kontakty/vedeni-skoly", {
+            state: { successEditState: true },
+          })
+        )
         .catch((error) => {
-          console.log(error.message);
-          setError({ message: "prosím vyplňte všechna pole" });
+          console.error(error);
+          setError(true);
         });
     } else {
       apiPost("/api/school-management/create", schoolManagement)
-        .then(() => navigate("/admin/kontakty/vedeni-skoly"))
+        .then(() =>
+          navigate("/admin/kontakty/vedeni-skoly", {
+            state: { successCreateState: true },
+          })
+        )
         .catch((error) => {
-          console.log(error.message);
-          setError({ message: "Prosím vyplňte všechna pole" });
+          console.error(error);
+          setError(true);
         });
-      console.log(schoolManagement);
     }
   };
 
@@ -63,10 +75,19 @@ const SchoolManagementForm = () => {
       ) : (
         <h5 className="text-uppercase">Přidat člena vedení</h5>
       )}
-      {error ? <div className="alert alert-danger">{error.message}</div> : null}
+      <FlashMessage
+        success={false}
+        state={error}
+        text={messages.dataCreateErr + ". " + "Vyplňtě všechna pole."}
+      />
+      <FlashMessage
+        success={false}
+        state={loadingErrorState}
+        text={messages.dataLoadErr}
+      />
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Jméno</label>
+          <label>Jméno a příjmení</label>
           <input
             required
             onChange={handleChange}

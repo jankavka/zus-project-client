@@ -61,6 +61,7 @@ const AdminNavLinks = () => {
       subMenu: [
         { label: "Foto", link: "/admin/galerie/foto" },
         { label: "Video", link: "/admin/galerie/video" },
+        {label: "Soubory", link: "/admin/galerie/soubory"},
       ],
     },
     {
@@ -168,6 +169,7 @@ const AdminNavLinks = () => {
                           key={subItem.label}
                           as={Link}
                           to={subItem.link}
+                          target={subItem.label === "Přihláška" ? "_blank" : null}
                           className="text-nav"
                         >
                           {subItem.label}{" "}

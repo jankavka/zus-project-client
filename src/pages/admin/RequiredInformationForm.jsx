@@ -4,6 +4,8 @@ import { apiGet, apiPost } from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 import formatDate from "../../components/formatDate";
 import { addInput, removeInput } from "../../components/InputManagement";
+import FlashMessage from "../../components/FlashMessage";
+import { messages } from "../../components/FlashMessageTexts";
 
 const RequiredInforamtionForm = () => {
   const [fieldRegulationsCounter, setFieldRegulationsCounter] = useState(1);
@@ -33,32 +35,62 @@ const RequiredInforamtionForm = () => {
     taxIdentificationNumber: "",
   });
   const navigate = useNavigate();
+  const [loadingErrorState, setLoadingErrorState] = useState(false);
+  const [uploadingErrorState, setUploadingErrorState] = useState(false);
 
   useEffect(() => {
-    apiGet("/api/static/basic-data").then((data) => setBasicData(data));
-    apiGet("/api/static/required-info").then((data) =>
-      setRequiredInformation(data)
-    );
-    apiGet("/api/static/required-info").then((data) => {
-      setRegulations(data.regulations);
-    });
-    apiGet("/api/static/required-info").then((data) => {
-      setFieldRegulationsCounter(
-        data.regulations.filter(
-          (item) => item !== " " && item !== null && item !== undefined
-        ).length
-      );
-    });
-    apiGet("/api/static/required-info").then((data) => {
-      setAnnualReport(data.annualReport);
-    });
-    apiGet("/api/static/required-info").then((data) => {
-      setFieldReportCounter(
-        data.annualReport.filter(
-          (item) => item !== " " && item !== null && item !== undefined
-        ).length
-      );
-    });
+    apiGet("/api/static/basic-data")
+      .then((data) => setBasicData(data))
+      .catch((error) => {
+        setLoadingErrorState(true);
+        console.error(error);
+      });
+    apiGet("/api/static/required-info")
+      .then((data) => setRequiredInformation(data))
+      .catch((error) => {
+        setLoadingErrorState(true);
+        console.error(error);
+      });
+    apiGet("/api/static/required-info")
+      .then((data) => {
+        setRegulations(data.regulations);
+      })
+      .catch((error) => {
+        setLoadingErrorState(true);
+        console.error(error);
+      });
+    apiGet("/api/static/required-info")
+      .then((data) => {
+        setFieldRegulationsCounter(
+          data.regulations.filter(
+            (item) => item !== " " && item !== null && item !== undefined
+          ).length
+        );
+      })
+      .catch((error) => {
+        setLoadingErrorState(true);
+        console.error(error);
+      });
+    apiGet("/api/static/required-info")
+      .then((data) => {
+        setAnnualReport(data.annualReport);
+      })
+      .catch((error) => {
+        setLoadingErrorState(true);
+        console.error(error);
+      });
+    apiGet("/api/static/required-info")
+      .then((data) => {
+        setFieldReportCounter(
+          data.annualReport.filter(
+            (item) => item !== " " && item !== null && item !== undefined
+          ).length
+        );
+      })
+      .catch((error) => {
+        setLoadingErrorState(true);
+        console.error(error);
+      });
   }, []);
 
   const handleSubmit = (e) => {
@@ -71,12 +103,22 @@ const RequiredInforamtionForm = () => {
     };
     //setRequiredInformation({...requieredInformation, regulations: [...regulations] })
     apiPost("/api/static/required-info/create-or-edit", bodyRequiredInfo)
-      .catch((error) => console.log(error))
       .then(
         apiPost("/api/static/basic-data/create-or-edit", basicData)
-          .catch((error) => console.log(error))
-          .then(() => navigate("/admin/uredni-deska/povinne-info"))
-      );
+          .then(() =>
+            navigate("/admin/uredni-deska/povinne-info", {
+              state: { successState: true },
+            })
+          )
+          .catch((error) => {
+            setUploadingErrorState(true);
+            console.log(error);
+          })
+      )
+      .catch((error) => {
+        setUploadingErrorState(true);
+        console.log(error);
+      });
   };
 
   const handleChangeBasicData = (e) => {
@@ -127,6 +169,8 @@ const RequiredInforamtionForm = () => {
   return (
     <div className="container-content">
       <h5 className="text-uppercase">Povinně zveřejňované inforamce</h5>
+      <FlashMessage success={false} state={uploadingErrorState} text={messages.dataUpdateErr}/>
+      <FlashMessage success={false} state={loadingErrorState} text={messages.dataLoadErr}/>
       <p>
         <strong>Naposledy upraveno: </strong>
         {formatDate(new Date(requieredInformation.issuedDate))}
@@ -381,10 +425,15 @@ const RequiredInforamtionForm = () => {
           <button type="submit" className="btn btn-success me-3">
             Uložit
           </button>
-          <button className="btn btn-info" type="button" onClick={() => navigate(-1)}>Zpět</button>
+          <button
+            className="btn btn-info"
+            type="button"
+            onClick={() => navigate(-1)}
+          >
+            Zpět
+          </button>
         </div>
       </form>
-      
     </div>
   );
 };

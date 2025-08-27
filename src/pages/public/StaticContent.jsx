@@ -1,17 +1,19 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { apiGet } from "../../utils/api";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import useMedia from "use-media";
+import FlashMessage from "../../components/FlashMessage";
+import { messages } from "../../components/FlashMessageTexts";
 
 export const BasicDataIndex = ({ isEditable }) => {
   const [basicData, setBasicData] = useState([]);
   const [director, setDirector] = useState({});
   const [deputyDirector, setDeputyDirector] = useState({});
-  //const isMobile = useMedia({maxWidth: "767px"})
-  
   //mobile or tablet
-  const isMobile = useMedia({maxWidth: "991px"})
+  const isMobile = useMedia({ maxWidth: "991px" });
+  const location = useLocation();
+  const { successState } = location.state || false;
 
   useEffect(() => {
     apiGet("/api/static/basic-data").then((data) => setBasicData(data));
@@ -29,6 +31,11 @@ export const BasicDataIndex = ({ isEditable }) => {
   return (
     <div className="container-content">
       <h5 className=" text-uppercase mb-3">Základní údaje</h5>
+      <FlashMessage
+        success={true}
+        state={successState}
+        text={messages.dataUpdateOk}
+      />
       {isEditable ? (
         <Link
           className="btn btn-success"
@@ -74,7 +81,10 @@ export const BasicDataIndex = ({ isEditable }) => {
                 locations
                   .filter((item) => item != false)
                   .map((value, index) => (
-                    <span className={`${isMobile ? "" : "text-nowrap"}`} key={index}>
+                    <span
+                      className={`${isMobile ? "" : "text-nowrap"}`}
+                      key={index}
+                    >
                       {index + 1 + "."} {value}
                       <br />
                     </span>
@@ -161,19 +171,35 @@ export const BasicDataIndex = ({ isEditable }) => {
 
 export const GroupTrainingScheduleIndex = ({ isEditable }) => {
   const [schedule, setSchedule] = useState({});
+  const [errorState, setErrorState] = useState(false);
+  const location = useLocation();
+  const { successState } = location.state || false;
 
   useEffect(() => {
-    apiGet("/api/static/group-training-schedule").then((data) =>
-      setSchedule(data)
-    );
+    apiGet("/api/static/group-training-schedule")
+      .then((data) => setSchedule(data))
+      .catch((error) => {
+        setErrorState(false);
+        console.error(error);
+      });
   }, []);
 
   return (
     <div className="container-content">
       <h5 className="text-uppercase">Rozvrh kolektivní výuky</h5>
+      <FlashMessage
+        success={true}
+        state={successState}
+        text={messages.dataUpdateOk}
+      />
+      <FlashMessage
+        success={false}
+        state={errorState}
+        text={messages.dataLoadErr}
+      />
       {isEditable ? (
         <Link
-          className="btn btn-warning mb-3"
+          className="btn btn-success mb-3"
           to={"/admin/pro-rodice-a-zaky/rozvrh-kolektivni-vyuky/upravit"}
         >
           Upravit
@@ -186,22 +212,38 @@ export const GroupTrainingScheduleIndex = ({ isEditable }) => {
 
 export const HistoryAndPresentIndex = ({ isEditable }) => {
   const [historyAndPresent, setHistoryAndPresent] = useState({});
+  const [loadingErrorState, setLoadingErrorState] = useState(false);
+  const location = useLocation();
+  const { successState } = location.state || false;
 
   useEffect(() => {
-    apiGet("/api/static/history-and-present").then((data) =>
-      setHistoryAndPresent(data)
-    );
+    apiGet("/api/static/history-and-present")
+      .then((data) => setHistoryAndPresent(data))
+      .catch((error) => {
+        setLoadingErrorState(true);
+        console.error(error);
+      });
   }, []);
 
   return (
     <div className="container-content">
       <h5 className="text-uppercase">Historie a současnost</h5>
+      <FlashMessage
+        success={false}
+        state={loadingErrorState}
+        text={messages.dataLoadErr}
+      />
+      <FlashMessage
+        success={true}
+        state={successState}
+        text={messages.dataUpdateOk}
+      />
       <div
         dangerouslySetInnerHTML={{ __html: historyAndPresent.content }}
       ></div>
       {isEditable ? (
         <Link
-          className="btn btn-warning"
+          className="btn btn-success"
           to="/admin/o-skole/historie-a-soucasnost/upravit"
         >
           Upravit
@@ -213,17 +255,35 @@ export const HistoryAndPresentIndex = ({ isEditable }) => {
 
 export const MusicTheoryIndex = ({ isEditable }) => {
   const [musicTheory, setMusicTheory] = useState({});
+  const location = useLocation();
+  const [loadingErrorState, setLoadingErrorState] = useState(false);
+  const { successState } = location.state || false;
 
   useEffect(() => {
-    apiGet("/api/static/music-theory").then((data) => setMusicTheory(data));
+    apiGet("/api/static/music-theory")
+      .then((data) => setMusicTheory(data))
+      .catch((error) => {
+        setLoadingErrorState(true);
+        console.error(error);
+      });
   }, []);
 
   return (
     <div className="container-content">
       <h5 className="text-uppercase">Hudební Nauka</h5>
+      <FlashMessage
+        success={true}
+        state={successState}
+        text={messages.dataUpdateOk}
+      />
+      <FlashMessage
+        success={false}
+        state={loadingErrorState}
+        text={messages.dataLoadErr}
+      />
       {isEditable ? (
         <Link
-          className="btn btn-warning"
+          className="btn btn-success"
           to={"/admin/pro-rodice-a-zaky/hudebni-nauka/upravit"}
         >
           Upravit
@@ -236,19 +296,35 @@ export const MusicTheoryIndex = ({ isEditable }) => {
 
 export const PersonalDataProtectionIndex = ({ isEditable }) => {
   const [personalDataProtection, setPersonalDataProtection] = useState({});
+  const [loadingErrorState, setLoadingErrorState] = useState(false);
+  const location = useLocation();
+  const { successState } = location.state || false;
 
   useEffect(() => {
-    apiGet("/api/static/personal-data-protection").then((data) =>
-      setPersonalDataProtection(data)
-    );
+    apiGet("/api/static/personal-data-protection")
+      .then((data) => setPersonalDataProtection(data))
+      .catch((error) => {
+        setLoadingErrorState(true);
+        console.error(error);
+      });
   }, []);
 
   return (
     <div className="container-content">
       <h5 className="text-uppercase">Ochrana osobních údajů</h5>
+      <FlashMessage
+        success={true}
+        state={successState}
+        text={messages.dataUpdateOk}
+      />
+      <FlashMessage
+        success={false}
+        state={loadingErrorState}
+        text={messages.dataLoadErr}
+      />
       {isEditable ? (
         <Link
-          className="btn btn-warning mb-3"
+          className="btn btn-success mb-3"
           to={"/admin/uredni-deska/ochrana-osobnich-udaju/upravit"}
         >
           Upravit
@@ -269,20 +345,41 @@ export const RequiredInforamtionIndex = ({ isEditable }) => {
   });
   //set loading of specific part of object from API, Oficiální název, Kontaktní poštovní adresa
   const [basicData, setBasicData] = useState({});
+  const [loadingErrorState, setLoadingErrorState] = useState(false);
+  const location = useLocation();
+  const { successState } = location.state || false;
 
   useEffect(() => {
-    apiGet("/api/static/required-info").then((data) =>
-      setRequiredInformation(data)
-    );
-    apiGet("/api/static/basic-data").then((data) => setBasicData(data));
+    apiGet("/api/static/required-info")
+      .then((data) => setRequiredInformation(data))
+      .catch((error) => {
+        setLoadingErrorState(true);
+        console.error(error);
+      });
+    apiGet("/api/static/basic-data")
+      .then((data) => setBasicData(data))
+      .catch((error) => {
+        setLoadingErrorState(true);
+        console.error(error);
+      });
   }, []);
 
   return (
     <div className="container-content">
       <h5 className="text-uppercase">Povinně zveřejňované informace</h5>
+      <FlashMessage
+        success={false}
+        state={loadingErrorState}
+        text={messages.dataLoadErr}
+      />
+      <FlashMessage
+        success={true}
+        state={successState}
+        text={messages.dataUpdateOk}
+      />
       {isEditable ? (
         <Link
-          className="btn btn-warning mb-3"
+          className="btn btn-success mb-3"
           to="/admin/uredni-deska/povinne-info/upravit"
         >
           Upravit
@@ -405,21 +502,40 @@ export const RequiredInforamtionIndex = ({ isEditable }) => {
 
 export const StudyFocusIndex = ({ isEditable }) => {
   const [studyFocus, setStudyFocus] = useState("");
+  const [loadingErrorState, setLoadingErrorState] = useState(false);
+  const location = useLocation();
+  const { successState } = location.state || false;
 
   useEffect(() => {
-    apiGet("/api/static/study-focus").then((data) => setStudyFocus(data));
+    apiGet("/api/static/study-focus")
+      .then((data) => setStudyFocus(data))
+      .catch((error) => {
+        setLoadingErrorState(true);
+        console.error(error);
+      });
   }, []);
   return (
     <div className="container-content">
       <h5 className="text-uppercase">Studijní zameření</h5>
       {isEditable ? (
         <Link
-          className="btn btn-warning mb-3"
+          className="btn btn-success mb-3"
           to={"/admin/o-skole/studijni-zamereni/upravit"}
         >
           Upravit
         </Link>
       ) : null}
+      <FlashMessage
+        success={false}
+        state={loadingErrorState}
+        text={messages.dataLoadErr}
+      />
+      <FlashMessage
+        success={true}
+        state={successState}
+        text={messages.dataUpdateOk}
+      />
+
       <div dangerouslySetInnerHTML={{ __html: studyFocus.content }}></div>
     </div>
   );
@@ -427,17 +543,35 @@ export const StudyFocusIndex = ({ isEditable }) => {
 
 export const SchoolFeeIndex = ({ isEditable }) => {
   const [schoolFee, setSchoolFee] = useState({});
+  const location = useLocation();
+  const { successState } = location.state || false;
+  const { loadingErrorState, setLoadingErrorState } = useState(false);
 
   useEffect(() => {
-    apiGet("/api/static/school-fee").then((data) => setSchoolFee(data));
+    apiGet("/api/static/school-fee")
+      .then((data) => setSchoolFee(data))
+      .catch((error) => {
+        setLoadingErrorState(true);
+        console.error(error);
+      });
   }, []);
 
   return (
     <div className="container-content">
       <h5 className="text-uppercase">Školné</h5>
+      <FlashMessage
+        success={true}
+        state={successState}
+        text={messages.dataUpdateOk}
+      />
+      <FlashMessage
+        success={false}
+        state={loadingErrorState}
+        text={messages.dataLoadErr}
+      />
       {isEditable ? (
         <Link
-          className="btn btn-warning mb-3"
+          className="btn btn-success mb-3"
           to={"/admin/pro-rodice-a-zaky/skolne/upravit"}
         >
           Upravit

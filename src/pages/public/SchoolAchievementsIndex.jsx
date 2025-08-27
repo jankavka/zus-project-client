@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { apiDelete, apiGet } from "../../utils/api";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import FlashMessage from "../../components/FlashMessage";
+import { messages } from "../../components/FlashMessageTexts";
 
 const SchoolAchievementsIndex = ({ forAdmin }) => {
   const [schoolAchievements, setSchoolAchievements] = useState([]);
@@ -9,6 +11,10 @@ const SchoolAchievementsIndex = ({ forAdmin }) => {
     id: "",
     schoolYear: "",
   });
+  const location = useLocation();
+  const { successState } = location.state || false;
+  const [loadingErrorState, setLoadingErrorState] = useState(false);
+  const [deleteErrorState, setDeleteErrorState] = useState(false);
 
   useEffect(() => {
     apiGet("/api/school-year")
@@ -17,22 +23,36 @@ const SchoolAchievementsIndex = ({ forAdmin }) => {
         setSchoolYears(data);
         setSelectedYear(data.sort((a, b) => b.id - a.id)[0]);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        setLoadingErrorState(true);
+        console.log(error);
+      });
   }, []);
 
   useEffect(() => {
     if (selectedYear.id) {
       apiGet(`/api/school-achievements/year/${selectedYear.id}`)
         .then((data) => setSchoolAchievements(data))
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          setLoadingErrorState(true);
+          console.log(error);
+        });
     }
   }, [selectedYear]);
 
-  const deleteAchievement = (e, id) => {
+  const deleteAchievement = (id) => {
     let aprove = confirm("Opravdu chcece smazat položku?");
     if (aprove) {
-      apiDelete(`/api/school-achievements/delete/${id}`);
-      setSchoolAchievements(schoolAchievements.filter((item) => item.id != id));
+      apiDelete(`/api/school-achievements/delete/${id}`)
+        .then(() =>
+          setSchoolAchievements(
+            schoolAchievements.filter((item) => item.id != id)
+          )
+        )
+        .catch((error) => {
+          setDeleteErrorState(true);
+          console.error(error);
+        });
     }
   };
 
@@ -47,6 +67,16 @@ const SchoolAchievementsIndex = ({ forAdmin }) => {
   return (
     <div className="container-content">
       <h5 className="text-uppercase">Úspěchy školy</h5>
+      <FlashMessage
+        success={true}
+        state={successState}
+        text={messages.dataCreateOk}
+      />
+      <FlashMessage
+        success={false}
+        state={loadingErrorState}
+        text={messages.dataLoadErr}
+      />
       {forAdmin ? (
         <div>
           <Link
@@ -96,7 +126,7 @@ const SchoolAchievementsIndex = ({ forAdmin }) => {
                     Upravit
                   </Link>
                   <button
-                    onClick={(e) => deleteAchievement(e, item.id)}
+                    onClick={() => deleteAchievement(item.id)}
                     className="btn btn-danger"
                   >
                     Vymazat

@@ -92,10 +92,9 @@ const NavLinks = () => {
   ];
 
   useEffect(() => {
-    apiGet("/api/entrance-exam/is-hidden").then((data) =>
-      setIsEntranceExamHidden(data)
-    
-    ).catch((error) => console.error(error));
+    apiGet("/api/entrance-exam/is-hidden")
+      .then((data) => setIsEntranceExamHidden(data))
+      .catch((error) => console.error(error));
   }, []);
 
   const handleOnMouseEnter = (itemName) => {
@@ -172,11 +171,13 @@ const NavLinks = () => {
                           key={subItem.label}
                           as={Link}
                           hidden={
-                            subItem.link === "/pro-rodice-a-zaky/prijimaci-zkousky"
+                            subItem.link ===
+                            "/pro-rodice-a-zaky/prijimaci-zkousky"
                               ? isEntranceExamHidden
                               : false
                           }
                           to={subItem.link}
+                          target={subItem.label === "Přihláška" ? "_blank" : null}
                           className="text-nav"
                         >
                           {subItem.label}{" "}
@@ -186,7 +187,7 @@ const NavLinks = () => {
                   </Dropdown>
                 )
               )}
-              <SearchTool/>
+              <SearchTool />
             </Nav>
           </Navbar.Collapse>
         </Container>

@@ -4,6 +4,8 @@ import { apiGet } from "../../utils/api";
 import LoadingText from "../../components/LoadingText";
 import formatDate from "../../components/formatDate";
 import NoEvents from "../../components/NoEvents";
+import FlashMessage from "../../components/FlashMessage";
+import { messages } from "../../components/FlashMessageTexts";
 
 // works only with all day events. Otherwise event.start.date.value will be undefined
 const CalendarComplete = () => {
@@ -18,30 +20,43 @@ const CalendarComplete = () => {
 
   const [tokens, setTokens] = useState([""]);
   const [page, setPage] = useState(1);
+  const [loadinErrorState, setLoadingErrorState] = useState(false);
 
   useEffect(() => {
-    apiGet("/api/calendar/all-events", filter).then((data) =>
-      setEvents(data.items)
-    );
-
-    apiGet("/api/calendar/all-events", filter).then((data) => {
-      //console.log(data);
-      setFilter((prev) => {
-        return { ...prev, nextPageToken: data.nextPageToken };
+    apiGet("/api/calendar/all-events", filter)
+      .then((data) => {
+        setEvents(data.items);
+        setFilter((prev) => {
+          return { ...prev, nextPageToken: data.nextPageToken };
+        });
+        setTokens((prev) => {
+          return [...prev, data.nextPageToken];
+        });
+      })
+      .catch((error) => {
+        setLoadingErrorState(true);
+        console.error(error);
       });
-      setTokens((prev) => {
-        return [...prev, data.nextPageToken];
-      });
-    });
+  }, []);
 
-    const timerNoEvents = setTimeout(() => setIsHiddenEvents(false), 10000);
+  useEffect(() => {
     const timerLoadingText = setTimeout(
       () => setIsHiddenLoadingText(true),
       10000
     );
 
-    return () => clearTimeout(timerNoEvents, timerLoadingText);
-  }, []);
+    return () => clearTimeout(timerLoadingText);
+  },[]);
+
+  useEffect(() => {
+    const noEvents = !events || events.length === 0;
+    if (!noEvents) {
+      setIsHiddenEvents(true);
+      return;
+    }
+    const timerNoEvents = setTimeout(() => setIsHiddenEvents(false), 10000);
+    return () => clearTimeout(timerNoEvents);
+  },[events])
 
   //moves events list to next page
   const nextPage = () => {
@@ -57,6 +72,9 @@ const CalendarComplete = () => {
           return [...prev, data.nextPageToken];
         });
       }
+    }).catch((error) => {
+      setLoadingErrorState(true)
+      console.error(error)
     });
   };
 
@@ -73,7 +91,10 @@ const CalendarComplete = () => {
           });
           setPage((prev) => prev - 1);
         }
-      );
+      ).catch((error) => {
+        setLoadingErrorState(true)
+        console.error(error)
+      });
     } else {
       let api = {};
       if (page === tokens.length) {
@@ -103,6 +124,7 @@ const CalendarComplete = () => {
   return (
     <div className="container-calendar">
       <h5 className="mb-3 text-uppercase">Seznam akcí</h5>
+      <FlashMessage success={false} state={loadinErrorState} text={messages.dataLoadErr}/>
       <div className="calendar-height">
         {events.length === 0 ? (
           <div>
@@ -138,7 +160,7 @@ const CalendarComplete = () => {
           </button>
         </div>
       ) : (
-        <div className="row"></div>
+        <div className="row" style={{height: "35px"}}></div>
       )}
     </div>
   );

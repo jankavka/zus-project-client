@@ -36,7 +36,6 @@ import GroupTrainingScheduleForm from "../pages/admin/GroupTrainingScheduleForm"
 import MusicTheoryForm from "../pages/admin/MusicTheoryForm";
 import SchoolFeeForm from "../pages/admin/SchoolFeeForm";
 import PersonalDataProtectionForm from "../pages/admin/PersonalDataProtectionForm";
-import SchoolYearIndex from "../pages/admin/SchoolYearIndex";
 import SchoolEducationProgramIndex from "../pages/public/SchoolEducationProgramIndex";
 import SchoolAchievementForm from "../pages/admin/SchoolAchievementForm";
 import AlbumForm from "../pages/admin/AlbumForm";
@@ -47,12 +46,17 @@ import NotFound from "../pages/public/NotFound";
 import { useSession } from "../contexts/session";
 import { apiDelete } from "../utils/api";
 import useMedia from "use-media";
-import EntranceExam from "../pages/public/EntranceExam";
+import EntranceExamIndex from "../pages/public/EntranceExamIndex";
 import GeneralInformation from "../pages/public/GeneralInformation";
 import ArticleDetail from "../pages/public/ArticleDetail";
 import SchoolSupportIndex from "../pages/public/SchoolSupportIndex";
 import SchoolSupportForm from "../pages/admin/SchoolSupportForm";
 import EntranceExamForm from "../pages/admin/EntranceExamForm";
+import Files from "../pages/admin/Files";
+import FilesForm from "../pages/admin/FilesForm";
+import SchoolYearForm from "../pages/admin/SchoolYearForm";
+import AnualReportForm from "../pages/admin/AnualReportForm";
+import SchoolEducationProgramForm from "../pages/admin/SchoolEducationProgramForm";
 
 const AdminLayout = () => {
   const { session, setSession } = useSession();
@@ -115,7 +119,10 @@ const AdminLayout = () => {
               path="/uvod/aktuality"
               element={<ArticlesIndex isEditable={true} />}
             />
-            <Route path="/uvod/aktuality/:id" element={<ArticleDetail isAdmin={true} />} />
+            <Route
+              path="/uvod/aktuality/:id"
+              element={<ArticleDetail isAdmin={true} />}
+            />
             <Route
               path="/uvod/aktuality/:id/upravit"
               element={<ArticleForm />}
@@ -165,17 +172,17 @@ const AdminLayout = () => {
           />
           <Route
             path="/o-skole/uspechy-skoly/skolni-roky"
-            element={<SchoolYearIndex />}
+            element={<SchoolYearForm />}
           />
 
           <Route
             path="/pro-rodice-a-zaky/prijimaci-zkousky"
-            element={<EntranceExam isEditable={true} />}
+            element={<EntranceExamIndex isEditable={true} />}
           />
 
           <Route
             path="/pro-rodice-a-zaky/prijimaci-zkousky/upravit"
-            element={<EntranceExamForm/>}
+            element={<EntranceExamForm />}
           />
 
           <Route
@@ -222,6 +229,9 @@ const AdminLayout = () => {
           />
           <Route path="/galerie/video" element={<VideoIndex />} />
 
+          <Route path="/galerie/soubory" element={<Files />} />
+          <Route path="/galerie/soubory/novy" element={<FilesForm />} />
+
           <Route
             path="/uredni-deska/ochrana-osobnich-udaju"
             element={<PersonalDataProtectionIndex isEditable={true} />}
@@ -247,9 +257,19 @@ const AdminLayout = () => {
             element={<SchoolEducationProgramIndex isEditable={true} />}
           />
           <Route
-            path="uredni-deska/vyrocni-zpravy"
-            element={<AnualReportIndex />}
+            path="/uredni-deska/skolni-vzdelavaci-program/upravit"
+            element={<SchoolEducationProgramForm />}
           />
+          <Route
+            path="/uredni-deska/vyrocni-zpravy"
+            element={<AnualReportIndex isEditable={true} />}
+          />
+
+          <Route
+            path="/uredni-deska/vyrocni-zpravy/upravit"
+            element={<AnualReportForm />}
+          />
+
           <Route>
             <Route
               path="/kontakty/obecne-info"
