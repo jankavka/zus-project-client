@@ -19,7 +19,7 @@ const CalendarBasic = () => {
       .then((data) => setEvents(data))
       .catch((error) => {
         setErrorState(true);
-        console.log(error);
+        console.error(error);
       });
     const timerNoEvents = setTimeout(() => setIsHiddenEvents(false), 10000);
     const timerLoadingText = setTimeout(

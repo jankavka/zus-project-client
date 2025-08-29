@@ -132,7 +132,6 @@ const ArticleForm = () => {
               <tbody>
                 {images.map((image, index) => (
                   <tr key={index}>
-                    {console.log(images)}
                     <td>
                       <img
                         style={{ maxHeight: "100px", maxWidth: "100px" }}
@@ -157,9 +156,6 @@ const ArticleForm = () => {
                     </td>
                   </tr>
                 ))}
-                {console.log(article.image)}
-                {console.log(images)}
-                {console.log(article)}
               </tbody>
             </table>
           )}

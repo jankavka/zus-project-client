@@ -72,10 +72,6 @@ const BasicDataForm = () => {
       });
   };
 
-  useEffect(() => {
-    console.log("locations in basic data: " + locationsOfEducation);
-  }, [locationsOfEducation]);
-
   const onChange = (e) => {
     setBasicData({ ...basicData, [e.target.name]: e.target.value });
   };
@@ -93,7 +89,7 @@ const BasicDataForm = () => {
   };
 
   return (
-    <div>
+    <div className="container-content">
       <h5 className="text-uppercase">Základní údaje</h5>
       <FlashMessage
         success={false}
@@ -149,7 +145,6 @@ const BasicDataForm = () => {
               Přidej pole
             </button>
             {Array.from(Array(fieldCounter).keys()).map((item, index) => {
-              //console.log("index, item:" + index + " " + item);
               return (
                 <div key={index}>
                   <input

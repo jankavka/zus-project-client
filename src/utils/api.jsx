@@ -25,7 +25,6 @@ export const apiGet = async (url, params) => {
     credentials: "include",
   };
   const apiUrl = `${API_URL}${url}?${new URLSearchParams(requestParams)}`;
-  console.log(apiUrl)
 
   const response = await fetch(apiUrl, requestOptions)
   const body = await response.json()

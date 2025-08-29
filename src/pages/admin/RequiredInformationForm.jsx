@@ -46,41 +46,15 @@ const RequiredInforamtionForm = () => {
         console.error(error);
       });
     apiGet("/api/static/required-info")
-      .then((data) => setRequiredInformation(data))
-      .catch((error) => {
-        setLoadingErrorState(true);
-        console.error(error);
-      });
-    apiGet("/api/static/required-info")
       .then((data) => {
+        setRequiredInformation(data);
         setRegulations(data.regulations);
-      })
-      .catch((error) => {
-        setLoadingErrorState(true);
-        console.error(error);
-      });
-    apiGet("/api/static/required-info")
-      .then((data) => {
         setFieldRegulationsCounter(
           data.regulations.filter(
             (item) => item !== " " && item !== null && item !== undefined
           ).length
         );
-      })
-      .catch((error) => {
-        setLoadingErrorState(true);
-        console.error(error);
-      });
-    apiGet("/api/static/required-info")
-      .then((data) => {
         setAnnualReport(data.annualReport);
-      })
-      .catch((error) => {
-        setLoadingErrorState(true);
-        console.error(error);
-      });
-    apiGet("/api/static/required-info")
-      .then((data) => {
         setFieldReportCounter(
           data.annualReport.filter(
             (item) => item !== " " && item !== null && item !== undefined
@@ -101,7 +75,6 @@ const RequiredInforamtionForm = () => {
       regulations: regulations,
       annualReport: annualReport,
     };
-    //setRequiredInformation({...requieredInformation, regulations: [...regulations] })
     apiPost("/api/static/required-info/create-or-edit", bodyRequiredInfo)
       .then(
         apiPost("/api/static/basic-data/create-or-edit", basicData)
@@ -112,12 +85,12 @@ const RequiredInforamtionForm = () => {
           )
           .catch((error) => {
             setUploadingErrorState(true);
-            console.log(error);
+            console.error(error);
           })
       )
       .catch((error) => {
         setUploadingErrorState(true);
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -134,9 +107,7 @@ const RequiredInforamtionForm = () => {
 
   const handleChangeOrganizationalStructure = (e) => {
     const orgStructureValues = e.target.value;
-    console.log(typeof orgStructureValues);
     const newArray = orgStructureValues.split(",");
-    console.log(...newArray);
     setRequiredInformation({
       ...requieredInformation,
       organizationalStructure: [...newArray],
@@ -161,16 +132,19 @@ const RequiredInforamtionForm = () => {
     });
   };
 
-  useEffect(() => {
-    console.log(regulations);
-    //console.log(requieredInformation);
-  }, [regulations]);
-
   return (
     <div className="container-content">
       <h5 className="text-uppercase">Povinně zveřejňované inforamce</h5>
-      <FlashMessage success={false} state={uploadingErrorState} text={messages.dataUpdateErr}/>
-      <FlashMessage success={false} state={loadingErrorState} text={messages.dataLoadErr}/>
+      <FlashMessage
+        success={false}
+        state={uploadingErrorState}
+        text={messages.dataUpdateErr}
+      />
+      <FlashMessage
+        success={false}
+        state={loadingErrorState}
+        text={messages.dataLoadErr}
+      />
       <p>
         <strong>Naposledy upraveno: </strong>
         {formatDate(new Date(requieredInformation.issuedDate))}
@@ -312,7 +286,6 @@ const RequiredInforamtionForm = () => {
             </button>
             {Array.from(Array(fieldRegulationsCounter).keys()).map(
               (item, index) => {
-                //console.log("index, item: " + index + " " + item);
                 return (
                   <div key={index}>
                     <input

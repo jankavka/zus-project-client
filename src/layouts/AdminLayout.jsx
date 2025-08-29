@@ -72,7 +72,6 @@ const AdminLayout = () => {
   const isMobile = useMedia({ maxWidth: "767px" });
 
   useEffect(() => {
-    console.log(location.pathname);
     if (
       location.pathname.startsWith("/admin") &&
       location.pathname !== "/admin/login" &&

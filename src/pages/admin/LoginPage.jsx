@@ -14,7 +14,6 @@ const LoginPage = () => {
   const from = localStorage.getItem("lastAdminPath") || "/admin/uvod/aktuality"
 
   useEffect(() => {
-    console.log("Session changed:", session);
     if (!session) {
       console.warn("No user logged");
     }
@@ -26,7 +25,6 @@ const LoginPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const body = { email: email, password: password };
-    console.log(body);
 
     apiPost("/api/auth", body)
       .then((data) => {
@@ -37,8 +35,6 @@ const LoginPage = () => {
         setErrorState(true);
       });
   };
-
-  console.log(session);
 
   return (
     <div className="d-flex justify-content-center">

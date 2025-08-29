@@ -43,7 +43,6 @@ const FilesForm = () => {
     setFileName(filesToUpload[0].name);
   };
 
-  console.log(file, fileName);
   return (
     <div className="container-content">
       <h5>Nový Soubor</h5>

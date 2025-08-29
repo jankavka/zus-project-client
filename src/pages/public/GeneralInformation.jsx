@@ -18,8 +18,6 @@ const GeneralInformation = () => {
       });
   }, []);
 
-  console.log(basicData);
-
   return (
     <div className="container-content">
       <h5 className="text-uppercase mb-3">Obecné informace</h5>

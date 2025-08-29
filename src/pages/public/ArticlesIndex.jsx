@@ -13,6 +13,7 @@ const ArticlesIndex = ({ isEditable }) => {
   const location = useLocation();
   const { editSuccessState } = location.state || false;
   const { createSuccessState } = location.state || false;
+  const [loadingErrorState, setLoadingErrorState] = useState(false);
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
@@ -23,7 +24,10 @@ const ArticlesIndex = ({ isEditable }) => {
 
     apiGet(`/api/articles`, body)
       .then((data) => setArticles(data))
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        setLoadingErrorState(true);
+        console.error(error);
+      });
 
     //tries out if there are articles on the next page
     apiGet(`/api/articles`, { limit: 4, page: page + 1 }).then((data) => {
@@ -55,12 +59,15 @@ const ArticlesIndex = ({ isEditable }) => {
     });
   };
 
-  console.log(articles);
-
   if (articles.length === 0) {
     return (
       <div className="container-content">
         <h5 className="mb-5">Aktuality</h5>
+        <FlashMessage
+          success={true}
+          state={loadingErrorState}
+          text={messages.dataLoadErr}
+        />
         <FlashMessage
           success={true}
           state={editSuccessState}
