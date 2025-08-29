@@ -8,17 +8,21 @@ const Files = () => {
   const [filesInfo, setFilesInfo] = useState([]);
   const location = useLocation();
   const { successState } = location.state || false;
-  const [successCopyState, setSuccessCopyState] = useState(null);
-  const [errorCopyState, setErrorCopyState] = useState(null);
-  const [deleteSuccessState, setDeleteSuccessState] = useState(null);
-  const [deleteErrorState, setDeleteErrorState] = useState(null);
+  const [successCopyState, setSuccessCopyState] = useState(false);
+  const [errorCopyState, setErrorCopyState] = useState(false);
+  const [deleteSuccessState, setDeleteSuccessState] = useState(false);
+  const [deleteErrorState, setDeleteErrorState] = useState(false);
+  const [loadingErrorState, setLoadingErrorState] = useState(false);
 
   console.log(filesInfo);
 
   useEffect(() => {
     apiGet("/api/files")
       .then((data) => setFilesInfo(data))
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        setLoadingErrorState(true);
+        console.error(error);
+      });
   }, []);
 
   const copyText = (text) => {
@@ -77,6 +81,11 @@ const Files = () => {
         success={false}
         state={deleteErrorState}
         text={messages.fileDeleteErr}
+      />
+      <FlashMessage
+        success={false}
+        state={loadingErrorState}
+        text={messages.dataLoadErr}
       />
 
       <Link className="btn btn-success" to={"/admin/galerie/soubory/novy"}>

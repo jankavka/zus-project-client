@@ -49,7 +49,7 @@ const PersonalDataProtectionForm = () => {
       )
       .catch((error) => {
         setSavingErrorState(true);
-        console.log(error);
+        console.error(error);
       });
   };
 

@@ -13,8 +13,6 @@ const AdminAlbumIndex = () => {
   const [deleteErrorState, setDeleteErrorState] = useState(false);
   const { successState } = location.state || false;
 
-  console.log(albums);
-
   const handleDeleteAlbum = (albumName) => {
     let aprove = confirm("Opravdu chcete vymazat toto album?");
     if (aprove) {

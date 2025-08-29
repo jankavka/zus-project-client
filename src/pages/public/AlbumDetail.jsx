@@ -44,9 +44,6 @@ const AlbumDetail = () => {
       });
   }, []);
 
-  console.log(slides);
-  console.log(images);
-
   return (
     <div className="container-content">
       <h5 className="text-uppercase">Album: {albumDescription}</h5>

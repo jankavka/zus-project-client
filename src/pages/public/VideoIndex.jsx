@@ -16,8 +16,6 @@ const VideoIndex = () => {
       });
   }, []);
 
-  console.log(videos);
-
   return (
     <div className="container-content">
       <h5 className="text-uppercase">Video</h5>

@@ -25,7 +25,7 @@ const SchoolAchievementsIndex = ({ forAdmin }) => {
       })
       .catch((error) => {
         setLoadingErrorState(true);
-        console.log(error);
+        console.error(error);
       });
   }, []);
 
@@ -35,7 +35,7 @@ const SchoolAchievementsIndex = ({ forAdmin }) => {
         .then((data) => setSchoolAchievements(data))
         .catch((error) => {
           setLoadingErrorState(true);
-          console.log(error);
+          console.error(error);
         });
     }
   }, [selectedYear]);
@@ -61,8 +61,6 @@ const SchoolAchievementsIndex = ({ forAdmin }) => {
       id: e.target.value,
     });
   };
-
-  console.log(selectedYear);
 
   return (
     <div className="container-content">

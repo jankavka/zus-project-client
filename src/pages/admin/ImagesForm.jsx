@@ -28,7 +28,6 @@ const ImagesForm = () => {
       });
     if (albumNameParam) {
       setAlbumName(albumNameParam);
-      console.log(albumName);
       apiGet("/api/photos/get-images/" + albumNameParam)
         .then((data) => setPhotosInAlbum(data))
         .catch((error) => {
@@ -48,9 +47,6 @@ const ImagesForm = () => {
       const filesToUpload = Array.from(e.target.files);
       return [...filesToUpload];
     });
-    console.log(files);
-    console.log(albumName);
-    //console.log(albumNameParam)
   };
 
   const handleSubmit = (e) => {
@@ -64,17 +60,18 @@ const ImagesForm = () => {
       formData.append("files", file);
     }
     formData.append("albumName", albumName);
-    console.log(formData);
 
     fetch(`${API_URL}/api/photos/add-photos`, {
       method: "POST",
       credentials: "include",
       body: formData,
     })
-      .then(() => navigate("/admin/galerie/foto", {state: {successState: true}}))
+      .then(() =>
+        navigate("/admin/galerie/foto", { state: { successState: true } })
+      )
       .catch((error) => {
         setUploadingErrorState(true);
-        console.log(error);
+        console.error(error);
       });
   };
 

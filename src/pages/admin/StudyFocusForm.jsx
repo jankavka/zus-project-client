@@ -28,7 +28,6 @@ const StudyFocusForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(studyFocus);
     apiPut("/api/static/update/study-focus", studyFocus)
       .then(() =>
         navigate("/admin/o-skole/studijni-zamereni", {

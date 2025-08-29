@@ -18,7 +18,6 @@ const EntranceExamForm = () => {
   const [errorState, setErrorState] = useState(false);
   const [savingErrorState, setSavingErrorState] = useState(false);
 
-  console.log(entranceExam);
 
   useEffect(() => {
     apiGet("/api/entrance-exam")

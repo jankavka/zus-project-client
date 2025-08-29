@@ -36,7 +36,6 @@ const SchoolSupportForm = () => {
       });
   };
 
-  console.log(schoolSupport);
 
   return (
     <div className="container-content">

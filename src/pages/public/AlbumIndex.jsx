@@ -8,8 +8,6 @@ const AlbumIndex = () => {
   const [albums, setAlbums] = useState([]);
   const [loadinErrorState, setLoadingErrorState] = useState(false);
 
-  console.log(albums);
-
   useEffect(() => {
     apiGet("/api/photos/get-albums")
       .then((data) => setAlbums(data))

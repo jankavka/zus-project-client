@@ -15,6 +15,7 @@ const AlbumForm = () => {
   const [isHidden, setIsHidden] = useState(false);
   const navigate = useNavigate();
   const [errorState, setErrorState] = useState(false);
+  const [loadingErrorState, setLoadingErrorState] = useState(false);
 
   useEffect(() => {
     setAlbumName(albumNameParam);
@@ -27,11 +28,17 @@ const AlbumForm = () => {
 
             setOldAlbumName(albumNameParam);
           })
-          .catch((error) => console.log(error))
+          .catch((error) => {
+            setLoadingErrorState(true);
+            console.error(error);
+          })
       );
       apiGet("/api/photos/get-images/" + albumNameParam)
         .then((data) => setPhotosInAlbum(data))
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          setLoadingErrorState(true);
+          console.error(error);
+        });
     }
   }, []);
 
@@ -90,6 +97,11 @@ const AlbumForm = () => {
         success={false}
         state={errorState}
         text={messages.dataCreateErr}
+      />
+      <FlashMessage
+        success={true}
+        state={loadingErrorState}
+        text={messages.dataLoadErr}
       />
       <form onSubmit={(e) => handleSubmit(e)}>
         <div>

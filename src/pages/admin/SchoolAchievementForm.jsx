@@ -48,7 +48,6 @@ const SchoolAchievementForm = () => {
   const handleSelection = (e) => {
     setSchoolAchievement((prev) => {
       let value = e.target.value;
-      console.log(value);
       return {
         ...prev,
         schoolYear: { id: value },
@@ -82,11 +81,6 @@ const SchoolAchievementForm = () => {
         });
     }
   };
-
-  useEffect(() => {
-    console.log(schoolAchievement);
-    console.log(schoolYears);
-  }, [schoolAchievement]);
 
   return (
     <div className="container-content">
