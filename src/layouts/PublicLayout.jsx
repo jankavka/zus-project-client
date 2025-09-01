@@ -36,6 +36,7 @@ import NotFound from "../pages/public/NotFound";
 import EntranceExamIndex from "../pages/public/EntranceExamIndex";
 import GeneralInformation from "../pages/public/GeneralInformation";
 import SchoolSupportIndex from "../pages/public/SchoolSupportIndex";
+import logo from "../images/logo.png"
 
 const PublicLayout = () => {
   return (
@@ -43,7 +44,7 @@ const PublicLayout = () => {
       <NavLinks />
       <div className="img-bg-school position-logo">
         <Link to={"/uvod/aktuality"}>
-          <img id="logo" src="/src/images/logo.png" alt="škola" />
+          <img id="logo" src={logo} alt="škola" />
         </Link>
       </div>
       <div className="container-main">

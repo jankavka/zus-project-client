@@ -6,6 +6,14 @@ import { resolve } from 'path'
 export default defineConfig({
   plugins: [react()],
 
+  server: {
+    proxy: {
+      '^/api':     { target: 'http://localhost:8080', changeOrigin: true },
+      '^/uploads': { target: 'http://localhost:8080', changeOrigin: true },
+      '^/search':  { target: 'http://localhost:8080', changeOrigin: true },
+    },
+  },
+
   
   //setup for local newtwork
   // server: {
