@@ -64,7 +64,7 @@ const ArticlesIndex = ({ isEditable }) => {
       <div className="container-content">
         <h5 className="mb-5">Aktuality</h5>
         <FlashMessage
-          success={true}
+          success={false}
           state={loadingErrorState}
           text={messages.dataLoadErr}
         />
