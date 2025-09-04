@@ -3,8 +3,8 @@ import { Dropdown, DropdownMenu } from "react-bootstrap";
 
 const SearchTool = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [query, setQuery] = useState("");
-  const backend = import.meta.env.VITE_BACKEND_ORIGIN || ""
+  //created for local dev
+  //const backend = import.meta.env.VITE_BACKEND_ORIGIN || ""
 
   return (
     <Dropdown
@@ -28,7 +28,7 @@ const SearchTool = () => {
         className={`submenu rounded-0 p-3`}
         style={{ minWidth: 260 }}
       >
-        <form action={`${backend}/search`} method="GET" role="search">
+        <form action={`/search`} method="GET" role="search">
           <div className="mb-2">
             <input type="search" name="query" className="form-control" />
           </div>

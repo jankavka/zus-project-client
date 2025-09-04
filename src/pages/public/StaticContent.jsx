@@ -14,17 +14,21 @@ export const BasicDataIndex = ({ isEditable }) => {
   const isMobile = useMedia({ maxWidth: "991px" });
   const location = useLocation();
   const { successState } = location.state || false;
+  const [loadingErrorState, setLoadingErrorState] = useState(false);
 
   useEffect(() => {
-    apiGet("/api/static/basic-data").then((data) => setBasicData(data));
-    apiGet("/api/school-management").then((data) =>
-      setDirector(data.filter((item) => item.managementType === "director")[0])
-    );
-    apiGet("/api/school-management").then((data) =>
+    apiGet("/api/static/basic-data")
+      .then((data) => setBasicData(data))
+      .catch((error) => {
+        setLoadingErrorState(true);
+        console.error(error);
+      });
+    apiGet("/api/school-management").then((data) => {
+      setDirector(data.filter((item) => item.managementType === "director")[0]);
       setDeputyDirector(
         data.filter((item) => item.managementType === "deputyDirector")[0]
-      )
-    );
+      );
+    });
   }, []);
 
   const locations = basicData.locationsOfEducation;
@@ -35,6 +39,11 @@ export const BasicDataIndex = ({ isEditable }) => {
         success={true}
         state={successState}
         text={messages.dataUpdateOk}
+      />
+      <FlashMessage
+        success={false}
+        state={loadingErrorState}
+        text={messages.dataLoadErr}
       />
       {isEditable ? (
         <Link
@@ -97,12 +106,12 @@ export const BasicDataIndex = ({ isEditable }) => {
             </td>
             <td className="my-table-background">
               {isEditable ? (
-                <Link to={`/admin/kontakty/vedeni-skoly/${director.id}`}>
-                  {director.degree} {director.name}
+                <Link to={`/admin/kontakty/vedeni-skoly/${director?.id}`}>
+                  {director?.degree} {director?.name}
                 </Link>
               ) : (
-                <Link to={`/kontakty/vedeni-skoly/${director.id}`}>
-                  {director.degree} {director.name}
+                <Link to={`/kontakty/vedeni-skoly/${director?.id}`}>
+                  {director?.degree} {director?.name}
                 </Link>
               )}
             </td>
@@ -113,12 +122,12 @@ export const BasicDataIndex = ({ isEditable }) => {
             </td>
             <td className="my-table-background">
               {isEditable ? (
-                <Link to={`/admin/kontakty/vedeni-skoly/${deputyDirector.id}`}>
-                  {deputyDirector.degree} {deputyDirector.name}
+                <Link to={`/admin/kontakty/vedeni-skoly/${deputyDirector?.id}`}>
+                  {deputyDirector?.degree} {deputyDirector?.name}
                 </Link>
               ) : (
-                <Link to={`/kontakty/vedeni-skoly/${deputyDirector.id}`}>
-                  {deputyDirector.degree} {deputyDirector.name}
+                <Link to={`/kontakty/vedeni-skoly/${deputyDirector?.id}`}>
+                  {deputyDirector?.degree} {deputyDirector?.name}
                 </Link>
               )}
             </td>

@@ -88,11 +88,11 @@ const SchoolManagementIndex = ({ isEditable }) => {
             <tr key={index}>
               <td>
                 {isEditable ? (
-                  <Link to={`/admin/kontakty/vedeni-skoly/${member.id}`}>
+                  <Link to={`/admin/kontakty/vedeni-skoly/${member?.id}`}>
                     {member.degree} {member.name}
                   </Link>
                 ) : (
-                  <Link to={`/kontakty/vedeni-skoly/${member.id}`}>
+                  <Link to={`/kontakty/vedeni-skoly/${member?.id}`}>
                     {member.degree} {member.name}
                   </Link>
                 )}
