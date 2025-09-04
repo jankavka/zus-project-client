@@ -121,7 +121,7 @@ const PublicLayout = () => {
               />
               <Route
                 path="/uredni-deska/skolni-rad"
-                element={<SchoolRulesIndex />}
+                element={<SchoolRulesIndex isEditable={false} />}
               />
 
               <Route

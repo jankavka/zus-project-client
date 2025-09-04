@@ -57,6 +57,7 @@ import FilesForm from "../pages/admin/FilesForm";
 import SchoolYearForm from "../pages/admin/SchoolYearForm";
 import AnualReportForm from "../pages/admin/AnualReportForm";
 import SchoolEducationProgramForm from "../pages/admin/SchoolEducationProgramForm";
+import SchoolRulesForm from "../pages/admin/SchoolRulesForm";
 
 const AdminLayout = () => {
   const { session, setSession } = useSession();
@@ -249,7 +250,11 @@ const AdminLayout = () => {
           />
           <Route
             path="/uredni-deska/skolni-rad"
-            element={<SchoolRulesIndex />}
+            element={<SchoolRulesIndex isEditable={true} />}
+          />
+          <Route
+            path="/uredni-deska/skolni-rad/upravit"
+            element={<SchoolRulesForm />}
           />
           <Route
             path="/uredni-deska/skolni-vzdelavaci-program"

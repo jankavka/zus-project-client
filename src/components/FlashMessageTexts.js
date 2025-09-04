@@ -2,7 +2,7 @@ export const messages = Object.freeze({
   dataUpdateOk: "Aktualizace záznamu proběhla úspěšně",
   dataCreateOk: "Nový záznam úspěšně vytvořen",
   dataDeleteOk: "Záznam úspěšně vymazán",
-  fileCreateOk: "Souboru úspěšmě vytvořen",
+  fileCreateOk: "Souboru úspěšně uložen",
   fileDeleteOk: "Soubor úspěšně vymazán",
   dataLoadErr: "Nepodařilo se načíst data",
   fileLoadErr: "Nepodařilo se načíst soubor",

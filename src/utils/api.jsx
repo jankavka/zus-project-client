@@ -1,5 +1,6 @@
-export const API_URL = "http://localhost:8080";
+//export const API_URL = "http://localhost:8080";
 //export const API_URL = "http://10.0.0.192:8080"
+export const API_URL = ""
 
 const fetchData = async (apiUrl, requestOptions) => {
   //const allRequestOptions = {...requestOptions}
