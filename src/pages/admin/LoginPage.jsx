@@ -3,6 +3,7 @@ import FormInput from "../../components/FormInput";
 import { useSession } from "../../contexts/session";
 import { useNavigate, Link } from "react-router-dom";
 import { apiPost } from "../../utils/api";
+import { Spinner } from "react-bootstrap";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -11,19 +12,22 @@ const LoginPage = () => {
   const [errorState, setErrorState] = useState(false);
   const [errorAdmin, setErrorAdmin] = useState(false);
   const navigate = useNavigate();
-  const from = localStorage.getItem("lastAdminPath") || "/admin/uvod/aktuality"
+  const from = localStorage.getItem("lastAdminPath") || "/admin/uvod/aktuality";
+  const [isLoading, setisLoading] = useState(false);
 
   useEffect(() => {
     if (!session) {
       console.warn("No user logged");
     }
     if (session.status === "authenticated" && session.data) {
-      navigate(from)
+      navigate(from);
     }
   }, [session.data, session.status]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setisLoading(true);
+
     const body = { email: email, password: password };
 
     apiPost("/api/auth", body)
@@ -33,6 +37,7 @@ const LoginPage = () => {
       .catch((error) => {
         console.error("Login failed:", error);
         setErrorState(true);
+        setisLoading(false);
       });
   };
 
@@ -40,6 +45,7 @@ const LoginPage = () => {
     <div className="d-flex justify-content-center">
       <div className="container-content" style={{ width: "960px" }}>
         <h5 className="text-uppercase">Přihlášení</h5>
+        {isLoading ? <Spinner animation="border" /> : null}
         {errorState ? (
           <div className="alert alert-danger">
             Přihlášení se nezdařilo. Zkontrolujte jméno a heslo
@@ -70,9 +76,7 @@ const LoginPage = () => {
           </div>
         </form>
         <div className="mt-5">
-          <Link  to={"/"}>
-            Zpět na stránky pro veřejnost
-          </Link>
+          <Link to={"/"}>Zpět na stránky pro veřejnost</Link>
         </div>
       </div>
     </div>
