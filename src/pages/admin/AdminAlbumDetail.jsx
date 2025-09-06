@@ -10,8 +10,10 @@ const AdminAlbumDetail = () => {
   const [images, setImages] = useState([]);
   const [albumDescription, setAlbumDescription] = useState("");
   const navigate = useNavigate();
-  const [deleteSuccessState, setDeleteSuccessState] = useState(null);
-  const [deleteErrorState, setDeleteErrorState] = useState(null);
+  const [deleteSuccessState, setDeleteSuccessState] = useState(false);
+  const [deleteErrorState, setDeleteErrorState] = useState(false);
+  const [successCopyState, setSuccessCopyState] = useState(false);
+  const [errorCopyState, setErrorCopyState] = useState(false);
 
   useEffect(() => {
     apiGet(`/api/photos/get-images/${albumName}`).then((data) =>
@@ -40,9 +42,29 @@ const AdminAlbumDetail = () => {
     }
   };
 
+  const copyLink = async (url) => {
+    await navigator.clipboard
+      .writeText(url)
+      .then(() => setSuccessCopyState(true))
+      .catch((error) => {
+        setErrorCopyState(true);
+        console.error(error);
+      });
+  };
+
   return (
     <div className="container-content">
       <h5 className="text-uppercase">Album: {albumDescription}</h5>
+      <FlashMessage
+        success={true}
+        state={successCopyState}
+        text={"Odkaz zkopírován"}
+      />
+      <FlashMessage
+        success={false}
+        state={errorCopyState}
+        text={"Odkaz se nepodařilo zkopírovat"}
+      />
       <FlashMessage
         success={true}
         state={deleteSuccessState}
@@ -57,6 +79,7 @@ const AdminAlbumDetail = () => {
         <thead>
           <tr>
             <th>Foto</th>
+            <th>Odkaz</th>
             <th>Akce</th>
           </tr>
         </thead>
@@ -69,6 +92,11 @@ const AdminAlbumDetail = () => {
                   src={`${API_URL}${image.url}`}
                   alt=""
                 />
+              </td>
+              <td>
+                <button onClick={() => copyLink(image.url)}>
+                  zkopírovat odkaz
+                </button>
               </td>
               <td>
                 <button
@@ -86,9 +114,7 @@ const AdminAlbumDetail = () => {
       <button
         className="btn btn-info"
         type="button"
-        onClick={() =>
-          navigate(-1)
-        }
+        onClick={() => navigate(-1)}
       >
         Zpět
       </button>
