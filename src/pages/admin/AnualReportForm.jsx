@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import FlashMessage from "../../components/FlashMessage";
 import { messages } from "../../components/FlashMessageTexts";
 import formatDate from "../../components/formatDate";
+import { Spinner } from "react-bootstrap";
 
 const AnualReportForm = () => {
   const [anualReport, setAnualReport] = useState({
@@ -17,6 +18,9 @@ const AnualReportForm = () => {
   const navigate = useNavigate();
   const [uploadingErrorState, setUploadingErrorState] = useState(false);
   const [loadinErrorState, setLoadingErrorState] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [timerId, setTimerId] = useState(null);
 
   useEffect(() => {
     apiGet("/api/static/anual-report")
@@ -27,8 +31,18 @@ const AnualReportForm = () => {
       });
   }, []);
 
+  useEffect(() => {
+    if (timerId === null) return;
+
+    return () => clearInterval(timerId);
+  }, [timerId]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (isSubmitted) return;
+    setIsSubmitted(true);
+    const timer = setTimeout(() => setIsSubmitted(false), 3000);
+    setTimerId(timer);
     apiPut("/api/static/update/anual-report", anualReport)
       .then(() =>
         navigate("/admin/uredni-deska/vyrocni-zpravy", {
@@ -38,6 +52,10 @@ const AnualReportForm = () => {
       .catch((error) => {
         setUploadingErrorState(true);
         console.error(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+        clearTimeout(timer);
       });
   };
 
@@ -55,6 +73,7 @@ const AnualReportForm = () => {
         state={loadinErrorState}
         text={messages.dataLoadErr}
       />
+      {isLoading ? <Spinner animation="border" /> : null}
       <form onSubmit={(e) => handleSubmit(e)}>
         <div className="mb-2">
           <FormInput
@@ -80,7 +99,11 @@ const AnualReportForm = () => {
           />
         </div>
         <div>
-          <button className="btn btn-success" type="submit">
+          <button
+            className="btn btn-success"
+            type="submit"
+            disabled={isSubmitted}
+          >
             Uložit
           </button>
         </div>

@@ -5,19 +5,22 @@ import MyEditor from "../../components/MyEditor";
 import { useNavigate } from "react-router-dom";
 import FlashMessage from "../../components/FlashMessage";
 import { messages } from "../../components/FlashMessageTexts";
+import { Spinner } from "react-bootstrap";
 
 const EntranceExamForm = () => {
-  const [isHidden, setIsHidden] = useState(false);
+  //const [isHidden, setIsHidden] = useState(false);
   const [entranceExam, setEntranceExam] = useState({
     title: "",
     content: "",
-    hidden: isHidden,
+    hidden: "",
   });
   const editorRef = useRef();
   const navigate = useNavigate();
   const [errorState, setErrorState] = useState(false);
   const [savingErrorState, setSavingErrorState] = useState(false);
-
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [timerId, setTimerId] = useState(null);
 
   useEffect(() => {
     apiGet("/api/entrance-exam")
@@ -28,8 +31,17 @@ const EntranceExamForm = () => {
       });
   }, []);
 
+  useEffect(() => {
+    if (timerId === null) return;
+    return () => clearTimeout(timerId);
+  }, [timerId]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (isSubmitted) return;
+    setIsSubmitted(true);
+    const timer = setTimeout(() => setIsSubmitted(false), 3000);
+    setTimerId(timer);
     apiPost("/api/entrance-exam", entranceExam)
       .then(() =>
         navigate("/admin/pro-rodice-a-zaky/prijimaci-zkousky", {
@@ -37,8 +49,12 @@ const EntranceExamForm = () => {
         })
       )
       .catch((error) => {
-        setSavingErrorState(true)
+        setSavingErrorState(true);
         console.error(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+        clearTimeout(timer);
       });
   };
 
@@ -55,6 +71,7 @@ const EntranceExamForm = () => {
         state={savingErrorState}
         text={messages.dataUpdateErr}
       />
+      {isLoading ? <Spinner animation="border" /> : null}
       <form onSubmit={(e) => handleSubmit(e)}>
         <div className="mb-3">
           <FormInput
@@ -118,7 +135,11 @@ const EntranceExamForm = () => {
           </div>
         </div>
         <div className="d-flex justify-content-start">
-          <button className="btn btn-success me-3" type="submit">
+          <button
+            className="btn btn-success me-3"
+            type="submit"
+            disabled={isSubmitted}
+          >
             Uložit
           </button>
           <button

@@ -20,7 +20,11 @@ const AlbumIndex = () => {
   return (
     <div className="container-content">
       <h5 className="text-uppercase">Foto</h5>
-      <FlashMessage success={false} state={loadinErrorState} text={messages.dataLoadErr}/>
+      <FlashMessage
+        success={false}
+        state={loadinErrorState}
+        text={messages.dataLoadErr}
+      />
       <div className="row d-flex justify-content-around">
         {albums
           ? albums.map((album, index) => (

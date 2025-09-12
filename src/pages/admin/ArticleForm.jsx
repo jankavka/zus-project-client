@@ -7,6 +7,7 @@ import MyEditor from "../../components/MyEditor";
 import { API_URL } from "../../utils/api";
 import FlashMessage from "../../components/FlashMessage";
 import { messages } from "../../components/FlashMessageTexts";
+import { Spinner } from "react-bootstrap";
 
 const ArticleForm = () => {
   const editorRef = useRef(null);
@@ -22,10 +23,15 @@ const ArticleForm = () => {
   const [albumName, setAlbumName] = useState("");
   const [images, setImages] = useState([]);
   const [errorState, setErrorState] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [timerId, setTimerId] = useState(null);
 
   useEffect(() => {
     if (id) {
-      apiGet("/api/articles/" + id).then((data) => setArticle(data));
+      apiGet("/api/articles/" + id).then((data) => {
+        setArticle(data);
+      });
     }
     apiGet("/api/photos/all-albums-names").then((data) => setAlbumsNames(data));
   }, []);
@@ -38,8 +44,18 @@ const ArticleForm = () => {
       : null;
   }, [albumName]);
 
+  useEffect(() => {
+    if (timerId === null) return;
+    return () => clearTimeout(timerId);
+  }, [timerId]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (isSubmitted) return;
+    setIsLoading(true);
+    setIsSubmitted(true);
+    const timer = setTimeout(() => isSubmitted(false), 3000);
+    setTimerId(timer);
     if (id) {
       apiPut(`/api/articles/edit/${id}`, article)
         .then(() =>
@@ -50,6 +66,10 @@ const ArticleForm = () => {
         .catch((error) => {
           setErrorState(error.message);
           console.error(error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+          clearTimeout(timer);
         });
     } else {
       apiPost("/api/articles/create", article)
@@ -61,6 +81,10 @@ const ArticleForm = () => {
         .catch((error) => {
           setErrorState(error.message);
           console.error(error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+          clearTimeout(timer);
         });
     }
   };
@@ -77,6 +101,7 @@ const ArticleForm = () => {
         state={errorState}
         text={`${messages.dataCreateErr} Máte vyplněna všechna pole?`}
       />
+      {isLoading ? <Spinner animation="border" /> : null}
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label>Titulek</label>
@@ -165,7 +190,7 @@ const ArticleForm = () => {
             <p>Čas změny: {formatDate(new Date(article.issuedDate))}</p>
           ) : null}
         </div>
-        <button type="submit" className="btn btn-info">
+        <button type="submit" className="btn btn-info" disabled={isSubmitted}>
           Odeslat
         </button>
         <button

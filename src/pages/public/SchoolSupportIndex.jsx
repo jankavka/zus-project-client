@@ -28,7 +28,7 @@ const SchoolSupportIndex = ({ isEditable }) => {
         text={messages.dataUpdateOk}
       />
       <FlashMessage
-        success={true}
+        success={false}
         state={loadingErrorState}
         text={messages.dataLoadErr}
       />

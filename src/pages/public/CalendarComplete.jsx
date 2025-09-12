@@ -46,7 +46,7 @@ const CalendarComplete = () => {
     );
 
     return () => clearTimeout(timerLoadingText);
-  },[]);
+  }, []);
 
   useEffect(() => {
     const noEvents = !events || events.length === 0;
@@ -56,45 +56,47 @@ const CalendarComplete = () => {
     }
     const timerNoEvents = setTimeout(() => setIsHiddenEvents(false), 10000);
     return () => clearTimeout(timerNoEvents);
-  },[events])
+  }, [events]);
 
   //moves events list to next page
   const nextPage = () => {
     setEvents([]);
-    apiGet("/api/calendar/all-events", filter).then((data) => {
-      setEvents(data.items);
-      setPage((prev) => prev + 1);
-      if (data.nextPageToken) {
-        setFilter((prev) => {
-          return { ...prev, nextPageToken: data.nextPageToken };
-        });
-        setTokens((prev) => {
-          return [...prev, data.nextPageToken];
-        });
-      }
-    }).catch((error) => {
-      setLoadingErrorState(true)
-      console.error(error)
-    });
+    apiGet("/api/calendar/all-events", filter)
+      .then((data) => {
+        setEvents(data.items);
+        setPage((prev) => prev + 1);
+        if (data.nextPageToken) {
+          setFilter((prev) => {
+            return { ...prev, nextPageToken: data.nextPageToken };
+          });
+          setTokens((prev) => {
+            return [...prev, data.nextPageToken];
+          });
+        }
+      })
+      .catch((error) => {
+        setLoadingErrorState(true);
+        console.error(error);
+      });
   };
 
   //moves events list to previous page
   const prevPage = () => {
     setEvents([]);
     if (tokens.length < 3) {
-      apiGet("/api/calendar/all-events", { limit: 10, nextPageToken: "" }).then(
-        (data) => {
+      apiGet("/api/calendar/all-events", { limit: 10, nextPageToken: "" })
+        .then((data) => {
           setEvents(data.items);
           setTokens(["", data.nextPageToken]);
           setFilter((prev) => {
             return { ...prev, nextPageToken: data.nextPageToken };
           });
           setPage((prev) => prev - 1);
-        }
-      ).catch((error) => {
-        setLoadingErrorState(true)
-        console.error(error)
-      });
+        })
+        .catch((error) => {
+          setLoadingErrorState(true);
+          console.error(error);
+        });
     } else {
       let api = {};
       if (page === tokens.length) {
@@ -124,7 +126,11 @@ const CalendarComplete = () => {
   return (
     <div className="container-calendar">
       <h5 className="mb-3 text-uppercase">Seznam akcí</h5>
-      <FlashMessage success={false} state={loadinErrorState} text={messages.dataLoadErr}/>
+      <FlashMessage
+        success={false}
+        state={loadinErrorState}
+        text={messages.dataLoadErr}
+      />
       <div className="calendar-height">
         {events.length === 0 ? (
           <div>
@@ -160,7 +166,7 @@ const CalendarComplete = () => {
           </button>
         </div>
       ) : (
-        <div className="row" style={{height: "35px"}}></div>
+        <div className="row" style={{ height: "35px" }}></div>
       )}
     </div>
   );

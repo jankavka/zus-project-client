@@ -14,6 +14,8 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const from = localStorage.getItem("lastAdminPath") || "/admin/uvod/aktuality";
   const [isLoading, setisLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [timerId, setTimerId] = useState(null);
 
   useEffect(() => {
     if (!session) {
@@ -24,8 +26,20 @@ const LoginPage = () => {
     }
   }, [session.data, session.status]);
 
+  useEffect(() => {
+    if (timerId === null) return;
+
+    return () => clearTimeout(timerId);
+  }, [timerId]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (isSubmitted) return;
+    setIsSubmitted(true);
+    const timer = setTimeout(() => {
+      setIsSubmitted(false);
+    }, 3000);
+    setTimerId(timer);
     setisLoading(true);
 
     const body = { email: email, password: password };
@@ -37,7 +51,10 @@ const LoginPage = () => {
       .catch((error) => {
         console.error("Login failed:", error);
         setErrorState(true);
+      })
+      .finally(() => {
         setisLoading(false);
+        clearTimeout(timer);
       });
   };
 
@@ -71,7 +88,13 @@ const LoginPage = () => {
             type="password"
           />
           <div className="d-flex justify-content-between align-items-center">
-            <button className="btn btn-primary mt-3">Přihlásit</button>
+            <button
+              disabled={isSubmitted}
+              type="submit"
+              className="btn btn-primary mt-3"
+            >
+              Přihlásit
+            </button>
             <Link to={"/admin/registrace"}>Registrovat</Link>
           </div>
         </form>
