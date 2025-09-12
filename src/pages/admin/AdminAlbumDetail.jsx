@@ -32,17 +32,23 @@ const AdminAlbumDetail = () => {
     let aprove = confirm("Opravdu chcete vymazat tento obrázek?");
     if (aprove) {
       apiDelete(`/api/photos/delete-image/${id}`)
-        .then(() => setDeleteSuccessState(true))
+        .then(() => {
+          setDeleteSuccessState(true);
+          if (deleteSuccessState) {
+            setImages(images.filter((image) => image.id !== id));
+          }
+        })
         .catch((error) => {
           setDeleteErrorState(true);
           console.error(error);
         });
-
-      setImages(images.filter((image) => image.id !== id));
     }
   };
 
+  //works only in secure context
   const copyLink = async (url) => {
+    console.log("secure context: " + window.isSecureContext);
+    console.log(`"local protocol: ` + location.protocol);
     await navigator.clipboard
       .writeText(url)
       .then(() => setSuccessCopyState(true))

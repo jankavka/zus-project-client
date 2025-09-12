@@ -5,6 +5,7 @@ import formatDate from "../../components/formatDate";
 import { addInput, removeInput } from "../../components/InputManagement";
 import FlashMessage from "../../components/FlashMessage";
 import { messages } from "../../components/FlashMessageTexts";
+import { Spinner } from "react-bootstrap";
 
 const BasicDataForm = () => {
   const [basicData, setBasicData] = useState({
@@ -25,6 +26,9 @@ const BasicDataForm = () => {
   const [fieldCounter, setFieldCounter] = useState(1);
   const [locationsOfEducation, setLocationsOfEducation] = useState([" "]);
   const [errorState, setErrorState] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [timerId, setTimerId] = useState(null);
 
   useEffect(() => {
     apiGet("/api/static/basic-data").then((data) => setBasicData(data));
@@ -54,8 +58,17 @@ const BasicDataForm = () => {
       .catch((error) => console.error(error));
   }, []);
 
+  useEffect(() => {
+    if (timerId === null) return;
+    return () => clearTimeout(timerId);
+  }, timerId);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setIsSubmitted(true);
+    const timer = setTimeout(() => setIsSubmitted(false), 3000);
+    setTimerId(timer);
     const body = {
       ...basicData,
       locationsOfEducation,
@@ -69,6 +82,10 @@ const BasicDataForm = () => {
       .catch((error) => {
         setErrorState(true);
         console.error(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+        clearTimeout(timer);
       });
   };
 
@@ -96,6 +113,7 @@ const BasicDataForm = () => {
         state={errorState}
         text={messages.dataUpdateErr}
       />
+      {isLoading ? <Spinner animation="border" /> : null}
       <p>Naposledy upraveno: {formatDate(new Date(basicData.issuedDate))}</p>
       <form onSubmit={handleSubmit}>
         <div>
@@ -268,7 +286,11 @@ const BasicDataForm = () => {
           </table>
         </div>
         <div className="mt-3">
-          <button type="submit" className="btn btn-success me-3">
+          <button
+            type="submit"
+            className="btn btn-success me-3"
+            disabled={isSubmitted}
+          >
             Uložit
           </button>
           <button

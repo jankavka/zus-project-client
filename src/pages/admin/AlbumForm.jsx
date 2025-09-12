@@ -4,6 +4,7 @@ import { API_URL, apiGet, apiPost, apiPut } from "../../utils/api";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import FlashMessage from "../../components/FlashMessage";
 import { messages } from "../../components/FlashMessageTexts";
+import { Spinner } from "react-bootstrap";
 
 const AlbumForm = () => {
   const { albumNameParam } = useParams();
@@ -16,6 +17,9 @@ const AlbumForm = () => {
   const navigate = useNavigate();
   const [errorState, setErrorState] = useState(false);
   const [loadingErrorState, setLoadingErrorState] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [timerId, setTimerId] = useState(null);
 
   useEffect(() => {
     setAlbumName(albumNameParam);
@@ -42,6 +46,11 @@ const AlbumForm = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (timerId === null) return;
+    return () => clearTimeout(timerId);
+  }, [timerId]);
+
   const handleChangeLeadPhoto = (e) => {
     setLeadPictureUrl(e.target.value);
   };
@@ -52,6 +61,11 @@ const AlbumForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (isSubmitted) return;
+    setIsSubmitted(true);
+    const timer = setTimeout(() => setIsSubmitted(false), 3000);
+    setIsLoading(true);
+    setTimerId(timer);
     if (albumNameParam) {
       const body = {
         albumName: albumName,
@@ -60,12 +74,19 @@ const AlbumForm = () => {
         isHidden: isHidden,
       };
       apiPut("/api/photos/edit-album/" + albumNameParam, body)
-        .then(() =>
-          navigate("/admin/galerie/foto", { state: { editSuccessState: true } })
-        )
+        .then(() => {
+          navigate("/admin/galerie/foto", {
+            state: { editSuccessState: true },
+          });
+        })
         .catch((error) => {
           setErrorState(true);
           console.error("Error: " + error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+          setIsSubmitted(false);
+          clearTimeout(timer);
         });
     } else {
       const body = {
@@ -82,6 +103,11 @@ const AlbumForm = () => {
         .catch((error) => {
           setErrorState(true);
           console.error("Error:" + error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+          setIsSubmitted(false);
+          clearTimeout(timer);
         });
     }
   };
@@ -103,6 +129,7 @@ const AlbumForm = () => {
         state={loadingErrorState}
         text={messages.dataLoadErr}
       />
+      {isLoading ? <Spinner animation="border" /> : null}
       <form onSubmit={(e) => handleSubmit(e)}>
         <div>
           <FormInput
@@ -193,7 +220,11 @@ const AlbumForm = () => {
           </div>
         ) : null}
         <div>
-          <button type="submit" className="btn btn-success me-3">
+          <button
+            type="submit"
+            className="btn btn-success me-3"
+            disabled={isSubmitted}
+          >
             Uložit
           </button>
 

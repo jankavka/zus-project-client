@@ -1,9 +1,10 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useState } from "react";
 import { API_URL } from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 import FlashMessage from "../../components/FlashMessage";
 import { messages } from "../../components/FlashMessageTexts";
+import { Spinner } from "react-bootstrap";
 
 const FilesForm = () => {
   const fileInputRef = useRef(null);
@@ -12,9 +13,23 @@ const FilesForm = () => {
   const formData = new FormData();
   const navigate = useNavigate();
   const [errorState, setErrorState] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [timerId, setTimerId] = useState(null);
+
+  useEffect(() => {
+    if (timerId === null) return;
+
+    return () => clearTimeout(timerId);
+  }, [timerId]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    if (isSubmitted) return;
+    setIsSubmitted(true);
+    const timer = setTimeout(() => setIsSubmitted(false), 3000);
+    setTimerId(timer);
 
     formData.append("file", file);
     formData.append("fileName", fileName);
@@ -34,6 +49,10 @@ const FilesForm = () => {
       .catch((error) => {
         setErrorState(true);
         console.error("Error: " + error);
+      })
+      .finally(() => {
+        clearTimeout(timer);
+        setIsLoading(false);
       });
   };
 
@@ -51,6 +70,7 @@ const FilesForm = () => {
         state={errorState}
         text={messages.fileCreateErr}
       />
+      {isLoading ? <Spinner animation="border" /> : null}
       <form onSubmit={(e) => handleSubmit(e)}>
         <div className="mb-3">
           <input
@@ -62,7 +82,11 @@ const FilesForm = () => {
           />
         </div>
         <div>
-          <input className="btn btn-success" type="submit" />
+          <input
+            className="btn btn-success"
+            type="submit"
+            disabled={isSubmitted}
+          />
         </div>
       </form>
     </div>
