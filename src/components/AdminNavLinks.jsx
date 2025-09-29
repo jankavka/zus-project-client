@@ -87,7 +87,7 @@ const AdminNavLinks = () => {
     {
       label: "kontakty",
       subMenu: [
-        { label: "Obecné informace", link: "/admin/kontakty/obecne-informace" },
+        { label: "Obecné informace", link: "/admin/kontakty/obecne-info" },
         { label: "Vedení školy", link: "/admin/kontakty/vedeni-skoly" },
         { label: "Učitelé", link: "/admin/kontakty/ucitele" },
       ],
