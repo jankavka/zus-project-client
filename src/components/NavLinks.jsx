@@ -162,9 +162,7 @@ const NavLinks = () => {
                     <DropdownMenu
                       renderOnMount={true}
                       rootCloseEvent="click"
-                      className={`submenu ${
-                        isMobile ? "" : "opacity"
-                      } rounded-0`}
+                      className="submenu rounded-0"
                     >
                       {item.subMenu.map((subItem) => (
                         <Dropdown.Item
