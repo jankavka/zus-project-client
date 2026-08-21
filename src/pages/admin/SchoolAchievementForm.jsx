@@ -16,7 +16,6 @@ const SchoolAchievementForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const editorRef = useRef();
-  //const [counter, setCounter] = useState(1);
   const [loadingErrorState, setLoadingErrorState] = useState(false);
   const [uploadingErrorState, setUploadingErrorState] = useState(false);
   const [creatingErrorState, setCreatingErrorState] = useState(false);

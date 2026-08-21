@@ -3,15 +3,12 @@ import { Dropdown, DropdownMenu } from "react-bootstrap";
 
 const SearchTool = () => {
   const [isVisible, setIsVisible] = useState(false);
-  //created for local dev
-  //const backend = import.meta.env.VITE_BACKEND_ORIGIN || ""
 
   return (
     <Dropdown
       autoClose="outside"
       className="text-nav"
       show={isVisible}
-      //onToggle={setIsVisible}
       onToggle={(next, meta) => {
         if (meta?.source === "select") return;
         setIsVisible(next);

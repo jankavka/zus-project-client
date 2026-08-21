@@ -8,7 +8,6 @@ import { messages } from "../../components/FlashMessageTexts";
 import { Spinner } from "react-bootstrap";
 
 const EntranceExamForm = () => {
-  //const [isHidden, setIsHidden] = useState(false);
   const [entranceExam, setEntranceExam] = useState({
     title: "",
     content: "",

@@ -13,7 +13,6 @@ const AdminRoute = ({ children }) => {
   }
 
   if (!session.data.isAdmin) {
-    console.warn("not admin"); 
     return <Navigate to={`/admin/no-admin`} state={{ errorAdmin: true }} />;
   }
 

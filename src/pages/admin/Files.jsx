@@ -14,8 +14,6 @@ const Files = () => {
   const [deleteErrorState, setDeleteErrorState] = useState(false);
   const [loadingErrorState, setLoadingErrorState] = useState(false);
 
-  console.log(filesInfo);
-
   useEffect(() => {
     apiGet("/api/files")
       .then((data) => setFilesInfo(data))

@@ -5,12 +5,9 @@ const MyEditor = ({ subject, onChange, editorRef }) => {
   return (
     <div>
       <Editor
-        //apiKey="rcmrt6sw2f0nceh681w44zyk5imlqqsnmi54yv1tmb4kx2yw"
         apiKey="no-api-key"
-        //apiKey=""
         licenseKey="gpl"
         onInit={(_evt, editor) => (editorRef.current = editor)}
-        //initialValue={subject.content ? subject.content : ""}
         value={subject?.content ? subject?.content : ""}
         init={{
           height: 400,
@@ -42,7 +39,6 @@ const MyEditor = ({ subject, onChange, editorRef }) => {
             "removeformat | help | image table",
           content_style:
             "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-          //menubar: "file edit insert view format table tools help",
         }}
         onEditorChange={onChange}
       ></Editor>

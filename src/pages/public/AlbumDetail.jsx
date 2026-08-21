@@ -15,7 +15,6 @@ const AlbumDetail = () => {
   const [open, setOpen] = useState(false);
   const [slides, setSlides] = useState([]);
   const [slideIndex, setSlideIndex] = useState(0);
-  //const captionsRef = useRef(null);
   const [loadinErrorState, setLoadingErrorState] = useState(false);
 
   useEffect(() => {

@@ -39,7 +39,6 @@ const SchoolYearForm = () => {
     if (aprove) {
       apiDelete(`/api/school-year/${id}`)
         .then(() => {
-          //ssetSchoolYears(schoolYears.filter((year) => year.id != id));
           navigate("/admin/o-skole/uspechy-skoly/skolni-roky", {
             state: { deleteSuccessState: true },
           });

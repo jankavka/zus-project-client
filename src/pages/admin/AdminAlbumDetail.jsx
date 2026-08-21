@@ -47,8 +47,6 @@ const AdminAlbumDetail = () => {
 
   //works only in secure context
   const copyLink = async (url) => {
-    console.log("secure context: " + window.isSecureContext);
-    console.log(`"local protocol: ` + location.protocol);
     await navigator.clipboard
       .writeText(url)
       .then(() => setSuccessCopyState(true))

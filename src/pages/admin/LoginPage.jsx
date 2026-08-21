@@ -18,9 +18,6 @@ const LoginPage = () => {
   const [timerId, setTimerId] = useState(null);
 
   useEffect(() => {
-    if (!session) {
-      console.warn("No user logged");
-    }
     if (session.status === "authenticated" && session.data) {
       navigate(from);
     }

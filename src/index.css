@@ -9,8 +9,8 @@
     --max-width: 950px;
     --red-menu: #983839;
     --main-width: 1150px;
-    --container-bg: #F2F2F2;
-    --my-dark-bg: #9B9797;
+    --container-bg: #FFFFFF;
+    --my-dark-bg: #F3F0EA;
     --my-light-bg: #FFFFFF;
 
 }
@@ -41,9 +41,6 @@ body {
     background-color: var(--container-bg);
     min-height: 700px;
     padding: 2rem;
-    /*border:1px solid black*/
-
-
 }
 
 @media(max-width: 768px) {
@@ -233,14 +230,6 @@ body {
     opacity: 0.8;
 }
 
-/*Used for showing menu on medium and larger devices on hover */
-/* @media (hover: hover) or (min-width: 992px) {
-    .this-dropdown:hover>.dropdown-menu {
-        display: block !important;
-        background-color: #3A506B !important;
-    }
-} */
-
 .picture-width {
     max-width: 500px;
 }
@@ -259,6 +248,23 @@ body {
     color: #FFFFFF !important;
 }
 
+.submenu .text-nav:hover {
+    color: #324B73 !important;
+}
+
+.btn-light.border-dark,
+.btn-light.border-black {
+    background-color: #324B73 !important;
+    border-color: #324B73 !important;
+    color: #FFFFFF !important;
+}
+
+.btn-light.border-dark:hover,
+.btn-light.border-black:hover {
+    background-color: #FFFFFF !important;
+    color: #324B73 !important;
+}
+
 @media(min-width: 576px) {
     .text-nav:hover text.nav {
         color: black !important;
@@ -272,7 +278,7 @@ body {
 }
 
 .my-button-next {
-    background-color: var(--red-menu);
+    background-color: #324B73;
     border-radius: 5px;
     border: 1px solid black;
     color: white;
@@ -280,11 +286,17 @@ body {
 }
 
 .my-button-previous {
-    background-color: red;
+    background-color: #324B73;
     border-radius: 5px;
     border: 1px solid black;
     color: white;
     padding: 0.3rem;
+}
+
+.my-button-next:hover,
+.my-button-previous:hover {
+    background-color: #FFFFFF;
+    color: #324B73;
 }
 
 .my-table-background {
@@ -310,13 +322,12 @@ body {
 }
 
 .bottom {
-    background-color: rgb(83, 83, 83);
+    background-color: #324B73;
     min-height: 200px;
     display: flex;
     justify-content: center;
 
     align-items: center;
-    /*border-top: 1px solid black;*/
     margin-top: 100px;
 }
 
