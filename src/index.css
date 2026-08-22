@@ -30,9 +30,11 @@ body {
 }
 
 .navbar-container {
-    max-width: var(--max-width);
+    max-width: var(--main-width);
     width: 100%;
     margin: 0 auto;
+    padding-left: 12px;
+    justify-content: space-between;
 }
 
 .container-content {
@@ -151,7 +153,6 @@ body {
 .nav-buttons {
     background-color: transparent !important;
     border-style: none !important;
-
 }
 
 .search-icon:hover {
@@ -329,6 +330,19 @@ body {
 
     align-items: center;
     margin-top: 100px;
+    color: #FFFFFF;
+    gap: 24px;
+}
+
+.bottom a {
+    color: inherit;
+    font-size: 2rem;
+    line-height: 1;
+    text-decoration: none;
+}
+
+.bottom .bi-youtube {
+    font-size: 1.3em;
 }
 
 @media(max-width: 768px) {

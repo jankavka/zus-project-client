@@ -122,12 +122,12 @@ const NavLinks = () => {
   return (
     <div className="nav-position-fixed ">
       <Navbar expand="md" className="nav-bg">
-        <Container>
+        <Container fluid className="px-0">
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav
               fill
-              className="navbar-container text-white d-flex justify-content-start navbar-width mt-1"
+              className="navbar-container text-white d-flex justify-content-between navbar-width mt-1"
             >
               {menu.map((item, index) =>
                 item.link ? (
@@ -139,7 +139,7 @@ const NavLinks = () => {
                     style={{
                       textDecoration: "none",
                       alignSelf: `${isMobile ? "start" : "center"}`,
-                      marginLeft: `${isMobile ? "12px" : "10px"}`,
+                      marginLeft: `${isMobile ? "12px" : "0"}`,
                     }}
                     key={index}
                   >
@@ -175,7 +175,9 @@ const NavLinks = () => {
                               : false
                           }
                           to={subItem.link}
-                          target={subItem.label === "Přihláška" ? "_blank" : null}
+                          target={
+                            subItem.label === "Přihláška" ? "_blank" : null
+                          }
                           className="text-nav"
                         >
                           {subItem.label}{" "}

@@ -120,12 +120,12 @@ const AdminNavLinks = () => {
   return (
     <div className="nav-position-fixed ">
       <Navbar expand="md" className="nav-bg-admin ">
-        <Container>
+        <Container fluid className="px-0">
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav
               fill
-              className="navbar-container text-white justify-content-start navbar-width"
+              className="navbar-container text-white justify-content-between navbar-width"
             >
               {menu.map((item, index) =>
                 item.link ? (
@@ -137,7 +137,7 @@ const AdminNavLinks = () => {
                     style={{
                       textDecoration: "none",
                       alignSelf: `${isMobile ? "start" : "center"}`,
-                      marginLeft: `${isMobile ? "12px" : "10px"}`,
+                      marginLeft: `${isMobile ? "12px" : "0"}`,
                     }}
                     key={index}
                   >
