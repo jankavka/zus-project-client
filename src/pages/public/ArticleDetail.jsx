@@ -35,7 +35,10 @@ const ArticleDetail = ({ isAdmin }) => {
       />
       <div dangerouslySetInnerHTML={{ __html: article.content }}></div>
 
-      <Link to={`${isAdmin ? "/admin/uvod/aktuality" : "/uvod/aktuality"}`}>
+      <Link
+        to={`${isAdmin ? "/admin/uvod/aktuality" : "/uvod/aktuality"}`}
+        className="btn btn-light border-dark mt-3"
+      >
         Zpět na aktuality
       </Link>
     </div>

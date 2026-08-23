@@ -125,7 +125,7 @@ const CalendarComplete = () => {
 
   return (
     <div className="container-calendar">
-      <h5 className="mb-3 text-uppercase">Seznam akcí</h5>
+      <h5 className="section-title mb-3 text-uppercase">Seznam akcí</h5>
       <FlashMessage
         success={false}
         state={loadinErrorState}

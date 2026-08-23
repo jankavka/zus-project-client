@@ -51,22 +51,23 @@ const AlbumDetail = () => {
         state={loadinErrorState}
         text={messages.dataLoadErr}
       />
-      <div className="row">
+      <div className="album-photo-grid">
         {images.map((image, index) => (
-          <div id={index} className="col" key={index}>
-            <Link
-              type="button"
-              onClick={() => {
-                setOpen(true);
-                setSlideIndex(index);
-              }}
-            >
-              <img
-                className="album-image me-3 mb-3"
-                src={`${API_URL}${image.url}`}
-              />
-            </Link>
-          </div>
+          <Link
+            key={index}
+            type="button"
+            className="album-photo-thumb"
+            onClick={() => {
+              setOpen(true);
+              setSlideIndex(index);
+            }}
+          >
+            <img
+              className="album-image"
+              src={`${API_URL}${image.url}`}
+              alt=""
+            />
+          </Link>
         ))}
         <Lightbox
           open={open}
@@ -75,7 +76,7 @@ const AlbumDetail = () => {
           index={slideIndex}
         />
       </div>
-      <div>
+      <div className="mt-4">
         <button
           className="btn btn-light border-black"
           type="button"

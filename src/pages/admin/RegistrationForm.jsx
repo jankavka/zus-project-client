@@ -86,7 +86,9 @@ const RegistrationForm = () => {
           />
           <div className="d-flex justify-content-between align-items-center">
             <button className="btn btn-success">Registrovat</button>
-            <Link to="/admin/login">Zpět na přihlášení</Link>
+            <Link to="/admin/login" className="btn btn-light border-dark">
+              Zpět na přihlášení
+            </Link>
           </div>
         </form>
       </div>

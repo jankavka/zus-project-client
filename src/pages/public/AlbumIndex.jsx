@@ -25,43 +25,35 @@ const AlbumIndex = () => {
         state={loadinErrorState}
         text={messages.dataLoadErr}
       />
-      <div className="row d-flex justify-content-around">
+      <div className="row g-4">
         {albums
           ? albums.map((album, index) => (
               <div
                 hidden={album.isHidden}
                 key={index}
-                className={`mb-3 me-2 col `}
+                className="col-6 col-md-4"
               >
                 <Link
-                  style={{ textDecoration: "none" }}
                   to={`/galerie/foto/${album.albumName}`}
+                  className="album-card"
                 >
-                  <div className="card mb-2" style={{ width: "18rem" }}>
+                  <div className="album-card-img-wrap">
                     {album.leadPictureUrl ? (
-                      <div>
-                        <img
-                          className="card-img-top"
-                          src={`${API_URL}${album.leadPictureUrl}`}
-                          alt=""
-                        />
-                        <div className="card-body">
-                          <h5 className="card-title">
-                            {album.albumDescription}
-                          </h5>
-                        </div>
-                      </div>
-                    ) : (
-                      <div>
-                        <div className="card-body">
-                          <h5 className="card-title">
-                            {album.albumDescription}
-                          </h5>
-                          <p className="card-text">
-                            Album zatím neobsahuje žádné fotky
-                          </p>
-                        </div>
-                      </div>
+                      <img
+                        className="album-card-img"
+                        src={`${API_URL}${album.leadPictureUrl}`}
+                        alt=""
+                      />
+                    ) : null}
+                  </div>
+                  <div className="album-card-body">
+                    <h5 className="album-card-title text-uppercase">
+                      {album.albumDescription}
+                    </h5>
+                    {album.leadPictureUrl ? null : (
+                      <p className="mb-0">
+                        Album zatím neobsahuje žádné fotky
+                      </p>
                     )}
                   </div>
                 </Link>

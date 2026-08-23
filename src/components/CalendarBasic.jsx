@@ -5,10 +5,10 @@ import formatDate from "./formatDate";
 import LoadingText from "./LoadingText";
 import NoEvents from "./NoEvents";
 
-const CalendarBasic = () => {
+const CalendarBasic = ({ limit = 5 }) => {
   const [events, setEvents] = useState([]);
   const filter = {
-    limit: 5,
+    limit: limit,
   };
   const [isHiddenEvents, setIsHiddenEvents] = useState(true);
   const [isHiddenLoadingText, setIsHiddenLoadingText] = useState(false);
@@ -31,34 +31,38 @@ const CalendarBasic = () => {
   }, []);
 
   return (
-    <div className="container-calendar">
-      {errorState ? (
-        <div>Kalendář se nepodařilo načíst</div>
-      ) : (
-        <div>
-          <h5 className=" text-uppercase mb-3">Nejbližší akce</h5>
-          {events.length === 0 ? (
-            <div>
-              <LoadingText isHidden={isHiddenLoadingText} />
-              <NoEvents isHidden={isHiddenEvents} />
-            </div>
-          ) : null}
-          <ul>
-            {events.length === 0
-              ? null
-              : events.map((event, index) => (
-                  <li className="mb-2" key={index}>
-                    <span>{event.summary}</span>
-                    <br />
-                    <span>
-                      {formatDate(new Date(event.start.dateTime.value))}
-                    </span>
-                  </li>
-                ))}
-          </ul>
-          <Link to={"/kalendar"}>Všechny události..</Link>
-        </div>
-      )}
+    <div>
+      <div className="container-calendar" style={{ marginBottom: "1rem" }}>
+        {errorState ? (
+          <div>Kalendář se nepodařilo načíst</div>
+        ) : (
+          <div>
+            <h5 className="section-title text-uppercase mb-3">Nejbližší akce</h5>
+            {events.length === 0 ? (
+              <div>
+                <LoadingText isHidden={isHiddenLoadingText} />
+                <NoEvents isHidden={isHiddenEvents} />
+              </div>
+            ) : null}
+            <ul>
+              {events.length === 0
+                ? null
+                : events.map((event, index) => (
+                    <li className="mb-2" key={index}>
+                      <span>{event.summary}</span>
+                      <br />
+                      <span>
+                        {formatDate(new Date(event.start.dateTime.value))}
+                      </span>
+                    </li>
+                  ))}
+            </ul>
+          </div>
+        )}
+      </div>
+      <Link to={"/kalendar"} className="btn btn-light border-dark mb-5">
+        Všechny akce
+      </Link>
     </div>
   );
 };

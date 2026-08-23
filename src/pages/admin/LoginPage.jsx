@@ -92,11 +92,15 @@ const LoginPage = () => {
             >
               Přihlásit
             </button>
-            <Link to={"/admin/registrace"}>Registrovat</Link>
+            <Link to={"/admin/registrace"} className="btn btn-light border-dark">
+              Registrovat
+            </Link>
           </div>
         </form>
         <div className="mt-5">
-          <Link to={"/"}>Zpět na stránky pro veřejnost</Link>
+          <Link to={"/"} className="btn btn-light border-dark">
+            Zpět na stránky pro veřejnost
+          </Link>
         </div>
       </div>
     </div>

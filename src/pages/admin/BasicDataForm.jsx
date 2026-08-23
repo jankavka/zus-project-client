@@ -258,8 +258,11 @@ const BasicDataForm = () => {
         <div>
           <div className="d-flex text-center align-items-end">
             <h2 className="me-2">Vedení školy -</h2>
-            <Link to={"/admin/kontakty/vedeni-skoly"}>
-              <p>Detail</p>
+            <Link
+              to={"/admin/kontakty/vedeni-skoly"}
+              className="btn btn-light border-dark"
+            >
+              Detail
             </Link>
           </div>
           <table className="table">

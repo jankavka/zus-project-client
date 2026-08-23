@@ -6,7 +6,8 @@ import {
   Link,
 } from "react-router-dom";
 
-import ArticlesIndex from "../pages/public/ArticlesIndex";
+import ArticlesHome from "../pages/public/ArticlesHome";
+import AllArticles from "../pages/public/AllArticles";
 import ArticleDetail from "../pages/public/ArticleDetail";
 import SchoolAchievementsIndex from "../pages/public/SchoolAchievementsIndex";
 import {
@@ -48,18 +49,24 @@ const PublicLayout = () => {
       </div>
       <div className="container-main">
         <div className="row">
-          <div className="col-lg-8 col-sm">
+          <div className="col-12">
             <Routes>
               <Route index element={<Navigate to={"/uvod/aktuality"} />} />
 
               <Route
                 path="/uvod/aktuality"
-                element={<ArticlesIndex isEditable={false} />}
+                element={
+                  <>
+                    <ArticlesHome />
+                    <CalendarBasic limit={4} />
+                  </>
+                }
               />
               <Route
                 path="/uvod/aktuality/:id"
                 element={<ArticleDetail isAdmin={false} />}
               />
+              <Route path="/uvod/vsechny-aktuality" element={<AllArticles />} />
               <Route
                 path="/o-skole/zakladni-udaje"
                 element={<BasicDataIndex isEditable={false} />}
@@ -148,9 +155,6 @@ const PublicLayout = () => {
               />
               <Route path="/*" element={<NotFound />} />
             </Routes>
-          </div>
-          <div className="col-lg-4 col-sm">
-            <CalendarBasic />
           </div>
         </div>
       </div>
