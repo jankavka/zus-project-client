@@ -17,7 +17,10 @@ const AdminNavLinks = () => {
   const menu = [
     {
       label: "Úvod",
-      link: "/admin/uvod/aktuality",
+      subMenu: [
+        { label: "Aktuality", link: "/admin/uvod/aktuality" },
+        { label: "Úvodní fotky", link: "/admin/uvod/uvodni-fotky" },
+      ],
     },
     {
       label: "o škole",

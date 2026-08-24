@@ -240,23 +240,46 @@ body {
     background-repeat: no-repeat;
 }
 
-.img-bg-school {
-    background-image: url(/src/images/fotoskoly.jpg);
+.hero-carousel-wrap {
+    position: relative;
     max-width: var(--main-width);
     height: 400px;
-    background-position: left;
-    background-repeat: no-repeat;
     margin: 0 auto;
-    background-size: cover;
+    overflow: hidden;
+}
+
+.hero-carousel,
+.hero-carousel .carousel-inner,
+.hero-carousel .carousel-item {
+    height: 100%;
+}
+
+.hero-carousel-img {
+    height: 400px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.hero-logo-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.hero-logo-overlay a {
+    pointer-events: auto;
 }
 
 @media(max-width: 767px) {
-    .img-bg-school {
+    .hero-carousel-wrap {
         max-width: 100%;
         height: auto;
         aspect-ratio: 4784 / 1856;
-        background-size: contain;
-        background-position: center;
+    }
+
+    .hero-carousel-img {
+        height: 100%;
     }
 }
 

@@ -37,15 +37,19 @@ import EntranceExamIndex from "../pages/public/EntranceExamIndex";
 import GeneralInformation from "../pages/public/GeneralInformation";
 import SchoolSupportIndex from "../pages/public/SchoolSupportIndex";
 import logo from "../images/logo.png"
+import HeroCarousel from "../components/HeroCarousel";
 
 const PublicLayout = () => {
   return (
     <div>
       <NavLinks />
-      <div className="img-bg-school position-logo">
-        <Link to={"/uvod/aktuality"}>
-          <img id="logo" src={logo} alt="škola" />
-        </Link>
+      <div className="hero-carousel-wrap">
+        <HeroCarousel />
+        <div className="position-logo hero-logo-overlay">
+          <Link to={"/uvod/aktuality"}>
+            <img id="logo" src={logo} alt="škola" />
+          </Link>
+        </div>
       </div>
       <div className="container-main">
         <div className="row">

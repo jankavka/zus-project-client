@@ -58,6 +58,7 @@ import SchoolYearForm from "../pages/admin/SchoolYearForm";
 import AnualReportForm from "../pages/admin/AnualReportForm";
 import SchoolEducationProgramForm from "../pages/admin/SchoolEducationProgramForm";
 import SchoolRulesForm from "../pages/admin/SchoolRulesForm";
+import CarouselPhotosIndex from "../pages/admin/CarouselPhotosIndex";
 
 const AdminLayout = () => {
   const { session, setSession } = useSession();
@@ -128,6 +129,10 @@ const AdminLayout = () => {
               element={<ArticleForm />}
             />
             <Route path="/o-skole/aktuality/novy" element={<ArticleForm />} />
+            <Route
+              path="/uvod/uvodni-fotky"
+              element={<CarouselPhotosIndex />}
+            />
           </Route>
           <Route>
             <Route
