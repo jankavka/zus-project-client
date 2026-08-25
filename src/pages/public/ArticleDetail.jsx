@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { apiGet } from "../../utils/api";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { API_URL } from "../../utils/api";
 import FlashMessage from "../../components/FlashMessage";
 import { messages } from "../../components/FlashMessageTexts";

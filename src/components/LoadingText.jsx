@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 const LoadingText = ({isHidden}) => {
   const [text, setText] = useState("Načítám");
-  const [number, setNumber] = useState(0);
+  const [, setNumber] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {

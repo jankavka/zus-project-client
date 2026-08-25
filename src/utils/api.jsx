@@ -16,7 +16,7 @@ const fetchData = async (apiUrl, requestOptions) => {
 
 export const apiGet = async (url, params) => {
   const requestParams = Object.fromEntries(
-    Object.entries(params || {}).filter(([_, value]) => value != null)
+    Object.entries(params || {}).filter(([, value]) => value != null)
   );
   const requestOptions = {
     method: "GET",
@@ -58,7 +58,7 @@ export const apiDelete = async (url) => {
   const apiUrl = `${API_URL}${url}`;
   const data = await fetch(apiUrl, requestOptions);
   if (!data.ok){
-    const errorResponse = await response.json();
+    const errorResponse = await data.json();
     throw new Error("Error: " + errorResponse.message)
   }
   const json = await data.json();

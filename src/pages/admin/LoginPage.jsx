@@ -10,7 +10,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const { session, setSession } = useSession({});
   const [errorState, setErrorState] = useState(false);
-  const [errorAdmin, setErrorAdmin] = useState(false);
+  const [errorAdmin] = useState(false);
   const navigate = useNavigate();
   const from = localStorage.getItem("lastAdminPath") || "/admin/uvod/aktuality";
   const [isLoading, setisLoading] = useState(false);

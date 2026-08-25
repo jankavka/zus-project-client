@@ -14,7 +14,7 @@ const SchoolAchievementsIndex = ({ forAdmin }) => {
   const location = useLocation();
   const { successState } = location.state || false;
   const [loadingErrorState, setLoadingErrorState] = useState(false);
-  const [deleteErrorState, setDeleteErrorState] = useState(false);
+  const [, setDeleteErrorState] = useState(false);
 
   useEffect(() => {
     apiGet("/api/school-year")

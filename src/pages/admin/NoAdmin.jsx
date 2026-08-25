@@ -3,7 +3,7 @@ import { useSession } from "../../contexts/session";
 import { apiDelete } from "../../utils/api";
 
 const NoAdmin = () => {
-  const { session, setSession } = useSession();
+  const { setSession } = useSession();
   const navigate = useNavigate();
 
   const handleLogoutClick = async () => {

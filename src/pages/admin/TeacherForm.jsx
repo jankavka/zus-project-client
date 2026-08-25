@@ -78,7 +78,7 @@ const TeacherForm = () => {
         text={messages.dataUpdateErr}
       />
       <FlashMessage
-        success={flase}
+        success={false}
         state={createErrorState}
         text={messages.dataCreateErr}
       />

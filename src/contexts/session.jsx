@@ -3,7 +3,7 @@ import { apiGet } from "../utils/api";
 
 const SessionContext = createContext({
   session: { data: null, status: "loading" },
-  setSession: (data) => {},
+  setSession: () => {},
 });
 
 //wrapper for useContext(), every component can rean context importing and calling this

@@ -10,7 +10,7 @@ const TeachersIndex = ({ isEditable }) => {
   const { successEditState } = location.state || false;
   const { successCreateState } = location.state || false;
   const [loadingErrorState, setLoadingErrorState] = useState(false);
-  const [deleteSuccessState, setDeleteSuccessState] = useState(false);
+  const [deleteSuccessState] = useState(false);
   const [deleteErrorState, setDeleteErrorState] = useState(false);
 
   const deleteTeacher = (id) => {
