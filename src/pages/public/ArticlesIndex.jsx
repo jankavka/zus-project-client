@@ -78,6 +78,14 @@ const ArticlesIndex = ({ isEditable }) => {
           state={createSuccessState}
           text={messages.dataCreateOk}
         />
+        {isEditable ? (
+          <Link
+            className="btn btn-success mb-3"
+            to={"/admin/o-skole/aktuality/novy"}
+          >
+            Vytvořit
+          </Link>
+        ) : null}
         <LoadingText />
         <div className="d-flex justify-content-start">
           <button
