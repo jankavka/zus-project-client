@@ -15,7 +15,6 @@ const LoginPage = () => {
   const from = localStorage.getItem("lastAdminPath") || "/admin/uvod/aktuality";
   const [isLoading, setisLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [timerId, setTimerId] = useState(null);
 
   useEffect(() => {
     if (session.status === "authenticated" && session.data) {
@@ -23,20 +22,10 @@ const LoginPage = () => {
     }
   }, [session.data, session.status]);
 
-  useEffect(() => {
-    if (timerId === null) return;
-
-    return () => clearTimeout(timerId);
-  }, [timerId]);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isSubmitted) return;
     setIsSubmitted(true);
-    const timer = setTimeout(() => {
-      setIsSubmitted(false);
-    }, 3000);
-    setTimerId(timer);
     setisLoading(true);
 
     const body = { email: email, password: password };
@@ -51,7 +40,7 @@ const LoginPage = () => {
       })
       .finally(() => {
         setisLoading(false);
-        clearTimeout(timer);
+        setIsSubmitted(false);
       });
   };
 
