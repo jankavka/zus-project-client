@@ -230,6 +230,14 @@ body {
     border-style: none !important;
 }
 
+.nav-bg .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.55);
+}
+
+.nav-bg .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23ffffff' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
 .search-icon:hover {
     background-image: url(/src/images/search-icon.webp);
     background-position: center;
@@ -311,17 +319,30 @@ body {
     margin: 0px !important;
 }
 
+@media (min-width: 768px) {
+    .submenu {
+        /* 1px less than the measured gap so rounding never leaves a hairline seam */
+        margin-top: 7px !important;
+    }
+
+    .submenu-admin {
+        margin-top: 7px !important;
+    }
+}
+
 
 
 @media (max-width: 767px) {
     .submenu {
         background-color: rgba(50, 75, 115, 0.75) !important;
         border: 0px !important;
+        position: static !important;
     }
 
     .submenu-admin {
         background-color: rgb(88, 182, 88) !important;
         border: 0px !important;
+        position: static !important;
     }
 }
 
@@ -351,7 +372,8 @@ body {
     color: #FFFFFF !important;
 }
 
-.submenu .text-nav:hover {
+.submenu .text-nav:hover,
+.submenu .text-nav:focus {
     color: #324B73 !important;
 }
 

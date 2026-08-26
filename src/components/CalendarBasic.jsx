@@ -34,7 +34,10 @@ const CalendarBasic = ({ limit = 5 }) => {
     <div>
       <div className="container-calendar" style={{ marginBottom: "1rem" }}>
         {errorState ? (
-          <div>Kalendář se nepodařilo načíst</div>
+          <div>
+            V tuto chvíli nejsou naplánovány žádné akce. Nové termíny zde
+            průběžně zveřejňujeme.
+          </div>
         ) : (
           <div>
             <h5 className="section-title text-uppercase mb-3">Nejbližší akce</h5>

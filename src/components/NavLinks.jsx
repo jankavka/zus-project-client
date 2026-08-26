@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Container,
   Dropdown,
@@ -16,6 +16,7 @@ const NavLinks = () => {
   const [hoveredMenu, setHoveredMenu] = useState();
   const isMobile = useMedia({ maxWidth: "767px" });
   const [isEntranceExamHidden, setIsEntranceExamHidden] = useState(false);
+  const closeMenuTimeoutRef = useRef(null);
 
   const menu = [
     {
@@ -99,6 +100,10 @@ const NavLinks = () => {
 
   const handleOnMouseEnter = (itemName) => {
     if (!isMobile) {
+      if (closeMenuTimeoutRef.current) {
+        clearTimeout(closeMenuTimeoutRef.current);
+        closeMenuTimeoutRef.current = null;
+      }
       setHoveredMenu(itemName);
     } else {
       return null;
@@ -107,11 +112,23 @@ const NavLinks = () => {
 
   const handleOnMouseLeave = () => {
     if (!isMobile) {
-      setHoveredMenu(null);
+      // Small delay so moving the cursor from the toggle down into the
+      // submenu (across the gap between them) doesn't close the menu.
+      closeMenuTimeoutRef.current = setTimeout(() => {
+        setHoveredMenu(null);
+      }, 200);
     } else {
       return null;
     }
   };
+
+  useEffect(() => {
+    return () => {
+      if (closeMenuTimeoutRef.current) {
+        clearTimeout(closeMenuTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const handleShow = (itemName) => {
     if (hoveredMenu === itemName) {
@@ -123,7 +140,7 @@ const NavLinks = () => {
     <div className="nav-position-fixed ">
       <Navbar expand="md" className="nav-bg">
         <Container fluid className="px-0">
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Toggle aria-controls="basic-navbar-nav" className="ms-auto" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav
               fill
