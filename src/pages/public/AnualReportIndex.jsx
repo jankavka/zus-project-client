@@ -5,7 +5,7 @@ import { apiGet } from "../../utils/api";
 import FlashMessage from "../../components/FlashMessage";
 import { messages } from "../../components/FlashMessageTexts";
 
-const AnualReportIndex = () => {
+const AnualReportIndex = ({ isEditable }) => {
   const [anualReport, setAnualReport] = useState({});
   const [loadinErrorState, setLoadingErrorState] = useState(false);
   const location = useLocation();
@@ -33,12 +33,14 @@ const AnualReportIndex = () => {
         state={loadinErrorState}
         text={messages.dataLoadErr}
       />
-      <Link
-        className="btn btn-success"
-        to={"/admin/uredni-deska/vyrocni-zpravy/upravit"}
-      >
-        Upravit
-      </Link>
+      {isEditable ? (
+        <Link
+          className="btn btn-success"
+          to={"/admin/uredni-deska/vyrocni-zpravy/upravit"}
+        >
+          Upravit
+        </Link>
+      ) : null}
       <div dangerouslySetInnerHTML={{ __html: anualReport.content }}></div>
     </div>
   );
