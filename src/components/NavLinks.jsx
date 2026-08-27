@@ -144,7 +144,7 @@ const NavLinks = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav
               fill
-              className="navbar-container text-white d-flex justify-content-between navbar-width mt-1"
+              className="navbar-container text-white d-flex justify-content-around navbar-width mt-1"
             >
               {menu.map((item, index) =>
                 item.link ? (
