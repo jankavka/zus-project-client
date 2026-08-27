@@ -4,6 +4,7 @@ import { useState } from "react";
 import { apiGet } from "../../utils/api";
 import FlashMessage from "../../components/FlashMessage";
 import { messages } from "../../components/FlashMessageTexts";
+import RichContent from "../../components/RichContent";
 
 const AnualReportIndex = ({ isEditable }) => {
   const [anualReport, setAnualReport] = useState({});
@@ -41,7 +42,7 @@ const AnualReportIndex = ({ isEditable }) => {
           Upravit
         </Link>
       ) : null}
-      <div dangerouslySetInnerHTML={{ __html: anualReport.content }}></div>
+      <RichContent html={anualReport.content} />
     </div>
   );
 };

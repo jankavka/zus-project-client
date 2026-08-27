@@ -3,6 +3,7 @@ import { apiDelete, apiGet } from "../../utils/api";
 import { Link, useLocation } from "react-router-dom";
 import FlashMessage from "../../components/FlashMessage";
 import { messages } from "../../components/FlashMessageTexts";
+import RichContent from "../../components/RichContent";
 
 const SchoolAchievementsIndex = ({ forAdmin }) => {
   const [schoolAchievements, setSchoolAchievements] = useState([]);
@@ -114,7 +115,7 @@ const SchoolAchievementsIndex = ({ forAdmin }) => {
             <div key={index}>
               <h5 style={{ color: "#986545" }}>{item.title}</h5>
               <p>Školní rok: {item.schoolYear.schoolYear}</p>
-              <div dangerouslySetInnerHTML={{ __html: item.content }}></div>
+              <RichContent html={item.content} />
               {forAdmin ? (
                 <div>
                   <Link

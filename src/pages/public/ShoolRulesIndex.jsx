@@ -3,6 +3,7 @@ import { apiGet } from "../../utils/api";
 import { useLocation, Link } from "react-router-dom";
 import FlashMessage from "../../components/FlashMessage";
 import { messages } from "../../components/FlashMessageTexts";
+import RichContent from "../../components/RichContent";
 
 const SchoolRulesIndex = ({ isEditable }) => {
   const location = useLocation();
@@ -45,7 +46,7 @@ const SchoolRulesIndex = ({ isEditable }) => {
           Upravit
         </Link>
       ) : null}
-      <div dangerouslySetInnerHTML={{ __html: schoolRules.content }}></div>
+      <RichContent html={schoolRules.content} />
     </div>
   );
 };

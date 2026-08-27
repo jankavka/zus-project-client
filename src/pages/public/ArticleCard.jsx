@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { API_URL } from "../../utils/api";
+import RichContent from "../../components/RichContent";
 
 const ArticleCard = ({ article }) => {
   return (
@@ -13,12 +14,11 @@ const ArticleCard = ({ article }) => {
           alt={article.title}
         />
       ) : null}
-      <p
+      <RichContent
+        as="p"
         className="article-card-text"
-        dangerouslySetInnerHTML={{
-          __html: article.content.substring(0, 200),
-        }}
-      ></p>
+        html={article.content.substring(0, 200)}
+      />
     </Link>
   );
 };

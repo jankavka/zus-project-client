@@ -3,6 +3,7 @@ import { apiGet } from "../../utils/api";
 import { Link, useLocation } from "react-router-dom";
 import FlashMessage from "../../components/FlashMessage";
 import { messages } from "../../components/FlashMessageTexts";
+import RichContent from "../../components/RichContent";
 
 const SchoolSupportIndex = ({ isEditable }) => {
   const [schoolSupport, setSchoolSupport] = useState({});
@@ -32,7 +33,7 @@ const SchoolSupportIndex = ({ isEditable }) => {
         state={loadingErrorState}
         text={messages.dataLoadErr}
       />
-      <div dangerouslySetInnerHTML={{ __html: schoolSupport.content }}></div>
+      <RichContent html={schoolSupport.content} />
       {isEditable ? (
         <Link className="btn btn-success" to={"/admin/podpora-skoly/upravit"}>
           Upravit

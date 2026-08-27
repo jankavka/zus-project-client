@@ -3,6 +3,7 @@ import { apiGet } from "../../utils/api";
 import { Link, useLocation } from "react-router-dom";
 import FlashMessage from "../../components/FlashMessage";
 import { messages } from "../../components/FlashMessageTexts";
+import RichContent from "../../components/RichContent";
 
 const EntranceExam = ({ isEditable }) => {
   const [entranceExam, setEntranceExam] = useState({});
@@ -40,7 +41,7 @@ const EntranceExam = ({ isEditable }) => {
           Upravit
         </Link>
       ) : null}
-      <p dangerouslySetInnerHTML={{ __html: entranceExam.content }}></p>
+      <RichContent as="p" html={entranceExam.content} />
     </div>
   );
 };

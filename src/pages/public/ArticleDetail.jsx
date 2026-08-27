@@ -4,6 +4,7 @@ import { useParams, Link } from "react-router-dom";
 import { API_URL } from "../../utils/api";
 import FlashMessage from "../../components/FlashMessage";
 import { messages } from "../../components/FlashMessageTexts";
+import RichContent from "../../components/RichContent";
 
 const ArticleDetail = ({ isAdmin }) => {
   const [article, setArticle] = useState({});
@@ -33,7 +34,7 @@ const ArticleDetail = ({ isAdmin }) => {
         alt=""
         style={{ maxHeight: "400px", maxWidth: "300px" }}
       />
-      <div dangerouslySetInnerHTML={{ __html: article.content }}></div>
+      <RichContent html={article.content} />
 
       <Link
         to={`${isAdmin ? "/admin/uvod/aktuality" : "/uvod/aktuality"}`}

@@ -5,6 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import useMedia from "use-media";
 import FlashMessage from "../../components/FlashMessage";
 import { messages } from "../../components/FlashMessageTexts";
+import RichContent from "../../components/RichContent";
 
 export const BasicDataIndex = ({ isEditable }) => {
   const [basicData, setBasicData] = useState([]);
@@ -214,7 +215,7 @@ export const GroupTrainingScheduleIndex = ({ isEditable }) => {
           Upravit
         </Link>
       ) : null}
-      <div dangerouslySetInnerHTML={{ __html: schedule.content }}></div>
+      <RichContent html={schedule.content} />
     </div>
   );
 };
@@ -247,9 +248,7 @@ export const HistoryAndPresentIndex = ({ isEditable }) => {
         state={successState}
         text={messages.dataUpdateOk}
       />
-      <div
-        dangerouslySetInnerHTML={{ __html: historyAndPresent.content }}
-      ></div>
+      <RichContent html={historyAndPresent.content} />
       {isEditable ? (
         <Link
           className="btn btn-success"
@@ -298,7 +297,7 @@ export const MusicTheoryIndex = ({ isEditable }) => {
           Upravit
         </Link>
       ) : null}
-      <div dangerouslySetInnerHTML={{ __html: musicTheory.content }}></div>
+      <RichContent html={musicTheory.content} />
     </div>
   );
 };
@@ -339,9 +338,7 @@ export const PersonalDataProtectionIndex = ({ isEditable }) => {
           Upravit
         </Link>
       ) : null}
-      <div
-        dangerouslySetInnerHTML={{ __html: personalDataProtection.content }}
-      ></div>
+      <RichContent html={personalDataProtection.content} />
     </div>
   );
 };
@@ -545,7 +542,7 @@ export const StudyFocusIndex = ({ isEditable }) => {
         text={messages.dataUpdateOk}
       />
 
-      <div dangerouslySetInnerHTML={{ __html: studyFocus.content }}></div>
+      <RichContent html={studyFocus.content} />
     </div>
   );
 };
@@ -586,7 +583,7 @@ export const SchoolFeeIndex = ({ isEditable }) => {
           Upravit
         </Link>
       ) : null}
-      <div dangerouslySetInnerHTML={{ __html: schoolFee.content }}></div>
+      <RichContent html={schoolFee.content} />
     </div>
   );
 };

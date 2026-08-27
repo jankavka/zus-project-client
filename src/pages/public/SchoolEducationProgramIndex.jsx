@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { apiGet } from "../../utils/api";
 import FlashMessage from "../../components/FlashMessage";
 import { messages } from "../../components/FlashMessageTexts";
+import RichContent from "../../components/RichContent";
 
 const SchoolEducationProgramIndex = ({ isEditable }) => {
   const location = useLocation();
@@ -39,9 +40,7 @@ const SchoolEducationProgramIndex = ({ isEditable }) => {
           Upravit
         </Link>
       ) : null}
-      <div
-        dangerouslySetInnerHTML={{ __html: schoolEducationProgram.content }}
-      ></div>
+      <RichContent html={schoolEducationProgram.content} />
     </div>
   );
 };

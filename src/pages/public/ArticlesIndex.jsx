@@ -5,6 +5,7 @@ import LoadingText from "../../components/LoadingText.jsx";
 import { API_URL } from "../../utils/api";
 import FlashMessage from "../../components/FlashMessage.jsx";
 import { messages } from "../../components/FlashMessageTexts.js";
+import RichContent from "../../components/RichContent";
 
 const ArticlesIndex = ({ isEditable }) => {
   const [articles, setArticles] = useState([]);
@@ -158,11 +159,10 @@ const ArticlesIndex = ({ isEditable }) => {
                 {article.title}
               </Link>
             </h5>
-            <p
-              dangerouslySetInnerHTML={{
-                __html: article.content.substring(0, 250),
-              }}
-            ></p>
+            <RichContent
+              as="p"
+              html={article.content.substring(0, 250)}
+            />
 
             {isEditable ? (
               <div>
