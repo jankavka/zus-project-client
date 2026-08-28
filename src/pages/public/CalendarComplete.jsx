@@ -138,14 +138,17 @@ const CalendarComplete = () => {
             <NoEvents isHidden={isHiddenEvents} />
           </div>
         ) : null}
-        <ul>
+        <ul className="calendar-event-list">
           {events.length === 0
             ? null
             : events &&
               events.map((event, index) => (
                 <li className="mb-2" key={index}>
-                  {formatDate(new Date(event.start.dateTime.value))} -{" "}
-                  {event.summary}
+                  <i className="bi bi-calendar-event" aria-hidden="true"></i>
+                  <span>
+                    {formatDate(new Date(event.start.dateTime.value))} -{" "}
+                    {event.summary}
+                  </span>
                 </li>
               ))}
         </ul>

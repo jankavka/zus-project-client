@@ -47,15 +47,18 @@ const CalendarBasic = ({ limit = 5 }) => {
                 <NoEvents isHidden={isHiddenEvents} />
               </div>
             ) : null}
-            <ul>
+            <ul className="calendar-event-list">
               {events.length === 0
                 ? null
                 : events.map((event, index) => (
                     <li className="mb-2" key={index}>
-                      <span>{event.summary}</span>
-                      <br />
+                      <i className="bi bi-calendar-event" aria-hidden="true"></i>
                       <span>
-                        {formatDate(new Date(event.start.dateTime.value))}
+                        <span>{event.summary}</span>
+                        <br />
+                        <span>
+                          {formatDate(new Date(event.start.dateTime.value))}
+                        </span>
                       </span>
                     </li>
                   ))}

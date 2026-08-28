@@ -70,6 +70,22 @@ body {
     min-height: 20rem;
 }
 
+.calendar-event-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.calendar-event-list > li {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.calendar-event-list > li > .bi-calendar-event {
+    flex-shrink: 0;
+    line-height: 1.5;
+    color: #324B73;
+}
+
 @media (max-width: 768px) {
     .container-calendar {
         max-width: 500px;
