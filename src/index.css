@@ -189,6 +189,7 @@ body {
 .container-main {
     max-width: var(--main-width);
     margin: 1rem auto;
+    overflow-x: hidden;
 }
 
 @media(max-width: 767px) {
