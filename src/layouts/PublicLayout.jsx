@@ -35,6 +35,7 @@ import AlbumDetail from "../pages/public/AlbumDetail";
 import NotFound from "../pages/public/NotFound";
 import EntranceExamIndex from "../pages/public/EntranceExamIndex";
 import GeneralInformation from "../pages/public/GeneralInformation";
+import SearchResults from "../pages/public/SearchResults";
 import SchoolSupportIndex from "../pages/public/SchoolSupportIndex";
 import logo from "../images/logo.png"
 import HeroCarousel from "../components/HeroCarousel";
@@ -157,6 +158,7 @@ const PublicLayout = () => {
                 path="/podpora-skoly"
                 element={<SchoolSupportIndex isEditable={false} />}
               />
+              <Route path="/vyhledavani" element={<SearchResults />} />
               <Route path="/*" element={<NotFound />} />
             </Routes>
           </div>

@@ -1,8 +1,19 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Dropdown, DropdownMenu } from "react-bootstrap";
 
 const SearchTool = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [query, setQuery] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const trimmed = query.trim();
+    if (!trimmed) return;
+    setIsVisible(false);
+    navigate(`/vyhledavani?query=${encodeURIComponent(trimmed)}`);
+  };
 
   return (
     <Dropdown
@@ -25,9 +36,16 @@ const SearchTool = () => {
         className={`submenu rounded-0 p-3`}
         style={{ minWidth: 260 }}
       >
-        <form action={`/search`} method="GET" role="search">
+        <form onSubmit={handleSubmit} role="search">
           <div className="mb-2">
-            <input type="search" name="query" className="form-control" />
+            <input
+              type="search"
+              name="query"
+              className="form-control"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              autoComplete="off"
+            />
           </div>
 
           <button
