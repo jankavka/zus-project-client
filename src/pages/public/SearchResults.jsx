@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 // Google Programmable Search Engine ID (cx). Set VITE_GOOGLE_CSE_ID in .env
 // (create the engine at https://programmablesearchengine.google.com).
@@ -48,6 +48,22 @@ const SearchResults = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("query") || "";
   const gnameRef = useRef(null);
+  const navigate = useNavigate();
+
+  // Local copy of the query so the user can refine the search from this page
+  // without going back to the top nav. Kept in sync when the URL changes
+  // (top-nav search, browser back/forward).
+  const [term, setTerm] = useState(query);
+  useEffect(() => {
+    setTerm(query);
+  }, [query]);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const trimmed = term.trim();
+    if (!trimmed || trimmed === query) return;
+    navigate(`/vyhledavani?query=${encodeURIComponent(trimmed)}`);
+  };
 
   useEffect(() => {
     if (!CSE_ID) return undefined;
@@ -87,6 +103,22 @@ const SearchResults = () => {
   return (
     <div className="search-results-page">
       <h1 className="mb-3">Výsledky vyhledávání</h1>
+
+      <form onSubmit={handleSubmit} role="search" className="mb-4">
+        <div className="input-group" style={{ maxWidth: 480 }}>
+          <input
+            type="search"
+            className="form-control"
+            value={term}
+            onChange={(event) => setTerm(event.target.value)}
+            aria-label="Hledaný výraz"
+            autoComplete="off"
+          />
+          <button type="submit" className="btn btn-secondary">
+            Hledat
+          </button>
+        </div>
+      </form>
 
       {query && (
         <p className="text-muted mb-4">
