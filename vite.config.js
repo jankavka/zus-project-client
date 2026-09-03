@@ -9,7 +9,6 @@ export default defineConfig({
     proxy: {
       '^/api':             { target: 'http://localhost:8080', changeOrigin: true },
       '^/uploads':         { target: 'http://localhost:8080', changeOrigin: true },
-      '^/search':          { target: 'http://localhost:8080', changeOrigin: true },
       '^/carousel-photos': { target: 'http://localhost:8080', changeOrigin: true },
     },
   },
