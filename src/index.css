@@ -463,6 +463,10 @@ body {
     display: block;
 }
 
+.article-detail-content img {
+    cursor: pointer;
+}
+
 .container-content-admin {
     max-width: 1200px;
     margin: 0 2rem 5rem 0;
