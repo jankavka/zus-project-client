@@ -484,11 +484,19 @@ body {
     background-color: #324B73;
     min-height: 200px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
 
     align-items: center;
     margin-top: 100px;
     color: #FFFFFF;
+    gap: 16px;
+}
+
+.bottom-social {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 24px;
 }
 
