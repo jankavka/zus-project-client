@@ -503,6 +503,14 @@ body {
     font-size: 1.3em;
 }
 
+.bottom a.footer-credit {
+    font-size: 0.9rem;
+}
+
+.bottom a.footer-credit:hover {
+    text-decoration: underline;
+}
+
 @media(max-width: 768px) {
     .bottom {
         width: 100%;
