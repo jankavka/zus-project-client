@@ -95,7 +95,7 @@ const SchoolManagementDeatil = ({ isEditable }) => {
       ) : null}
       <button
         onClick={() => navigate(-1)}
-        className="btn btn-info"
+        className="btn btn-light border-dark"
         type="button"
       >
         {" "}
