@@ -3,11 +3,13 @@ import { useState, useEffect } from "react";
 import { apiGet } from "../../utils/api";
 import LoadingText from "../../components/LoadingText";
 import formatDate from "../../components/formatDate";
+import getEventStart from "../../components/getEventStart";
 import NoEvents from "../../components/NoEvents";
 import FlashMessage from "../../components/FlashMessage";
 import { messages } from "../../components/FlashMessageTexts";
 
-// works only with all day events. Otherwise event.start.date.value will be undefined
+// Handles both timed events (event.start.dateTime) and all-day events
+// (event.start.date) via the getEventStart helper.
 const CalendarComplete = () => {
   const [events, setEvents] = useState([]);
   const [isHiddenEvents, setIsHiddenEvents] = useState(true);
@@ -142,15 +144,20 @@ const CalendarComplete = () => {
           {events.length === 0
             ? null
             : events &&
-              events.map((event, index) => (
-                <li className="mb-2" key={index}>
-                  <i className="bi bi-calendar-event" aria-hidden="true"></i>
-                  <span>
-                    {formatDate(new Date(event.start.dateTime.value))} -{" "}
-                    {event.summary}
-                  </span>
-                </li>
-              ))}
+              events.map((event, index) => {
+                const start = getEventStart(event);
+                return (
+                  <li className="mb-2" key={index}>
+                    <i className="bi bi-calendar-event" aria-hidden="true"></i>
+                    <span>
+                      {start
+                        ? `${formatDate(start.date, { dateOnly: start.allDay })} - `
+                        : ""}
+                      {event.summary}
+                    </span>
+                  </li>
+                );
+              })}
         </ul>
       </div>
       {isHiddenEvents ? (

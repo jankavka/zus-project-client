@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { apiGet } from "../utils/api";
 import { Link } from "react-router-dom";
 import formatDate from "./formatDate";
+import getEventStart from "./getEventStart";
 import LoadingText from "./LoadingText";
 import NoEvents from "./NoEvents";
 
@@ -50,18 +51,28 @@ const CalendarBasic = ({ limit = 5 }) => {
             <ul className="calendar-event-list">
               {events.length === 0
                 ? null
-                : events.map((event, index) => (
-                    <li className="mb-2" key={index}>
-                      <i className="bi bi-calendar-event" aria-hidden="true"></i>
-                      <span>
-                        <span>{event.summary}</span>
-                        <br />
+                : events.map((event, index) => {
+                    const start = getEventStart(event);
+                    return (
+                      <li className="mb-2" key={index}>
+                        <i
+                          className="bi bi-calendar-event"
+                          aria-hidden="true"
+                        ></i>
                         <span>
-                          {formatDate(new Date(event.start.dateTime.value))}
+                          <span>{event.summary}</span>
+                          <br />
+                          <span>
+                            {start
+                              ? formatDate(start.date, {
+                                  dateOnly: start.allDay,
+                                })
+                              : "termín bude upřesněn"}
+                          </span>
                         </span>
-                      </span>
-                    </li>
-                  ))}
+                      </li>
+                    );
+                  })}
             </ul>
           </div>
         )}
