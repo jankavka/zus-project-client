@@ -21,8 +21,12 @@ const SchoolAchievementsIndex = ({ forAdmin }) => {
     apiGet("/api/school-year")
       //last year has lowest id!!!
       .then((data) => {
-        setSchoolYears(data);
-        setSelectedYear(data.sort((a, b) => b.id - a.id)[0]);
+        const years = Array.isArray(data) ? data : [];
+        setSchoolYears(years);
+        const latest = [...years].sort((a, b) => b.id - a.id)[0];
+        if (latest) {
+          setSelectedYear(latest);
+        }
       })
       .catch((error) => {
         setLoadingErrorState(true);
@@ -31,7 +35,7 @@ const SchoolAchievementsIndex = ({ forAdmin }) => {
   }, []);
 
   useEffect(() => {
-    if (selectedYear.id) {
+    if (selectedYear?.id) {
       apiGet(`/api/school-achievements/year/${selectedYear.id}`)
         .then((data) => setSchoolAchievements(data))
         .catch((error) => {
@@ -96,7 +100,7 @@ const SchoolAchievementsIndex = ({ forAdmin }) => {
       <div className="mb-5">
         <label htmlFor="yearSelect">Vyberte rok:</label>
         <select
-          value={selectedYear.id || " "}
+          value={selectedYear?.id || " "}
           className="form-select w-50"
           onChange={(e) => handleChange(e)}
           id="yearSelect"
@@ -110,11 +114,11 @@ const SchoolAchievementsIndex = ({ forAdmin }) => {
             ))}
         </select>
       </div>
-      {schoolAchievements
+      {Array.isArray(schoolAchievements)
         ? schoolAchievements.map((item, index) => (
             <div key={index}>
               <h5 style={{ color: "#986545" }}>{item.title}</h5>
-              <p>Školní rok: {item.schoolYear.schoolYear}</p>
+              <p>Školní rok: {item.schoolYear?.schoolYear}</p>
               <RichContent html={item.content} />
               {forAdmin ? (
                 <div>

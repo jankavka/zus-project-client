@@ -390,7 +390,19 @@ body {
 }
 
 .submenu .text-nav:hover,
-.submenu .text-nav:focus {
+.submenu .text-nav:focus,
+.submenu .text-nav:active,
+.submenu .text-nav.active {
+    color: #324B73 !important;
+}
+
+/* Admin submenu: keep the clicked/focused item readable (Bootstrap's
+   :focus/:active turns the row background near-white, so force blue text
+   instead of the default near-white). */
+.submenu-admin .text-nav:hover,
+.submenu-admin .text-nav:focus,
+.submenu-admin .text-nav:active,
+.submenu-admin .text-nav.active {
     color: #324B73 !important;
 }
 
