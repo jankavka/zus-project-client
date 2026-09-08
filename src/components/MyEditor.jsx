@@ -40,7 +40,9 @@ const MyEditor = ({ subject, onChange, editorRef }) => {
             "alignright alignjustify | bullist numlist outdent indent | " +
             "removeformat | help | image table",
           content_style:
-            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }" +
+            " table { border-collapse:collapse }" +
+            " table th, table td { border:1px solid #324B73; padding:0.4rem 0.6rem }",
         }}
         onEditorChange={onChange}
       ></Editor>

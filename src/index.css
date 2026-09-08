@@ -572,3 +572,21 @@ body {
 .search:hover {
     background: url(/src/images/search-icon-black.webp) no-repeat center /40px 40px;
 }
+
+.management-detail-link,
+.management-detail-link:hover,
+.management-detail-link:focus {
+    color: #324B73;
+}
+
+/* Tables authored in the TinyMCE editor keep visible cell borders on the
+   public site (Bootstrap Reboot otherwise strips them). */
+.rich-content table {
+    border-collapse: collapse;
+}
+
+.rich-content table th,
+.rich-content table td {
+    border: 1px solid #324B73;
+    padding: 0.4rem 0.6rem;
+}
