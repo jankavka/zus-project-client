@@ -46,8 +46,8 @@ const AdminAlbumDetail = () => {
     }
   };
 
-  const copyLink = (url) => {
-    copyToClipboard(url)
+  const copyText = (text) => {
+    copyToClipboard(text)
       .then(() => setSuccessCopyState(true))
       .catch((error) => {
         setErrorCopyState(true);
@@ -96,9 +96,12 @@ const AdminAlbumDetail = () => {
                   alt=""
                 />
               </td>
-              <td>
-                <button onClick={() => copyLink(image.url)}>
-                  zkopírovat odkaz
+              <td className="text-start">
+                <button
+                  className="btn btn-light"
+                  onClick={() => copyText(API_URL + image.url)}
+                >
+                  Zkopírovat odkaz
                 </button>
               </td>
               <td>
