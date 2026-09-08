@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { apiDelete, apiGet } from "../../utils/api";
 import { API_URL } from "../../utils/api";
+import { copyToClipboard } from "../../utils/clipboard";
 import FlashMessage from "../../components/FlashMessage";
 import { messages } from "../../components/FlashMessageTexts";
 
@@ -45,10 +46,8 @@ const AdminAlbumDetail = () => {
     }
   };
 
-  //works only in secure context
-  const copyLink = async (url) => {
-    await navigator.clipboard
-      .writeText(url)
+  const copyLink = (url) => {
+    copyToClipboard(url)
       .then(() => setSuccessCopyState(true))
       .catch((error) => {
         setErrorCopyState(true);

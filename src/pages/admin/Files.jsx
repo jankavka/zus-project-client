@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { API_URL, apiDelete, apiGet } from "../../utils/api";
+import { copyToClipboard } from "../../utils/clipboard";
 import FlashMessage from "../../components/FlashMessage";
 import { messages } from "../../components/FlashMessageTexts";
 
@@ -24,10 +25,12 @@ const Files = () => {
   }, []);
 
   const copyText = (text) => {
-    navigator.clipboard
-      .writeText(text)
+    copyToClipboard(text)
       .then(() => setSuccessCopyState(true))
-      .catch(() => setErrorCopyState(true));
+      .catch((error) => {
+        setErrorCopyState(true);
+        console.error(error);
+      });
   };
 
   const deleteFile = (id) => {
