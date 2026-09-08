@@ -12,6 +12,8 @@ const MyEditor = ({ subject, onChange, editorRef }) => {
         init={{
           height: 400,
           menubar: true,
+          language: "cs",
+          language_url: "/tinymce/langs/cs.js",
           plugins: [
             "advlist",
             "autolink",
