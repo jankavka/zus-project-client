@@ -590,3 +590,12 @@ body {
     border: 1px solid #324B73;
     padding: 0.4rem 0.6rem;
 }
+
+/* Emphasised header row on the teachers (contacts) table. */
+.teachers-table thead th {
+    background-color: #324B73 !important;
+    color: #FFFFFF !important;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}

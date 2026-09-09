@@ -72,7 +72,7 @@ const TeachersIndex = ({ isEditable }) => {
         </Link>
       ) : null}
       <div>
-        <table className="table table-responsive">
+        <table className="table table-responsive teachers-table">
           <thead>
             <tr>
               <th>Jméno</th>
