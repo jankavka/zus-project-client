@@ -3,6 +3,7 @@ import { apiDelete, apiGet } from "../../utils/api";
 import { Link, useLocation } from "react-router-dom";
 import FlashMessage from "../../components/FlashMessage";
 import { messages } from "../../components/FlashMessageTexts";
+import { formatPersonName } from "../../utils/academicTitles";
 
 const SchoolManagementIndex = ({ isEditable }) => {
   const location = useLocation();
@@ -75,7 +76,7 @@ const SchoolManagementIndex = ({ isEditable }) => {
           Nový záznam
         </Link>
       ) : null}
-      <table className="table">
+      <table className="table table-responsive contacts-table">
         <thead>
           <tr>
             <th>Jméno</th>
@@ -92,21 +93,27 @@ const SchoolManagementIndex = ({ isEditable }) => {
                     className="management-detail-link"
                     to={`/admin/kontakty/vedeni-skoly/${member?.id}`}
                   >
-                    {member.degree} {member.name}
+                    {formatPersonName(member.degree, member.name)}
                   </Link>
                 ) : (
                   <Link
                     className="management-detail-link"
                     to={`/kontakty/vedeni-skoly/${member?.id}`}
                   >
-                    {member.degree} {member.name}
+                    {formatPersonName(member.degree, member.name)}
                   </Link>
                 )}
               </td>
               <td>
-                <span>{member.telNumber}</span>
+                {member.email ? (
+                  <a href={`mailto:${member.email}`}>{member.email}</a>
+                ) : null}
                 <br />
-                <span>{member.email}</span>
+                {member.telNumber ? (
+                  <a href={`tel:${member.telNumber.replace(/[^\d+]/g, "")}`}>
+                    {member.telNumber}
+                  </a>
+                ) : null}
                 <br />
                 <span>
                   {member.managementType === "director"

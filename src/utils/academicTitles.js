@@ -1,4 +1,4 @@
-// Splits a teacher's `degree` string into titles that go *before* the name and
+// Splits a person's `degree` string into titles that go *before* the name and
 // titles that go *after* it. In Czech, "DiS." and "dipl. um." are written after
 // the name (comma-separated), everything else (Mgr., MgA., Bc., …) before it.
 
@@ -36,7 +36,7 @@ export function splitAcademicTitles(degree) {
 }
 
 // "Mgr. Jan Novák, DiS." — pre-name titles, then the name, then post-name titles.
-export function formatTeacherName(degree, name) {
+export function formatPersonName(degree, name) {
   const { pre, post } = splitAcademicTitles(degree);
   const namePart = String(name ?? "").trim();
 
