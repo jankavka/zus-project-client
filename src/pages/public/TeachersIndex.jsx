@@ -86,9 +86,15 @@ const TeachersIndex = ({ isEditable }) => {
                   {teacher.degree} {teacher.name}
                 </td>
                 <td>
-                  <span>{teacher.email}</span>
+                  {teacher.email ? (
+                    <a href={`mailto:${teacher.email}`}>{teacher.email}</a>
+                  ) : null}
                   <br />
-                  <span> {teacher.telNumber}</span>
+                  {teacher.telNumber ? (
+                    <a href={`tel:${teacher.telNumber.replace(/[^\d+]/g, "")}`}>
+                      {teacher.telNumber}
+                    </a>
+                  ) : null}
                 </td>
                 <td>
                   {isEditable ? (
