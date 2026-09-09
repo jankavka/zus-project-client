@@ -575,7 +575,10 @@ body {
 
 .management-detail-link,
 .management-detail-link:hover,
-.management-detail-link:focus {
+.management-detail-link:focus,
+.contact-link,
+.contact-link:hover,
+.contact-link:focus {
     color: #324B73;
 }
 

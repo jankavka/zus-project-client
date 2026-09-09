@@ -86,11 +86,16 @@ const TeachersIndex = ({ isEditable }) => {
                 <td>{formatPersonName(teacher.degree, teacher.name)}</td>
                 <td>
                   {teacher.email ? (
-                    <a href={`mailto:${teacher.email}`}>{teacher.email}</a>
+                    <a className="contact-link" href={`mailto:${teacher.email}`}>
+                      {teacher.email}
+                    </a>
                   ) : null}
                   <br />
                   {teacher.telNumber ? (
-                    <a href={`tel:${teacher.telNumber.replace(/[^\d+]/g, "")}`}>
+                    <a
+                      className="contact-link"
+                      href={`tel:${teacher.telNumber.replace(/[^\d+]/g, "")}`}
+                    >
                       {teacher.telNumber}
                     </a>
                   ) : null}

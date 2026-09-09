@@ -68,11 +68,32 @@ const SchoolManagementDeatil = ({ isEditable }) => {
           </tr>
           <tr>
             <td>Email</td>
-            <td>{managementMember.email}</td>
+            <td>
+              {managementMember.email ? (
+                <a
+                  className="contact-link"
+                  href={`mailto:${managementMember.email}`}
+                >
+                  {managementMember.email}
+                </a>
+              ) : null}
+            </td>
           </tr>
           <tr>
             <td>Telefon</td>
-            <td>{managementMember.telNumber}</td>
+            <td>
+              {managementMember.telNumber ? (
+                <a
+                  className="contact-link"
+                  href={`tel:${managementMember.telNumber.replace(
+                    /[^\d+]/g,
+                    ""
+                  )}`}
+                >
+                  {managementMember.telNumber}
+                </a>
+              ) : null}
+            </td>
           </tr>
         </tbody>
       </table>

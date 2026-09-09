@@ -106,11 +106,16 @@ const SchoolManagementIndex = ({ isEditable }) => {
               </td>
               <td>
                 {member.email ? (
-                  <a href={`mailto:${member.email}`}>{member.email}</a>
+                  <a className="contact-link" href={`mailto:${member.email}`}>
+                    {member.email}
+                  </a>
                 ) : null}
                 <br />
                 {member.telNumber ? (
-                  <a href={`tel:${member.telNumber.replace(/[^\d+]/g, "")}`}>
+                  <a
+                    className="contact-link"
+                    href={`tel:${member.telNumber.replace(/[^\d+]/g, "")}`}
+                  >
                     {member.telNumber}
                   </a>
                 ) : null}
