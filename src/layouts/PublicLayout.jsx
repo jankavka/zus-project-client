@@ -45,6 +45,13 @@ const PublicLayout = () => {
       <NavLinks />
       <div className="hero-carousel-wrap">
         <HeroCarousel />
+        <div className="hero-title-frame">
+          <span>
+            Základní umělecká škola
+            <br />
+            duchovní hudby frýdek-místek
+          </span>
+        </div>
         <div className="position-logo hero-logo-overlay">
           <Link to={"/uvod/aktuality"}>
             <img id="logo" src={logo} alt="škola" />
