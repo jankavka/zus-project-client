@@ -213,7 +213,16 @@ body {
 }
 
 .nav-bg-admin {
-    background-color: green;
+    background-color: #2F6F52;
+}
+
+.nav-position-fixed-admin {
+    background-color: #2F6F52;
+}
+
+.nav-bg-admin .nav-button:hover,
+.nav-bg-admin .nav-buttons:hover {
+    color: #D7F0E4 !important;
 }
 
 .nav-bg .nav-button:hover,
@@ -384,7 +393,7 @@ body {
 }
 
 .submenu-admin {
-    background-color: #3A506B !important;
+    background-color: #3C8A68 !important;
     margin: 0px !important;
 }
 
@@ -409,7 +418,7 @@ body {
     }
 
     .submenu-admin {
-        background-color: rgb(88, 182, 88) !important;
+        background-color: #3C8A68 !important;
         border: 0px !important;
         position: static !important;
     }
@@ -449,13 +458,13 @@ body {
 }
 
 /* Admin submenu: keep the clicked/focused item readable (Bootstrap's
-   :focus/:active turns the row background near-white, so force blue text
-   instead of the default near-white). */
+   :focus/:active turns the row background near-white, so force dark green
+   text instead of the default near-white). */
 .submenu-admin .text-nav:hover,
 .submenu-admin .text-nav:focus,
 .submenu-admin .text-nav:active,
 .submenu-admin .text-nav.active {
-    color: #324B73 !important;
+    color: #14432F !important;
 }
 
 .btn-light.border-dark,

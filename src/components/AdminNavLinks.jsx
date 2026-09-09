@@ -141,7 +141,7 @@ const AdminNavLinks = () => {
   };
 
   return (
-    <div className="nav-position-fixed ">
+    <div className="nav-position-fixed nav-position-fixed-admin">
       <Navbar expand="md" className="nav-bg-admin ">
         <Container fluid className="px-0">
           <Navbar.Toggle aria-controls="basic-navbar-nav" />

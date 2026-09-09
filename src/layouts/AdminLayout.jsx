@@ -45,7 +45,6 @@ import AdminAlbumDetail from "../pages/admin/AdminAlbumDetail";
 import NotFound from "../pages/public/NotFound";
 import { useSession } from "../contexts/session";
 import { apiDelete } from "../utils/api";
-import useMedia from "use-media";
 import EntranceExamIndex from "../pages/public/EntranceExamIndex";
 import GeneralInformation from "../pages/public/GeneralInformation";
 import ArticleDetail from "../pages/public/ArticleDetail";
@@ -72,7 +71,6 @@ const AdminLayout = () => {
     localStorage.removeItem("lastAdminPath");
     navigate("/admin/login");
   };
-  const isMobile = useMedia({ maxWidth: "767px" });
 
   useEffect(() => {
     if (
@@ -88,16 +86,13 @@ const AdminLayout = () => {
     <div>
       <AdminNavLinks />
       <div className="container-main">
-        <div
-          className={`d-flex-column mb-3 justify-content-center text-align-center text-center ${
-            isMobile ? "" : "col-9"
-          }`}
-        >
-          <h1 className="text-center">ADMIN</h1>
-          <small className="">Přihlášený uživatel: {session.data.email}</small>
-        </div>
-        <div className={`text-center mb-2 ${isMobile ? "" : "col-9"}`}>
-          <button onClick={handleLogoutClick} className="btn btn-light">
+        <div className="d-flex flex-column align-items-center text-center mb-3">
+          <h1 className="text-center mb-1">ADMIN</h1>
+          <small>Přihlášený uživatel: {session.data.email}</small>
+          <button
+            onClick={handleLogoutClick}
+            className="btn btn-light mt-2"
+          >
             Odhlásit
           </button>
         </div>
