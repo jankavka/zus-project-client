@@ -3,6 +3,7 @@ import { apiGet, apiDelete } from "../../utils/api";
 import { Link, useLocation } from "react-router-dom";
 import FlashMessage from "../../components/FlashMessage";
 import { messages } from "../../components/FlashMessageTexts";
+import { formatTeacherName } from "../../utils/academicTitles";
 
 const TeachersIndex = ({ isEditable }) => {
   const [teachers, setTeachers] = useState([]);
@@ -82,9 +83,7 @@ const TeachersIndex = ({ isEditable }) => {
           <tbody>
             {teachers.map((teacher, index) => (
               <tr key={index}>
-                <td>
-                  {teacher.degree} {teacher.name}
-                </td>
+                <td>{formatTeacherName(teacher.degree, teacher.name)}</td>
                 <td>
                   {teacher.email ? (
                     <a href={`mailto:${teacher.email}`}>{teacher.email}</a>
