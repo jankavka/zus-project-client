@@ -34,12 +34,23 @@ const EntranceExamIndex = ({ isEditable }) => {
         text={messages.dataUpdateOk}
       />
       {isEditable ? (
-        <Link
-          className="btn btn-success"
-          to={"/admin/pro-rodice-a-zaky/prijimaci-zkousky/upravit"}
-        >
-          Upravit
-        </Link>
+        <div className="mb-3">
+          <span
+            className={`badge me-3 ${
+              entranceExam.hidden ? "text-bg-secondary" : "text-bg-success"
+            }`}
+          >
+            {entranceExam.hidden
+              ? "Skryté v hlavním menu"
+              : "Viditelné v hlavním menu"}
+          </span>
+          <Link
+            className="btn btn-success"
+            to={"/admin/pro-rodice-a-zaky/prijimaci-zkousky/upravit"}
+          >
+            Upravit
+          </Link>
+        </div>
       ) : null}
       <RichContent html={entranceExam.content} />
     </div>

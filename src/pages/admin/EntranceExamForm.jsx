@@ -11,7 +11,7 @@ const EntranceExamForm = () => {
   const [entranceExam, setEntranceExam] = useState({
     title: "",
     content: "",
-    hidden: "",
+    hidden: false,
   });
   const editorRef = useRef();
   const navigate = useNavigate();
@@ -96,42 +96,20 @@ const EntranceExamForm = () => {
             }
           />
         </div>
-        <label>Skryté:</label>
-        <div className="form-check mb-3">
-          <div id="hidden">
-            <input
-              onChange={() =>
-                setEntranceExam((prev) => {
-                  return { ...prev, hidden: true };
-                })
-              }
-              className="form-check-input"
-              checked={entranceExam.hidden}
-              name="isHidden"
-              type="radio"
-              id="hidden1"
-            />
-            <label htmlFor="hidden1" className="form-check-label">
-              Ano
-            </label>
-          </div>
-          <div id="hidden">
-            <input
-              checked={!entranceExam.hidden}
-              onChange={() =>
-                setEntranceExam((prev) => {
-                  return { ...prev, hidden: false };
-                })
-              }
-              className="form-check-input"
-              name="isHidden"
-              type="radio"
-              id="hidden2"
-            />
-            <label htmlFor="hidden2" className="form-check-label">
-              Ne
-            </label>
-          </div>
+        <div className="form-check form-switch mb-3">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            role="switch"
+            id="entranceExamHidden"
+            checked={!!entranceExam.hidden}
+            onChange={(e) =>
+              setEntranceExam((prev) => ({ ...prev, hidden: e.target.checked }))
+            }
+          />
+          <label className="form-check-label" htmlFor="entranceExamHidden">
+            Skrýt odkaz „Přijímací a talentové zkoušky“ v hlavním menu
+          </label>
         </div>
         <div className="d-flex justify-content-start">
           <button
