@@ -161,7 +161,7 @@ const ArticlesIndex = ({ isEditable }) => {
             </h5>
             <RichContent
               as="p"
-              html={article.content.substring(0, 250)}
+              html={article.content.substring(0, 250) + "..."}
             />
 
             {isEditable ? (

@@ -16,7 +16,7 @@ const ArticleCard = ({ article }) => {
       <RichContent
         as="p"
         className="article-card-text"
-        html={article.content.substring(0, 200)}
+        html={article.content.substring(0, 200) + "..."}
       />
     </Link>
   );
