@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { apiGet } from "../../utils/api";
 import { useParams, Link } from "react-router-dom";
 import { API_URL } from "../../utils/api";

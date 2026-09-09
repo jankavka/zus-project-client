@@ -3,7 +3,6 @@ import {
   Container,
   Dropdown,
   DropdownMenu,
-  DropdownToggle,
   Navbar,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";

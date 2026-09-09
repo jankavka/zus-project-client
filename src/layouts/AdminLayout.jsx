@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import ArticlesIndex from "../pages/public/ArticlesIndex";
 import {
   Routes,

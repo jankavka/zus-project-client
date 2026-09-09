@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { apiGet } from "../../utils/api";
 import { useLocation, Link } from "react-router-dom";
 import FlashMessage from "../../components/FlashMessage";

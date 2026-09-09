@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { API_URL } from "../../utils/api";
 import RichContent from "../../components/RichContent";

@@ -1,4 +1,3 @@
-import React from "react";
 import { useState, useEffect } from "react";
 import { apiGet } from "../../utils/api";
 import LoadingText from "../../components/LoadingText";

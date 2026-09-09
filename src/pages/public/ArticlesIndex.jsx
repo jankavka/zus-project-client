@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { apiDelete, apiGet } from "../../utils/api";
 import { Link, useLocation } from "react-router-dom";
 import LoadingText from "../../components/LoadingText.jsx";

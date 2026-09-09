@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { apiGet } from "../../utils/api";
 import FlashMessage from "../../components/FlashMessage.jsx";
 import { messages } from "../../components/FlashMessageTexts.js";
