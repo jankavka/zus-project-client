@@ -55,6 +55,7 @@ import EntranceExamForm from "../pages/admin/EntranceExamForm";
 import Files from "../pages/admin/Files";
 import FilesForm from "../pages/admin/FilesForm";
 import SchoolYearForm from "../pages/admin/SchoolYearForm";
+import SchoolYearLinkForm from "../pages/admin/SchoolYearLinkForm";
 import AnualReportForm from "../pages/admin/AnualReportForm";
 import SchoolEducationProgramForm from "../pages/admin/SchoolEducationProgramForm";
 import SchoolRulesForm from "../pages/admin/SchoolRulesForm";
@@ -277,6 +278,11 @@ const AdminLayout = () => {
           <Route
             path="/uredni-deska/vyrocni-zpravy/upravit"
             element={<AnualReportForm />}
+          />
+
+          <Route
+            path="/uredni-deska/organizace-skolniho-roku"
+            element={<SchoolYearLinkForm />}
           />
 
           <Route>

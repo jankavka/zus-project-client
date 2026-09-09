@@ -79,7 +79,10 @@ const AdminNavLinks = () => {
           label: "Povinně zveřejňované inforamce",
           link: "/admin/uredni-deska/povinne-info",
         },
-        { label: "Organizace školního roku", link: "" },
+        {
+          label: "Organizace školního roku",
+          link: "/admin/uredni-deska/organizace-skolniho-roku",
+        },
         {
           label: "Školní vzdělávací program",
           link: "/admin/uredni-deska/skolni-vzdelavaci-program",

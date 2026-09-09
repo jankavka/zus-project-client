@@ -15,6 +15,7 @@ const NavLinks = () => {
   const [hoveredMenu, setHoveredMenu] = useState();
   const isMobile = useMedia({ maxWidth: "767px" });
   const [isEntranceExamHidden, setIsEntranceExamHidden] = useState(false);
+  const [schoolYearLink, setSchoolYearLink] = useState("");
   const closeMenuTimeoutRef = useRef(null);
 
   const menu = [
@@ -71,7 +72,7 @@ const NavLinks = () => {
           label: "Povinně zveřejňované inforamce",
           link: "/uredni-deska/povinne-info",
         },
-        { label: "Organizace školního roku", link: "" },
+        { label: "Organizace školního roku", externalKey: "school-year" },
         {
           label: "Školní vzdělávací program",
           link: "/uredni-deska/skolni-vzdelavaci-program",
@@ -94,6 +95,9 @@ const NavLinks = () => {
   useEffect(() => {
     apiGet("/api/entrance-exam/is-hidden")
       .then((data) => setIsEntranceExamHidden(data))
+      .catch((error) => console.error(error));
+    apiGet("/api/school-year-link")
+      .then((data) => setSchoolYearLink(data?.url || ""))
       .catch((error) => console.error(error));
   }, []);
 
@@ -180,25 +184,33 @@ const NavLinks = () => {
                       rootCloseEvent="click"
                       className="submenu rounded-0"
                     >
-                      {item.subMenu.map((subItem) => (
-                        <Dropdown.Item
-                          key={subItem.label}
-                          as={Link}
-                          hidden={
-                            subItem.link ===
-                            "/pro-rodice-a-zaky/prijimaci-zkousky"
-                              ? isEntranceExamHidden
-                              : false
-                          }
-                          to={subItem.link}
-                          target={
-                            subItem.label === "Přihláška" ? "_blank" : null
-                          }
-                          className="text-nav"
-                        >
-                          {subItem.label}{" "}
-                        </Dropdown.Item>
-                      ))}
+                      {item.subMenu.map((subItem) => {
+                        const isSchoolYear =
+                          subItem.externalKey === "school-year";
+                        const isExternal =
+                          isSchoolYear || subItem.label === "Přihláška";
+                        const target = isExternal ? "_blank" : null;
+                        return (
+                          <Dropdown.Item
+                            key={subItem.label}
+                            as={Link}
+                            hidden={
+                              subItem.link ===
+                              "/pro-rodice-a-zaky/prijimaci-zkousky"
+                                ? isEntranceExamHidden
+                                : isSchoolYear
+                                ? !schoolYearLink
+                                : false
+                            }
+                            to={isSchoolYear ? schoolYearLink || "" : subItem.link}
+                            target={target}
+                            rel={isExternal ? "noopener noreferrer" : null}
+                            className="text-nav"
+                          >
+                            {subItem.label}{" "}
+                          </Dropdown.Item>
+                        );
+                      })}
                     </DropdownMenu>
                   </Dropdown>
                 )
