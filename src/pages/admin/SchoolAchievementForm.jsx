@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import MyEditor from "../../components/MyEditor";
 import FlashMessage from "../../components/FlashMessage";
 import { messages } from "../../components/FlashMessageTexts";
+import { sortSchoolYearsDesc } from "../../utils/schoolYear";
 
 const SchoolAchievementForm = () => {
   const [schoolAchievement, setSchoolAchievement] = useState({
@@ -29,14 +30,18 @@ const SchoolAchievementForm = () => {
           console.error(error);
         });
       apiGet("/api/school-year")
-        .then((data) => setSchoolYears(data))
+        .then((data) =>
+          setSchoolYears(sortSchoolYearsDesc(Array.isArray(data) ? data : []))
+        )
         .catch((error) => {
           setLoadingErrorState(true);
           console.error(error);
         });
     } else {
       apiGet("/api/school-year")
-        .then((data) => setSchoolYears(data))
+        .then((data) =>
+          setSchoolYears(sortSchoolYearsDesc(Array.isArray(data) ? data : []))
+        )
         .catch((error) => {
           setLoadingErrorState(true);
           console.error(error);
