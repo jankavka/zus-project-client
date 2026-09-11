@@ -1,5 +1,6 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { apiGet } from "../utils/api";
+import { onAuthExpired } from "../utils/authEvents";
 
 const SessionContext = createContext({
   session: { data: null, status: "loading" },
@@ -18,10 +19,29 @@ export const SessionProvider = ({ children }) => {
     status: "loading",
   });
 
+  const sessionStateRef = useRef(sessionState);
+  useEffect(() => {
+    sessionStateRef.current = sessionState;
+  }, [sessionState]);
+
   useEffect(() => {
     apiGet("/api/auth")
       .then((data) => setSessionState({ data, status: "authenticated" }))
       .catch(() => setSessionState({ data: null, status: "unauthenticated" }));
+  }, []);
+
+  useEffect(() => {
+    // A 401/403 on any admin request while we thought we were logged in
+    // means the backend no longer recognizes our session (e.g. a
+    // redeploy reset it). Drop the session so AdminRoute redirects to
+    // the login page, and flag it there so the user gets a clear
+    // explanation instead of a generic "update failed" error.
+    return onAuthExpired(() => {
+      if (sessionStateRef.current.status === "authenticated") {
+        sessionStorage.setItem("adminSessionExpired", "true");
+        setSessionState({ data: null, status: "unauthenticated" });
+      }
+    });
   }, []);
 
   return (
