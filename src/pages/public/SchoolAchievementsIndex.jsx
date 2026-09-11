@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import FlashMessage from "../../components/FlashMessage";
 import { messages } from "../../components/FlashMessageTexts";
 import RichContent from "../../components/RichContent";
+import { sortSchoolYearsDesc } from "../../utils/schoolYear";
 
 const SchoolAchievementsIndex = ({ forAdmin }) => {
   const [schoolAchievements, setSchoolAchievements] = useState([]);
@@ -19,11 +20,10 @@ const SchoolAchievementsIndex = ({ forAdmin }) => {
 
   useEffect(() => {
     apiGet("/api/school-year")
-      //last year has lowest id!!!
       .then((data) => {
-        const years = Array.isArray(data) ? data : [];
+        const years = sortSchoolYearsDesc(Array.isArray(data) ? data : []);
         setSchoolYears(years);
-        const latest = [...years].sort((a, b) => b.id - a.id)[0];
+        const latest = years[0];
         if (latest) {
           setSelectedYear(latest);
         }

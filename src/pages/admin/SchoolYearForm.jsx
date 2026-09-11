@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import LoadingText from "../../components/LoadingText";
 import FlashMessage from "../../components/FlashMessage";
 import { messages } from "../../components/FlashMessageTexts";
+import { sortSchoolYearsDesc } from "../../utils/schoolYear";
 
 const SchoolYearForm = () => {
   const [schoolYears, setSchoolYears] = useState([]);
@@ -21,7 +22,9 @@ const SchoolYearForm = () => {
 
   useEffect(() => {
     apiGet("/api/school-year")
-      .then((data) => setSchoolYears(data))
+      .then((data) =>
+        setSchoolYears(sortSchoolYearsDesc(Array.isArray(data) ? data : []))
+      )
       .catch((error) => {
         setLoadingErrorState(true);
         console.error(error);
@@ -62,7 +65,7 @@ const SchoolYearForm = () => {
         setUploadingErrorState(true);
         console.error(error);
       });
-    setSchoolYears((prev) => [...prev, newSchoolYear]);
+    setSchoolYears((prev) => sortSchoolYearsDesc([...prev, newSchoolYear]));
     setNewSchoolYear(" ");
   };
 
