@@ -15,6 +15,14 @@ const LoginPage = () => {
   const from = localStorage.getItem("lastAdminPath") || "/admin/uvod/aktuality";
   const [isLoading, setisLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [sessionExpired, setSessionExpired] = useState(false);
+
+  useEffect(() => {
+    if (sessionStorage.getItem("adminSessionExpired")) {
+      sessionStorage.removeItem("adminSessionExpired");
+      setSessionExpired(true);
+    }
+  }, []);
 
   useEffect(() => {
     if (session.status === "authenticated" && session.data) {
@@ -49,6 +57,12 @@ const LoginPage = () => {
       <div className="container-content" style={{ width: "960px" }}>
         <h5 className="text-uppercase">Přihlášení</h5>
         {isLoading ? <Spinner animation="border" /> : null}
+        {sessionExpired ? (
+          <div className="alert alert-warning">
+            Vaše přihlášení vypršelo (např. po aktualizaci serveru).
+            Přihlaste se prosím znovu.
+          </div>
+        ) : null}
         {errorState ? (
           <div className="alert alert-danger">
             Přihlášení se nezdařilo. Zkontrolujte jméno a heslo
