@@ -80,6 +80,9 @@ const SchoolAchievementsIndex = ({ forAdmin }) => {
         state={loadingErrorState}
         text={messages.dataLoadErr}
       />
+      <h5 className="text-uppercase" style={{ color: "#324B73" }}>
+        blahopřejeme!
+      </h5>
       {forAdmin ? (
         <div>
           <Link
@@ -118,7 +121,6 @@ const SchoolAchievementsIndex = ({ forAdmin }) => {
         ? schoolAchievements.map((item, index) => (
             <div key={index}>
               <h5 style={{ color: "#986545" }}>{item.title}</h5>
-              <p>Školní rok: {item.schoolYear?.schoolYear}</p>
               <RichContent html={item.content} />
               {forAdmin ? (
                 <div>
