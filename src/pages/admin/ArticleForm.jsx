@@ -127,6 +127,34 @@ const ArticleForm = () => {
           ></MyEditor>
         </div>
         <div className="mb-3">
+          <label>Titulní fotka</label>
+          <div className="d-flex align-items-center gap-3">
+            {article.imageUrl ? (
+              <>
+                <img
+                  style={{ maxHeight: "100px", maxWidth: "100px" }}
+                  src={`${API_URL}${article.imageUrl}`}
+                  alt=""
+                />
+                <button
+                  type="button"
+                  className="btn btn-warning btn-sm"
+                  onClick={() =>
+                    setArticle((prev) => ({ ...prev, imageUrl: null }))
+                  }
+                >
+                  Zrušit výběr
+                </button>
+              </>
+            ) : (
+              <span className="text-muted">
+                Není vybrána – jako titulní se zobrazí první fotka z obsahu
+                článku.
+              </span>
+            )}
+          </div>
+        </div>
+        <div className="mb-3">
           <label>Přiřaďte album</label>
           <select
             value={albumName}

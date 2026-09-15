@@ -7,18 +7,7 @@ import "yet-another-react-lightbox/styles.css";
 import FlashMessage from "../../components/FlashMessage";
 import { messages } from "../../components/FlashMessageTexts";
 import RichContent from "../../components/RichContent";
-
-// Pull every <img> src out of the backend-authored rich text so the images
-// embedded in an article body can be opened in the lightbox too.
-const extractContentImages = (html) => {
-  if (!html) {
-    return [];
-  }
-  const doc = new DOMParser().parseFromString(html, "text/html");
-  return [...doc.querySelectorAll("img[src]")].map((img) =>
-    img.getAttribute("src")
-  );
-};
+import { extractContentImages } from "../../utils/articleImage";
 
 const ArticleDetail = ({ isAdmin }) => {
   const [article, setArticle] = useState({});
@@ -43,15 +32,23 @@ const ArticleDetail = ({ isAdmin }) => {
     () => extractContentImages(article.content),
     [article.content]
   );
+  // No explicit cover photo set: fall back to the first image embedded in
+  // the article body instead.
   const headerImageSrc = article.imageUrl
     ? `${API_URL}${article.imageUrl}`
-    : null;
+    : contentImages[0] || null;
+  // When the header image is just the first content image reused as the
+  // cover, don't list it twice in the lightbox.
+  const isHeaderFromContent = !article.imageUrl && Boolean(headerImageSrc);
   const slides = useMemo(
     () =>
-      [headerImageSrc, ...contentImages]
+      [
+        headerImageSrc,
+        ...(isHeaderFromContent ? contentImages.slice(1) : contentImages),
+      ]
         .filter(Boolean)
         .map((src) => ({ src })),
-    [headerImageSrc, contentImages]
+    [headerImageSrc, contentImages, isHeaderFromContent]
   );
 
   const openAt = (index) => {
@@ -68,7 +65,8 @@ const ArticleDetail = ({ isAdmin }) => {
     if (position === -1) {
       return;
     }
-    openAt((headerImageSrc ? 1 : 0) + position);
+    const offset = isHeaderFromContent ? 0 : headerImageSrc ? 1 : 0;
+    openAt(offset + position);
   };
 
   return (
@@ -107,6 +105,14 @@ const ArticleDetail = ({ isAdmin }) => {
       >
         Zpět na aktuality
       </Link>
+      {isAdmin && (
+        <Link
+          to={`/admin/uvod/aktuality/${id}/upravit`}
+          className="btn btn-warning mt-3 ms-2"
+        >
+          Upravit článek
+        </Link>
+      )}
     </div>
   );
 };
