@@ -480,6 +480,25 @@ body {
     color: #324B73 !important;
 }
 
+/* Bootstrap's default btn-info (cyan) / btn-primary (bright blue) don't
+   match the project's own blue used throughout the site (nav, headings,
+   links). Re-theme both to that blue instead. */
+.btn-info,
+.btn-primary {
+    background-color: #324B73 !important;
+    border-color: #324B73 !important;
+    color: #FFFFFF !important;
+}
+
+.btn-info:hover,
+.btn-info:focus,
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: #FFFFFF !important;
+    border-color: #324B73 !important;
+    color: #324B73 !important;
+}
+
 @media(min-width: 576px) {
     .text-nav:hover text.nav {
         color: black !important;
@@ -641,6 +660,17 @@ body {
 .contact-link:hover,
 .contact-link:focus {
     color: #324B73;
+}
+
+/* Links authored in the TinyMCE editor use the project's blue instead of
+   Bootstrap's default link color. */
+.rich-content a {
+    color: #324B73;
+}
+
+.rich-content a:hover,
+.rich-content a:focus {
+    color: #24395C;
 }
 
 /* Tables authored in the TinyMCE editor keep visible cell borders on the
