@@ -6,6 +6,7 @@ import { API_URL } from "../../utils/api";
 import FlashMessage from "../../components/FlashMessage.jsx";
 import { messages } from "../../components/FlashMessageTexts.js";
 import RichContent from "../../components/RichContent";
+import { getArticleCoverImageSrc } from "../../utils/articleImage";
 
 const ArticlesIndex = ({ isEditable }) => {
   const [articles, setArticles] = useState([]);
@@ -128,61 +129,64 @@ const ArticlesIndex = ({ isEditable }) => {
         </Link>
       ) : null}
       {articles &&
-        articles?.map((article) => (
-          <div className="mb-5 article-width" key={article.id}>
-            {article.imageUrl ? (
-              <Link
-                to={`${
-                  isEditable
-                    ? "/admin/uvod/aktuality/" + article.id
-                    : "/uvod/aktuality/" + article.id
-                } `}
-              >
-                <img
-                  src={`${API_URL}${article.imageUrl}`}
-                  className="picture-width mb-3"
-                  /* TODO: responsive css */
-                  style={{ maxHeight: "400px", maxWidth: "300px" }}
-                />
-              </Link>
-            ) : null}
-            <h5>
-              <Link
-                to={`${
-                  isEditable
-                    ? "/admin/uvod/aktuality/" + article.id
-                    : "/uvod/aktuality/" + article.id
-                }`}
-                style={{ color: "black" }}
-                className="text-uppercase"
-              >
-                {article.title}
-              </Link>
-            </h5>
-            <RichContent
-              as="p"
-              html={article.content.substring(0, 250) + "..."}
-            />
-
-            {isEditable ? (
-              <div>
+        articles?.map((article) => {
+          const coverImageSrc = getArticleCoverImageSrc(article, API_URL);
+          return (
+            <div className="mb-5 article-width" key={article.id}>
+              {coverImageSrc ? (
                 <Link
-                  className="btn btn-warning"
-                  to={`/admin/uvod/aktuality/${article.id}/upravit`}
+                  to={`${
+                    isEditable
+                      ? "/admin/uvod/aktuality/" + article.id
+                      : "/uvod/aktuality/" + article.id
+                  } `}
                 >
-                  Upravit
+                  <img
+                    src={coverImageSrc}
+                    className="picture-width mb-3"
+                    /* TODO: responsive css */
+                    style={{ maxHeight: "400px", maxWidth: "300px" }}
+                  />
                 </Link>
-                <button
-                  className="btn btn-danger ms-3"
-                  onClick={() => handleDeleteArticle(article.id)}
+              ) : null}
+              <h5>
+                <Link
+                  to={`${
+                    isEditable
+                      ? "/admin/uvod/aktuality/" + article.id
+                      : "/uvod/aktuality/" + article.id
+                  }`}
+                  style={{ color: "black" }}
+                  className="text-uppercase"
                 >
-                  Vymazat
-                </button>
-              </div>
-            ) : null}
-            <hr />
-          </div>
-        ))}
+                  {article.title}
+                </Link>
+              </h5>
+              <RichContent
+                as="p"
+                html={article.content.substring(0, 250) + "..."}
+              />
+
+              {isEditable ? (
+                <div>
+                  <Link
+                    className="btn btn-warning"
+                    to={`/admin/uvod/aktuality/${article.id}/upravit`}
+                  >
+                    Upravit
+                  </Link>
+                  <button
+                    className="btn btn-danger ms-3"
+                    onClick={() => handleDeleteArticle(article.id)}
+                  >
+                    Vymazat
+                  </button>
+                </div>
+              ) : null}
+              <hr />
+            </div>
+          );
+        })}
       <div className="d-flex justify-content-start">
         <button
           onClick={() => handlePrevPage()}

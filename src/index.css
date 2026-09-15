@@ -499,6 +499,18 @@ body {
     color: #324B73 !important;
 }
 
+/* The admin nav's dropdown toggles (AdminNavLinks) are react-bootstrap
+   Buttons with no variant set, so they pick up .btn-primary's blue above.
+   Keep them transparent so the green .nav-bg-admin bar shows through, as
+   before the blue re-theme. Color is left alone so the existing
+   .nav-bg-admin hover tint (light green) still applies. */
+.nav-bg-admin .nav-buttons,
+.nav-bg-admin .nav-buttons:hover,
+.nav-bg-admin .nav-buttons:focus {
+    background-color: transparent !important;
+    border-color: transparent !important;
+}
+
 @media(min-width: 576px) {
     .text-nav:hover text.nav {
         color: black !important;
