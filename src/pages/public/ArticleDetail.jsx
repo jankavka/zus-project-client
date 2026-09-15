@@ -32,23 +32,19 @@ const ArticleDetail = ({ isAdmin }) => {
     () => extractContentImages(article.content),
     [article.content]
   );
-  // No explicit cover photo set: fall back to the first image embedded in
-  // the article body instead.
+  // No explicit cover photo set: unlike the card/list previews (which
+  // don't render the full body), the detail page renders the whole
+  // content, so a body image already shows there — don't duplicate it as
+  // a separate header.
   const headerImageSrc = article.imageUrl
     ? `${API_URL}${article.imageUrl}`
-    : contentImages[0] || null;
-  // When the header image is just the first content image reused as the
-  // cover, don't list it twice in the lightbox.
-  const isHeaderFromContent = !article.imageUrl && Boolean(headerImageSrc);
+    : null;
   const slides = useMemo(
     () =>
-      [
-        headerImageSrc,
-        ...(isHeaderFromContent ? contentImages.slice(1) : contentImages),
-      ]
+      [headerImageSrc, ...contentImages]
         .filter(Boolean)
         .map((src) => ({ src })),
-    [headerImageSrc, contentImages, isHeaderFromContent]
+    [headerImageSrc, contentImages]
   );
 
   const openAt = (index) => {
@@ -65,8 +61,7 @@ const ArticleDetail = ({ isAdmin }) => {
     if (position === -1) {
       return;
     }
-    const offset = isHeaderFromContent ? 0 : headerImageSrc ? 1 : 0;
-    openAt(offset + position);
+    openAt((headerImageSrc ? 1 : 0) + position);
   };
 
   return (
