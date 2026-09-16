@@ -15,7 +15,10 @@
 }
 
 body {
-    padding-top: 40px;
+    /* Must match .nav-position-fixed's real rendered height, not the
+       navbar's inner content height — otherwise the fixed bar overlaps
+       the top of the page (most visible on the short mobile hero image). */
+    padding-top: 56px;
 
 }
 
@@ -195,6 +198,13 @@ body {
 @media(max-width: 767px) {
     .container-main {
         max-width: 500px;
+        /* Bootstrap's row/col-12 padding cancels out its own negative
+           margin, leaving zero gutter here — on desktop that's invisible
+           because centering already insets container-main from the
+           viewport edge, but on mobile the container fills the full
+           width, so content (e.g. buttons) sits flush against the
+           screen edge without this. */
+        padding: 0 1rem;
     }
 }
 
