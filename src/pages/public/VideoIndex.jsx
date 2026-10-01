@@ -27,22 +27,21 @@ const VideoIndex = () => {
       <div className="row">
         {videos.map((video) => (
           <div key={video.videoId} className="col-md-4 mb-4">
-            <div className="card">
-              <a
-                target="_blank"
-                href={`https://www.youtube.com/watch?v=${video.videoId}`}
-                rel="noopener noreferrer "
-              >
-                <img
-                  src={video.thumbnailUrl}
-                  alt={video.title}
-                  className="card-img-top"
-                />
-              </a>
-              <div className="card-body">
-                <h5 className="card-title video-card-title">{video.title}</h5>
+            <a
+              target="_blank"
+              href={`https://www.youtube.com/watch?v=${video.videoId}`}
+              rel="noopener noreferrer"
+              className="album-card"
+            >
+              <img
+                src={video.thumbnailUrl}
+                alt={video.title}
+                className="w-100"
+              />
+              <div className="album-card-body">
+                <h5 className="album-card-title">{video.title}</h5>
               </div>
-            </div>
+            </a>
           </div>
         ))}
       </div>
