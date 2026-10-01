@@ -22,7 +22,7 @@ const AnualReportIndex = ({ isEditable }) => {
   }, []);
 
   return (
-    <div className="text-uppercase container-content">
+    <div className="container-content">
       <h5>Výroční zprávy</h5>
       <FlashMessage
         success={true}

@@ -236,7 +236,10 @@ body {
 }
 
 .nav-bg .nav-button:hover,
-.nav-bg .nav-buttons:hover {
+.nav-bg .nav-buttons:hover,
+.nav-bg .nav-buttons:focus,
+.nav-bg .nav-buttons:active,
+.nav-bg .nav-buttons.show {
     color: #E0B84F !important;
 }
 
@@ -519,6 +522,19 @@ body {
 .nav-bg-admin .nav-buttons:focus {
     background-color: transparent !important;
     border-color: transparent !important;
+}
+
+/* Same for the public nav's dropdown toggles (NavLinks): keep the bar's blue
+   showing through on hover/focus instead of .btn-primary:hover's white
+   background, so hovering only recolors the label (.nav-bg .nav-buttons:hover). */
+.nav-bg .nav-buttons,
+.nav-bg .nav-buttons:hover,
+.nav-bg .nav-buttons:focus,
+.nav-bg .nav-buttons:active,
+.nav-bg .nav-buttons.show {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
 }
 
 @media(min-width: 576px) {
