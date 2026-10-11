@@ -29,7 +29,6 @@ import SchoolRulesIndex from "../pages/public/ShoolRulesIndex";
 import NavLinks from "../components/NavLinks";
 import CalendarBasic from "../components/CalendarBasic";
 import CalendarComplete from "../pages/public/CalendarComplete";
-import SchoolManagementDeatil from "../pages/public/SchoolManagementDetail";
 import AlbumDetail from "../pages/public/AlbumDetail";
 import NotFound from "../pages/public/NotFound";
 import EntranceExamIndex from "../pages/public/EntranceExamIndex";
@@ -149,10 +148,6 @@ const PublicLayout = () => {
               <Route
                 path="/kontakty/vedeni-skoly"
                 element={<SchoolManagementIndex isEditable={false} />}
-              />
-              <Route
-                path="/kontakty/vedeni-skoly/:id"
-                element={<SchoolManagementDeatil isEditable={false} />}
               />
               <Route
                 path="/kontakty/ucitele"

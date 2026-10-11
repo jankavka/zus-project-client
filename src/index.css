@@ -702,9 +702,6 @@ body {
     background: url(/src/images/search-icon-black.webp) no-repeat center /40px 40px;
 }
 
-.management-detail-link,
-.management-detail-link:hover,
-.management-detail-link:focus,
 .contact-link,
 .contact-link:hover,
 .contact-link:focus {

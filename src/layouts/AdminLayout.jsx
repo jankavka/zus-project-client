@@ -29,7 +29,6 @@ import StudyFocusForm from "../pages/admin/StudyFocusForm";
 import BasicDataForm from "../pages/admin/BasicDataForm";
 import SchoolManagementForm from "../pages/admin/SchoolManagementForm";
 import TeacherForm from "../pages/admin/TeacherForm";
-import SchoolManagementDeatil from "../pages/public/SchoolManagementDetail";
 import HistoryAndPresentForm from "../pages/admin/HistoryAndPresentForm";
 import RequiredInforamtionForm from "../pages/admin/RequiredInformationForm";
 import GroupTrainingScheduleForm from "../pages/admin/GroupTrainingScheduleForm";
@@ -292,10 +291,6 @@ const AdminLayout = () => {
             <Route
               path="/kontakty/vedeni-skoly/novy"
               element={<SchoolManagementForm />}
-            />
-            <Route
-              path="/kontakty/vedeni-skoly/:id"
-              element={<SchoolManagementDeatil isEditable={true} />}
             />
             <Route
               path="/kontakty/vedeni-skoly/:id/upravit"

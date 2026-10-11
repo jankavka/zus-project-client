@@ -270,23 +270,13 @@ const BasicDataForm = () => {
               <tr>
                 <td>Ředitel</td>
                 <td>
-                  <Link
-                    className="management-detail-link"
-                    to={"/admin/kontakty/vedeni-skoly/" + director.id}
-                  >
-                    {director.degree} {director.name}
-                  </Link>
+                  {director.degree} {director.name}
                 </td>
               </tr>
               <tr>
                 <td>Zástupce ředitele</td>
                 <td>
-                  <Link
-                    className="management-detail-link"
-                    to={"/admin/kontakty/vedeni-skoly/" + deputyDirector.id}
-                  >
-                    {deputyDirector.degree} {deputyDirector.name}
-                  </Link>
+                  {deputyDirector.degree} {deputyDirector.name}
                 </td>
               </tr>
             </tbody>
