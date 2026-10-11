@@ -12,6 +12,7 @@ const TeacherForm = () => {
     degree: "",
     email: "",
     telNumber: "",
+    subject: "",
   });
   const navigate = useNavigate();
   const [loadingErrorState, setLoadingErrorState] = useState(false);
@@ -113,12 +114,22 @@ const TeacherForm = () => {
             type="text"
           />
         </div>
-        <div className="mb-3">
+        <div>
           <label>Telefonní číslo</label>
           <input
             name="telNumber"
             onChange={handleChange}
             value={teacher.telNumber}
+            className="form-control"
+            type="text"
+          />
+        </div>
+        <div className="mb-3">
+          <label>Vyučovaný předmět</label>
+          <input
+            name="subject"
+            onChange={handleChange}
+            value={teacher.subject || ""}
             className="form-control"
             type="text"
           />
