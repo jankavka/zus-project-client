@@ -76,6 +76,8 @@ const TeachersIndex = ({ isEditable }) => {
           <thead>
             <tr>
               <th>Jméno</th>
+              {/* Subject column is intentionally unlabeled on the public page. */}
+              <th>{isEditable ? "Předmět" : ""}</th>
               <th>Kontakt</th>
               <th></th>
             </tr>
@@ -84,6 +86,7 @@ const TeachersIndex = ({ isEditable }) => {
             {teachers.map((teacher, index) => (
               <tr key={index}>
                 <td>{formatPersonName(teacher.degree, teacher.name)}</td>
+                <td>{teacher.subject}</td>
                 <td>
                   {teacher.email ? (
                     <a className="contact-link" href={`mailto:${teacher.email}`}>
