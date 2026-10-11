@@ -421,6 +421,13 @@ body {
     margin: 0px !important;
 }
 
+/* Bootstrap paints the pressed (:active) dropdown item bright blue; keep it
+   looking the same as hover instead. */
+.dropdown-menu.submenu,
+.dropdown-menu.submenu-admin {
+    --bs-dropdown-link-active-bg: var(--bs-dropdown-link-hover-bg);
+}
+
 @media (min-width: 768px) {
     .submenu {
         /* 1px less than the measured gap so rounding never leaves a hairline seam */
