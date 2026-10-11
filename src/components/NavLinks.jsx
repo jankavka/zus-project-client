@@ -14,6 +14,9 @@ import SearchTool from "./SearchTool";
 
 const NavLinks = () => {
   const [hoveredMenu, setHoveredMenu] = useState();
+  // Controlled so the mobile (collapsed) menu can be closed after a
+  // menu item is picked.
+  const [isNavExpanded, setIsNavExpanded] = useState(false);
   const isMobile = useMedia({ maxWidth: "767px" });
   const [isEntranceExamHidden, setIsEntranceExamHidden] = useState(false);
   const [schoolYearLink, setSchoolYearLink] = useState("");
@@ -138,6 +141,8 @@ const NavLinks = () => {
     };
   }, []);
 
+  const closeNav = () => setIsNavExpanded(false);
+
   const handleShow = (itemName) => {
     if (hoveredMenu === itemName) {
       return true;
@@ -146,7 +151,12 @@ const NavLinks = () => {
 
   return (
     <div className="nav-position-fixed ">
-      <Navbar expand="md" className="nav-bg">
+      <Navbar
+        expand="md"
+        className="nav-bg"
+        expanded={isNavExpanded}
+        onToggle={setIsNavExpanded}
+      >
         <Container fluid className="px-0">
           <Navbar.Toggle aria-controls="basic-navbar-nav" className="ms-auto" />
           <Navbar.Collapse id="basic-navbar-nav">
@@ -167,6 +177,7 @@ const NavLinks = () => {
                       marginLeft: `${isMobile ? "12px" : "0"}`,
                     }}
                     key={index}
+                    onClick={closeNav}
                   >
                     {item.label}
                   </Link>
@@ -227,6 +238,7 @@ const NavLinks = () => {
                             target={target}
                             rel={isExternal ? "noopener noreferrer" : null}
                             className="text-nav"
+                            onClick={closeNav}
                           >
                             {subItem.label}{" "}
                           </Dropdown.Item>
