@@ -87,23 +87,7 @@ const SchoolManagementIndex = ({ isEditable }) => {
         <tbody>
           {schoolManagement.map((member, index) => (
             <tr key={index}>
-              <td>
-                {isEditable ? (
-                  <Link
-                    className="management-detail-link"
-                    to={`/admin/kontakty/vedeni-skoly/${member?.id}`}
-                  >
-                    {formatPersonName(member.degree, member.name)}
-                  </Link>
-                ) : (
-                  <Link
-                    className="management-detail-link"
-                    to={`/kontakty/vedeni-skoly/${member?.id}`}
-                  >
-                    {formatPersonName(member.degree, member.name)}
-                  </Link>
-                )}
-              </td>
+              <td>{formatPersonName(member.degree, member.name)}</td>
               <td>
                 {member.email ? (
                   <a className="contact-link" href={`mailto:${member.email}`}>

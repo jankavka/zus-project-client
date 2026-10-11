@@ -105,21 +105,7 @@ export const BasicDataIndex = ({ isEditable }) => {
               <strong>Ředitel</strong>
             </td>
             <td className="my-table-background">
-              {isEditable ? (
-                <Link
-                  className="management-detail-link"
-                  to={`/admin/kontakty/vedeni-skoly/${director?.id}`}
-                >
-                  {director?.degree} {director?.name}
-                </Link>
-              ) : (
-                <Link
-                  className="management-detail-link"
-                  to={`/kontakty/vedeni-skoly/${director?.id}`}
-                >
-                  {director?.degree} {director?.name}
-                </Link>
-              )}
+              {director?.degree} {director?.name}
             </td>
           </tr>
           <tr>
@@ -127,21 +113,7 @@ export const BasicDataIndex = ({ isEditable }) => {
               <strong>Zástupce ředitele:</strong>
             </td>
             <td className="my-table-background">
-              {isEditable ? (
-                <Link
-                  className="management-detail-link"
-                  to={`/admin/kontakty/vedeni-skoly/${deputyDirector?.id}`}
-                >
-                  {deputyDirector?.degree} {deputyDirector?.name}
-                </Link>
-              ) : (
-                <Link
-                  className="management-detail-link"
-                  to={`/kontakty/vedeni-skoly/${deputyDirector?.id}`}
-                >
-                  {deputyDirector?.degree} {deputyDirector?.name}
-                </Link>
-              )}
+              {deputyDirector?.degree} {deputyDirector?.name}
             </td>
           </tr>
           <tr>
