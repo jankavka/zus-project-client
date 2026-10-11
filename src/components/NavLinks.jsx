@@ -7,6 +7,7 @@ import {
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { apiGet } from "../utils/api";
+import { getSchoolRulesPdfUrl } from "../utils/schoolRules";
 import Nav from "react-bootstrap/Nav";
 import useMedia from "use-media";
 import SearchTool from "./SearchTool";
@@ -16,6 +17,7 @@ const NavLinks = () => {
   const isMobile = useMedia({ maxWidth: "767px" });
   const [isEntranceExamHidden, setIsEntranceExamHidden] = useState(false);
   const [schoolYearLink, setSchoolYearLink] = useState("");
+  const [schoolRulesLink, setSchoolRulesLink] = useState("");
   const closeMenuTimeoutRef = useRef(null);
 
   const menu = [
@@ -77,7 +79,7 @@ const NavLinks = () => {
           label: "Školní vzdělávací program",
           link: "/uredni-deska/skolni-vzdelavaci-program",
         },
-        { label: "Školní řád", link: "/uredni-deska/skolni-rad" },
+        { label: "Školní řád", externalKey: "school-rules" },
         { label: "Výroční zprávy", link: "/uredni-deska/vyrocni-zpravy" },
       ],
     },
@@ -98,6 +100,9 @@ const NavLinks = () => {
       .catch((error) => console.error(error));
     apiGet("/api/school-year-link")
       .then((data) => setSchoolYearLink(data?.url || ""))
+      .catch((error) => console.error(error));
+    apiGet("/api/static/school-rules")
+      .then((data) => setSchoolRulesLink(getSchoolRulesPdfUrl(data?.content)))
       .catch((error) => console.error(error));
   }, []);
 
@@ -187,22 +192,38 @@ const NavLinks = () => {
                       {item.subMenu.map((subItem) => {
                         const isSchoolYear =
                           subItem.externalKey === "school-year";
+                        const isSchoolRules =
+                          subItem.externalKey === "school-rules";
                         const isExternal =
-                          isSchoolYear || subItem.label === "Přihláška";
+                          isSchoolYear ||
+                          isSchoolRules ||
+                          subItem.label === "Přihláška";
                         const target = isExternal ? "_blank" : null;
+                        // The school rules PDF is served by the backend
+                        // (/api/files/...), so it needs a plain <a> rather
+                        // than a client-side router Link.
+                        const linkProps = isSchoolRules
+                          ? { href: schoolRulesLink }
+                          : {
+                              as: Link,
+                              to: isSchoolYear
+                                ? schoolYearLink || ""
+                                : subItem.link,
+                            };
                         return (
                           <Dropdown.Item
                             key={subItem.label}
-                            as={Link}
+                            {...linkProps}
                             hidden={
                               subItem.link ===
                               "/pro-rodice-a-zaky/prijimaci-zkousky"
                                 ? isEntranceExamHidden
                                 : isSchoolYear
                                 ? !schoolYearLink
+                                : isSchoolRules
+                                ? !schoolRulesLink
                                 : false
                             }
-                            to={isSchoolYear ? schoolYearLink || "" : subItem.link}
                             target={target}
                             rel={isExternal ? "noopener noreferrer" : null}
                             className="text-nav"

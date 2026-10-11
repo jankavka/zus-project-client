@@ -3,7 +3,7 @@ import { apiGet } from "../../utils/api";
 import { useLocation, Link } from "react-router-dom";
 import FlashMessage from "../../components/FlashMessage";
 import { messages } from "../../components/FlashMessageTexts";
-import RichContent from "../../components/RichContent";
+import { getSchoolRulesPdfUrl } from "../../utils/schoolRules";
 
 const SchoolRulesIndex = ({ isEditable }) => {
   const location = useLocation();
@@ -11,6 +11,7 @@ const SchoolRulesIndex = ({ isEditable }) => {
     title: "",
     content:""
   });
+  const pdfUrl = getSchoolRulesPdfUrl(schoolRules.content);
   const [loadingErrorState, setLoadingErrorState] = useState(false);
   const { successState } = location.state || false;
 
@@ -46,7 +47,17 @@ const SchoolRulesIndex = ({ isEditable }) => {
           Upravit
         </Link>
       ) : null}
-      <RichContent html={schoolRules.content} />
+      <div className={isEditable ? "mt-3" : ""}>
+        {pdfUrl ? (
+          <a href={pdfUrl} target="_blank" rel="noopener noreferrer">
+            {schoolRules.title || "Školní řád"} (PDF)
+          </a>
+        ) : isEditable ? (
+          <span className="text-muted">
+            Není nastaven žádný PDF soubor – položka je v menu skrytá.
+          </span>
+        ) : null}
+      </div>
     </div>
   );
 };
