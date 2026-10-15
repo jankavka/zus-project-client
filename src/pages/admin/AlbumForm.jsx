@@ -5,12 +5,14 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import FlashMessage from "../../components/FlashMessage";
 import { messages } from "../../components/FlashMessageTexts";
 import { Spinner } from "react-bootstrap";
+import FocalPointPicker from "../../components/FocalPointPicker";
 
 const AlbumForm = () => {
   const { albumNameParam } = useParams();
   const [albumName, setAlbumName] = useState("");
   const [albumDescription, setAlbumDescription] = useState("");
   const [leadPictureUrl, setLeadPictureUrl] = useState("");
+  const [leadPicturePosition, setLeadPicturePosition] = useState(null);
   const [photosInAlbum, setPhotosInAlbum] = useState([]);
   const [oldAlbumName, setOldAlbumName] = useState("");
   const [isHidden, setIsHidden] = useState(false);
@@ -29,6 +31,8 @@ const AlbumForm = () => {
           .then((data) => {
             setAlbumDescription(data.albumDescription),
               setLeadPictureUrl(data.leadPictureUrl);
+            setLeadPicturePosition(data.leadPicturePosition);
+            setIsHidden(data.isHidden);
 
             setOldAlbumName(albumNameParam);
           })
@@ -53,6 +57,7 @@ const AlbumForm = () => {
 
   const handleChangeLeadPhoto = (e) => {
     setLeadPictureUrl(e.target.value);
+    setLeadPicturePosition(null);
   };
 
   const handleChangeAlbumName = (e) => {
@@ -71,6 +76,7 @@ const AlbumForm = () => {
         albumName: albumName,
         albumDescription: albumDescription,
         leadPictureUrl: leadPictureUrl?.replace(oldAlbumName, albumName),
+        leadPicturePosition: leadPicturePosition,
         isHidden: isHidden,
       };
       apiPut("/api/photos/edit-album/" + albumNameParam, body)
@@ -152,6 +158,7 @@ const AlbumForm = () => {
         <div>Skryté</div>
         <div className="form-check">
           <input
+            checked={isHidden}
             id="yes"
             name="isHidden"
             className="form-check-input"
@@ -178,6 +185,20 @@ const AlbumForm = () => {
 
         {albumNameParam ? (
           <div>
+            {leadPictureUrl ? (
+              <>
+                <h5 className="mt-5">Pozice úvodní fotky</h5>
+                <FocalPointPicker
+                  src={`${API_URL}${leadPictureUrl}`}
+                  value={leadPicturePosition}
+                  onChange={setLeadPicturePosition}
+                  previews={[
+                    { label: "Karta – počítač", width: 250, height: 135 },
+                    { label: "Karta – mobil", width: 120, height: 135 },
+                  ]}
+                />
+              </>
+            ) : null}
             <h5 className="mt-5">Vyberte úvodní fotku</h5>
             <table className="table">
               <thead>

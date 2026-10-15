@@ -5,7 +5,7 @@ export const extractContentImages = (html) => {
   }
   const doc = new DOMParser().parseFromString(html, "text/html");
   return [...doc.querySelectorAll("img[src]")].map((img) =>
-    img.getAttribute("src")
+    img.getAttribute("src"),
   );
 };
 
@@ -18,3 +18,10 @@ export const getArticleCoverImageSrc = (article, apiUrl) => {
   }
   return extractContentImages(article.content)[0] || null;
 };
+
+// object-position for the cover photo. Only an explicitly chosen imageUrl
+// carries an admin-set focal point; the body-image fallback stays centred.
+export const getArticleCoverImageStyle = (article) =>
+  article.imageUrl && article.imagePosition
+    ? { objectPosition: article.imagePosition }
+    : undefined;
