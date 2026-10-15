@@ -41,6 +41,11 @@ const AlbumIndex = () => {
                     {album.leadPictureUrl ? (
                       <img
                         className="album-card-img"
+                        style={
+                          album.leadPicturePosition
+                            ? { objectPosition: album.leadPicturePosition }
+                            : undefined
+                        }
                         src={`${API_URL}${album.leadPictureUrl}`}
                         alt=""
                       />

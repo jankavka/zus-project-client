@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 import { API_URL } from "../../utils/api";
 import RichContent from "../../components/RichContent";
-import { getArticleCoverImageSrc } from "../../utils/articleImage";
+import {
+  getArticleCoverImageSrc,
+  getArticleCoverImageStyle,
+} from "../../utils/articleImage";
 
 const ArticleCard = ({ article }) => {
   const coverImageSrc = getArticleCoverImageSrc(article, API_URL);
@@ -12,6 +15,7 @@ const ArticleCard = ({ article }) => {
         <img
           src={coverImageSrc}
           className="article-card-img mb-3"
+          style={getArticleCoverImageStyle(article)}
           alt={article.title}
         />
       ) : null}

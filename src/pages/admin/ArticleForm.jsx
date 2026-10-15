@@ -8,6 +8,7 @@ import { API_URL } from "../../utils/api";
 import FlashMessage from "../../components/FlashMessage";
 import { messages } from "../../components/FlashMessageTexts";
 import { Spinner } from "react-bootstrap";
+import FocalPointPicker from "../../components/FocalPointPicker";
 
 const ArticleForm = () => {
   const editorRef = useRef(null);
@@ -16,6 +17,7 @@ const ArticleForm = () => {
     content: "",
     issuedDate: "",
     imageUrl: "",
+    imagePosition: null,
   });
   const [albumsNames, setAlbumsNames] = useState([]);
   const { id } = useParams();
@@ -140,7 +142,11 @@ const ArticleForm = () => {
                   type="button"
                   className="btn btn-warning btn-sm"
                   onClick={() =>
-                    setArticle((prev) => ({ ...prev, imageUrl: null }))
+                    setArticle((prev) => ({
+                      ...prev,
+                      imageUrl: null,
+                      imagePosition: null,
+                    }))
                   }
                 >
                   Zrušit výběr
@@ -153,6 +159,21 @@ const ArticleForm = () => {
               </span>
             )}
           </div>
+          {article.imageUrl ? (
+            <div className="mt-3">
+              <FocalPointPicker
+                src={`${API_URL}${article.imageUrl}`}
+                value={article.imagePosition}
+                onChange={(imagePosition) =>
+                  setArticle((prev) => ({ ...prev, imagePosition }))
+                }
+                previews={[
+                  { label: "Karta – počítač", width: 330, height: 150 },
+                  { label: "Karta – mobil", width: 220, height: 160 },
+                ]}
+              />
+            </div>
+          ) : null}
         </div>
         <div className="mb-3">
           <label>Přiřaďte album</label>
@@ -202,6 +223,7 @@ const ArticleForm = () => {
                             return {
                               ...prev,
                               imageUrl: e.target.value,
+                              imagePosition: null,
                             };
                           })
                         }
