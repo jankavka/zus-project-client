@@ -2,12 +2,14 @@
 
 Frontend application for a Základní umělecká škola (Czech elementary art school). Provides a public-facing portal for visitors and a protected admin panel for content management.
 
+**Live:** https://www.zusdh.cz
+
 ## Tech Stack
 
 - **React 19** + **Vite 6**
 - **React Router 7** (SPA routing)
 - **Bootstrap 5** + react-bootstrap + **bootstrap-icons** (UI)
-- **TinyMCE 6** (rich text editor)
+- **TinyMCE 7.9.1** (rich text editor, self-hosted from `public/tinymce/` with Czech UI; wrapped via `@tinymce/tinymce-react`)
 - **Sass** (styling)
 - **yet-another-react-lightbox** (photo gallery)
 - **Google Programmable Search Engine** (site-wide search on `/vyhledavani`)
@@ -63,3 +65,7 @@ The Nginx config (`nginx.conf`) expects the backend to be reachable under the na
 ### CI/CD
 
 `.github/workflows/deploy.yml` runs lint + build on every push to `main`, then deploys to the server over SSH (`~/apps/deploy.sh`).
+
+### Production
+
+The app runs at **https://www.zusdh.cz** on a Hetzner server, together with the backend and MySQL from the [`zus-project-server`](https://github.com/jankavka/zus-project-server) Docker Compose stack. HTTPS (Let's Encrypt) and the `zusdh.cz` → `www.zusdh.cz` redirect are handled by the server repo's Nginx config; `main` is protected and changes land via pull requests, which deploy automatically on merge.
