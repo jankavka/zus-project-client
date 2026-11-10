@@ -5,7 +5,7 @@ import LoadingText from "../../components/LoadingText.jsx";
 import { API_URL } from "../../utils/api";
 import FlashMessage from "../../components/FlashMessage.jsx";
 import { messages } from "../../components/FlashMessageTexts.js";
-import RichContent from "../../components/RichContent";
+import { htmlToPreviewText } from "../../utils/richContent";
 import { getArticleCoverImageSrc } from "../../utils/articleImage";
 
 const ArticlesIndex = ({ isEditable }) => {
@@ -162,10 +162,7 @@ const ArticlesIndex = ({ isEditable }) => {
                   {article.title}
                 </Link>
               </h5>
-              <RichContent
-                as="p"
-                html={article.content.substring(0, 250) + "..."}
-              />
+              <p>{htmlToPreviewText(article.content, 250)}</p>
 
               {isEditable ? (
                 <div>

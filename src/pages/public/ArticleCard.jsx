@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { API_URL } from "../../utils/api";
-import RichContent from "../../components/RichContent";
+import { htmlToPreviewText } from "../../utils/richContent";
 import {
   getArticleCoverImageSrc,
   getArticleCoverImageStyle,
@@ -19,11 +19,9 @@ const ArticleCard = ({ article }) => {
           alt={article.title}
         />
       ) : null}
-      <RichContent
-        as="p"
-        className="article-card-text"
-        html={article.content.substring(0, 200) + "..."}
-      />
+      <p className="article-card-text">
+        {htmlToPreviewText(article.content, 200)}
+      </p>
     </Link>
   );
 };
